@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dailyIntakeFragment2">
+    <fragment
+        android:id="@+id/dailyIntakeFragment2"
+        android:name="com.example.calorietracker.DailyIntakeFragment"
+        android:label="fragment_daily_intake"
+        tools:layout="@layout/fragment_daily_intake" >
+        <action
+            android:id="@+id/action_dailyIntakeFragment2_to_foodListFragment2"
+            app:destination="@id/foodListFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodListFragment2"
+        android:name="com.example.calorietracker.FoodListFragment"
+        android:label="fragment_food_list"
+        tools:layout="@layout/fragment_food_list" />
+</navigation>

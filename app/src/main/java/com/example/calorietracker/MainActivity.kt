@@ -11,9 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Test Crash! To be removed
-        Handler().postDelayed( {
-            throw RuntimeException("Test Crash")}, 4000)
 
     }
 }
