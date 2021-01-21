@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -55,8 +57,15 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    
+    /** Firebase */
 
-    // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha05"
+    //Crashlytics
+    def crashlytics_version = "17.3.0"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:$crashlytics_version"
+
+    //Analytics
+    def analytics_version = "18.0.1"
+    implementation "com.google.firebase:firebase-analytics-ktx:$analytics_version"
 
 }
