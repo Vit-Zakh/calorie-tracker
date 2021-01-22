@@ -31,6 +31,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         dailyIntakeList.adapter = mealsListAdapter
 
         mealsListAdapter.submitList(DataSource.createDataSet())
+//        mealsListAdapter.submitMealsList(DataSource.createDataSet())
 
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
             findNavController().navigate(R.id.action_dailyIntakeFragment2_to_foodListFragment2)

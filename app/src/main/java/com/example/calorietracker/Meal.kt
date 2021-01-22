@@ -15,4 +15,8 @@ data class Meal(
         imageUrl: String,
         mealCalories: Float
     ) : this(id, mealName, imageUrl, mealCalories, null, null, null)
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
 }

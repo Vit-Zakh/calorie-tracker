@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class MealsListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var listItems: List<Meal> = ArrayList()
+class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MealViewHolder(
@@ -18,21 +18,23 @@ class MealsListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int {
-        return listItems.size
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
 
             is MealViewHolder -> {
-                holder.bind(listItems.get(position))
+                holder.bind(getItem(position))
             }
         }
     }
 
-    fun submitList(mealsList: List<Meal>) {
-        listItems = mealsList
+    class MealItemDiffCallback : DiffUtil.ItemCallback<Meal>() {
+        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+            return oldItem == newItem
+        }
     }
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
