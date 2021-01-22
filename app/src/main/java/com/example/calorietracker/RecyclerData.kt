@@ -1,6 +1,8 @@
 package com.example.calorietracker
 
-data class Meal(
+sealed class RecyclerData
+
+data class MMeal(
     val id: Int,
     val mealName: String,
     val imageUrl: String,
@@ -15,8 +17,11 @@ data class Meal(
         imageUrl: String,
         mealCalories: Float
     ) : this(id, mealName, imageUrl, mealCalories, null, null, null)
-
-//    override fun equals(other: Any?): Boolean {
-//        return super.equals(other)
-//    }
 }
+
+data class MUser(
+    val id: Int,
+    val userName: String,
+    val userImage: String,
+    val userWeight: Float
+)

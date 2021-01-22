@@ -9,13 +9,40 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
+    companion object {
+
+        const val VIEW_TYPE_MEAL = 1
+        const val VIEW_TYPE_USER = 2
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MealViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_meal_item, parent, false)
-        )
+//        return MealViewHolder(
+//            LayoutInflater.from(parent.context).inflate(R.layout.layout_meal_item, parent, false)
+//        )
+        return when (viewType) {
+
+            VIEW_TYPE_MEAL -> {
+                MealViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.layout_meal_item, parent, false)
+                )
+            }
+
+            VIEW_TYPE_USER -> {
+                UserViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.layout_user_item, parent, false)
+                )
+            }
+
+            else -> {
+                TextViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.layout_text_item, parent, false)
+                )
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -23,6 +50,12 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
 
             is MealViewHolder -> {
                 holder.bind(getItem(position))
+            }
+            is UserViewHolder -> {
+                holder.bind(DataSource.createUser())
+            }
+            is TextViewHolder -> {
+                holder.bind("Your daily intake")
             }
         }
     }
@@ -57,4 +90,32 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
                 .into(mealImage)
         }
     }
+
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val userName: TextView = itemView.findViewById(R.id.userName)
+        private val userImage: CircleImageView = itemView.findViewById(R.id.userImage)
+        private val userWeight: TextView = itemView.findViewById(R.id.userWeight)
+
+        fun bind(user: User) {
+            userName.text = user.userName
+            userWeight.text = user.userWeight.toString()
+            Glide.with(itemView.context)
+                .load(user.userImage)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .into(userImage)
+        }
+    }
+
+    class TextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val textToHold: TextView = itemView.findViewById(R.id.textToHold)
+
+        fun bind(string: String) {
+            textToHold.text = string
+        }
+    }
+
 }

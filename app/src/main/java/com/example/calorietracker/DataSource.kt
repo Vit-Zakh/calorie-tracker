@@ -8,7 +8,7 @@ class DataSource {
             val list = ArrayList<Meal>()
             list.add(
                 Meal(
-                    0,
+                    1,
                     "Ginger Pork",
                     "https://picsum.photos/200/300",
                     200f
@@ -71,6 +71,10 @@ class DataSource {
                 )
             )
             return list
+        }
+
+        fun createUser(): User {
+            return User(0, "Кошка Машка", "http://random.cat/view/1062", 5.4f)
         }
     }
 }

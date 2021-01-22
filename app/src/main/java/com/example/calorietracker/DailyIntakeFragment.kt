@@ -27,7 +27,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         val dailyIntakeList: RecyclerView = view.findViewById(R.id.dailyIntakeList)
         dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
-//        dailyIntakeList.addItemDecoration(TopSpacingItemDecoration(18))
         mealsListAdapter = MealsListAdapter()
         dailyIntakeList.adapter = mealsListAdapter
 
