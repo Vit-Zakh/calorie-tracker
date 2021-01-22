@@ -4,14 +4,18 @@ class DataSource {
 
     companion object {
 
-        fun createDataSet(): ArrayList<Meal> {
-            val list = ArrayList<Meal>()
+        fun createDataSet(): ArrayList<RecyclerData> {
+            val list = ArrayList<RecyclerData>()
+            list.add(
+                User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f)
+            )
+            list.add(TextLine)
             list.add(
                 Meal(
                     1,
                     "Ginger Pork",
                     "https://picsum.photos/200/300",
-                    200f
+                    200.99f
                 )
             )
             list.add(
@@ -19,7 +23,7 @@ class DataSource {
                     2,
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://picsum.photos/200/300",
-                    100f
+                    100.72f
                 )
             )
             list.add(
@@ -27,7 +31,7 @@ class DataSource {
                     3,
                     "Shrimp Noodle",
                     "https://picsum.photos/200/300",
-                    300f
+                    300.87f
                 )
             )
             list.add(
@@ -35,7 +39,7 @@ class DataSource {
                     4,
                     "Spicy Chicken",
                     "https://picsum.photos/200/300",
-                    400f
+                    400.11f
                 )
             )
             list.add(
@@ -43,7 +47,7 @@ class DataSource {
                     5,
                     "Broccoli",
                     "https://picsum.photos/200/300",
-                    500f
+                    500.23f
                 )
             )
             list.add(
@@ -51,7 +55,7 @@ class DataSource {
                     6,
                     "Sausage Stew",
                     "https://picsum.photos/200/300",
-                    120f
+                    120.11f
                 )
             )
             list.add(
@@ -59,7 +63,7 @@ class DataSource {
                     7,
                     "Pizza",
                     "https://picsum.photos/200/300",
-                    900f
+                    900.56f
                 )
             )
             list.add(
@@ -67,14 +71,14 @@ class DataSource {
                     8,
                     "Pasta",
                     "https://picsum.photos/200/300",
-                    700f
+                    700.9f
                 )
             )
             return list
         }
 
         fun createUser(): User {
-            return User(0, "Кошка Машка", "http://random.cat/view/1062", 5.4f)
+            return User(0, "Кошка Машка", "http://random.cat/view/1062", 5.4f, 0f)
         }
     }
 }

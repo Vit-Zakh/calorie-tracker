@@ -11,18 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
+class MealsListAdapter() : ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
     companion object {
 
         const val VIEW_TYPE_MEAL = 1
         const val VIEW_TYPE_USER = 2
+        const val VIEW_TYPE_TEXT = 3
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        return MealViewHolder(
-//            LayoutInflater.from(parent.context).inflate(R.layout.layout_meal_item, parent, false)
-//        )
+
         return when (viewType) {
 
             VIEW_TYPE_MEAL -> {
@@ -49,10 +48,10 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
         when (holder) {
 
             is MealViewHolder -> {
-                holder.bind(getItem(position))
+                holder.bind(getItem(position) as Meal)
             }
             is UserViewHolder -> {
-                holder.bind(DataSource.createUser())
+                holder.bind(getItem(position) as User)
             }
             is TextViewHolder -> {
                 holder.bind("Your daily intake")
@@ -60,13 +59,22 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
         }
     }
 
-    class MealItemDiffCallback : DiffUtil.ItemCallback<Meal>() {
-        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-            return oldItem.id == newItem.id
+    class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+
+        override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+            return if (oldItem is Meal && newItem is Meal) {
+                oldItem.id == newItem.id
+            } else if (oldItem is User && newItem is User) {
+                oldItem.id == newItem.id
+            } else false
         }
 
-        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+            return if (oldItem is Meal && newItem is Meal) {
+                oldItem == newItem
+            } else if (oldItem is User && newItem is User) {
+                oldItem == newItem
+            } else false
         }
     }
 
@@ -75,10 +83,8 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
         private val mealTitle: TextView = itemView.findViewById(R.id.mealTitle)
         private val mealCalories: TextView = itemView.findViewById(R.id.mealCalories)
         private val mealImage: ImageView = itemView.findViewById(R.id.mealImage)
-        private var currentMeal: Meal? = null
 
         fun bind(meal: Meal) {
-            currentMeal = meal
 
             mealTitle.text = meal.mealName
             mealCalories.text = meal.mealCalories.toString()
@@ -96,10 +102,12 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
         private val userName: TextView = itemView.findViewById(R.id.userName)
         private val userImage: CircleImageView = itemView.findViewById(R.id.userImage)
         private val userWeight: TextView = itemView.findViewById(R.id.userWeight)
+        private val userDailyCalories: TextView = itemView.findViewById(R.id.userDailyCalories)
 
         fun bind(user: User) {
             userName.text = user.userName
-            userWeight.text = user.userWeight.toString()
+            userWeight.text = "${user.userWeight} kg"
+            userDailyCalories.text = "${DailyIntakeFragment.getDailyCalories()} kcal"
             Glide.with(itemView.context)
                 .load(user.userImage)
                 .centerCrop()
@@ -118,4 +126,11 @@ class MealsListAdapter() : ListAdapter<Meal, RecyclerView.ViewHolder>(MealItemDi
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is Meal -> VIEW_TYPE_MEAL
+            is User -> VIEW_TYPE_USER
+            else -> VIEW_TYPE_TEXT
+        }
+    }
 }
