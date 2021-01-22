@@ -17,7 +17,7 @@ class DataSource {
             list.add(
                 Meal(
                     2,
-                    "Teriyaki Meat Loaf.",
+                    "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://picsum.photos/200/300",
                     100f
                 )
