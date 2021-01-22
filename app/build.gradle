@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.firebase.crashlytics'
     id 'com.google.gms.google-services'
+    id "org.jlleitschuh.gradle.ktlint"
 }
 
 android {
@@ -46,6 +47,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    /** Material Components */
+    def material_design_version = "1.3.0-rc01"
+    implementation "com.google.android.material:material:$material_design_version"
+
     /** Navigation Component */
     def nav_version = "2.3.2"
 
@@ -58,7 +63,7 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    
+
     /** Firebase */
 
     //Crashlytics
@@ -70,3 +75,5 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics-ktx:$analytics_version"
 
 }
+
+preBuild.dependsOn ktlintFormat
