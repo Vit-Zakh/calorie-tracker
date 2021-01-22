@@ -8,24 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class DailyIntakeFragment : Fragment() {
+class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        Handler().postDelayed({
+        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
             findNavController().navigate(R.id.action_dailyIntakeFragment2_to_foodListFragment2)
-        }, 4000)
-
-        return inflater.inflate(R.layout.fragment_daily_intake, container, false)
+        }
     }
-
 }
