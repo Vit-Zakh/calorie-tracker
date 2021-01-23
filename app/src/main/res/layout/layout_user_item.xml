@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="16dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userImage"
-        app:layout_constraintWidth_percent="0.25"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="24sp"
             android:text="User name"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/userImage"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/caloriesImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_calories"
+            app:layout_constraintBottom_toBottomOf="@id/userDailyCalories"
             app:layout_constraintStart_toEndOf="@id/userImage"
-            app:layout_constraintTop_toTopOf="@id/userDailyCalories"
-            app:layout_constraintBottom_toBottomOf="@id/userDailyCalories"/>
+            app:layout_constraintTop_toTopOf="@id/userDailyCalories" />
 
         <ImageView
             android:id="@+id/scalesImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_scales"
+            app:layout_constraintBottom_toBottomOf="@id/userWeight"
             app:layout_constraintStart_toEndOf="@id/userImage"
-            app:layout_constraintTop_toTopOf="@id/userWeight"
-            app:layout_constraintBottom_toBottomOf="@id/userWeight"/>
+            app:layout_constraintTop_toTopOf="@id/userWeight" />
 
         <TextView
             android:id="@+id/userWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="24sp"
             android:text="User's weight"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/scalesImage"
-            app:layout_constraintTop_toBottomOf="@id/userName"/>
+            app:layout_constraintTop_toBottomOf="@id/userName" />
 
         <TextView
             android:id="@+id/userDailyCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="24sp"
             android:text="Calories for today"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/caloriesImage"
-            app:layout_constraintTop_toBottomOf="@id/userWeight"/>
+            app:layout_constraintTop_toBottomOf="@id/userWeight" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
