@@ -15,6 +15,7 @@ class DataSource {
                     1,
                     "Ginger Pork",
                     "https://picsum.photos/200/300",
+                    700f,
                     200.99f
                 )
             )
@@ -23,6 +24,7 @@ class DataSource {
                     2,
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://picsum.photos/200/300",
+                    2100f,
                     100.72f
                 )
             )
@@ -31,6 +33,7 @@ class DataSource {
                     3,
                     "Shrimp Noodle",
                     "https://picsum.photos/200/300",
+                    410f,
                     300.87f
                 )
             )
@@ -39,6 +42,7 @@ class DataSource {
                     4,
                     "Spicy Chicken",
                     "https://picsum.photos/200/300",
+                    999f,
                     400.11f
                 )
             )
@@ -47,6 +51,7 @@ class DataSource {
                     5,
                     "Broccoli",
                     "https://picsum.photos/200/300",
+                    0f,
                     500.23f
                 )
             )
@@ -55,6 +60,7 @@ class DataSource {
                     6,
                     "Sausage Stew",
                     "https://picsum.photos/200/300",
+                    1f,
                     120.11f
                 )
             )
@@ -63,6 +69,7 @@ class DataSource {
                     7,
                     "Pizza",
                     "https://picsum.photos/200/300",
+                    17f,
                     900.56f
                 )
             )
@@ -71,6 +78,7 @@ class DataSource {
                     8,
                     "Pasta",
                     "https://picsum.photos/200/300",
+                    3140f,
                     700.9f
                 )
             )

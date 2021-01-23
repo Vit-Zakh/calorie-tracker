@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MealsListAdapter() : ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
+class MealsListAdapter() :
+    ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
     companion object {
 
@@ -26,19 +27,22 @@ class MealsListAdapter() : ListAdapter<RecyclerData, RecyclerView.ViewHolder>(Me
 
             VIEW_TYPE_MEAL -> {
                 MealViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.layout_meal_item, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.layout_meal_item, parent, false)
                 )
             }
 
             VIEW_TYPE_USER -> {
                 UserViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.layout_user_item, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.layout_user_item, parent, false)
                 )
             }
 
             else -> {
                 TextViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.layout_text_item, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.layout_text_item, parent, false)
                 )
             }
         }
@@ -83,11 +87,13 @@ class MealsListAdapter() : ListAdapter<RecyclerData, RecyclerView.ViewHolder>(Me
         private val mealTitle: TextView = itemView.findViewById(R.id.mealTitle)
         private val mealCalories: TextView = itemView.findViewById(R.id.mealCalories)
         private val mealImage: ImageView = itemView.findViewById(R.id.mealImage)
+        private val mealSize: TextView = itemView.findViewById(R.id.mealSize)
 
         fun bind(meal: Meal) {
 
             mealTitle.text = meal.mealName
-            mealCalories.text = meal.mealCalories.toString()
+            mealCalories.text = meal.setIntakeCalories()
+            mealSize.text = meal.setWeightUnit()
             Glide.with(itemView.context)
                 .load(meal.imageUrl)
                 .centerCrop()
@@ -133,4 +139,19 @@ class MealsListAdapter() : ListAdapter<RecyclerData, RecyclerView.ViewHolder>(Me
             else -> VIEW_TYPE_TEXT
         }
     }
+}
+
+private fun Meal.setWeightUnit(): String {
+    return if (this.mealWeight.div(1000) >= 1) {
+        "${this.mealWeight.div(1000)} kg"
+    } else "${this.mealWeight} g"
+}
+
+private fun Meal.setIntakeCalories(): String {
+    val intakeCalories = this.mealWeight.div(100f).times(this.mealCalories)
+    return if (intakeCalories.div(10000) in 1..10) {
+        "%.${0}f".format(intakeCalories)
+    } else if ((intakeCalories.div(10000) < 1)) {
+        "%.${2}f".format(intakeCalories)
+    } else "Err!"
 }

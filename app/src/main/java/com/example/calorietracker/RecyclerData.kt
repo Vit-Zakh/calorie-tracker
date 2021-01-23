@@ -6,6 +6,7 @@ data class Meal(
     val id: Int,
     val mealName: String,
     val imageUrl: String,
+    val mealWeight: Float = 0f,
     val mealCalories: Float,
     val protein: Float?,
     val fat: Float?,
@@ -15,8 +16,9 @@ data class Meal(
         id: Int,
         mealName: String,
         imageUrl: String,
+        mealWeight: Float,
         mealCalories: Float
-    ) : this(id, mealName, imageUrl, mealCalories, null, null, null)
+    ) : this(id, mealName, imageUrl, mealWeight, mealCalories, null, null, null)
 }
 
 data class User(

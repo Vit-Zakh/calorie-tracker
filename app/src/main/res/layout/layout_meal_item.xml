@@ -15,6 +15,7 @@
             android:id="@+id/mealImage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingRight="4dp"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,33 +38,42 @@
             android:id="@+id/mealCalories"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="bottom"
-            android:text="4000"
-            android:textSize="24sp"
+            android:gravity="bottom|center"
+            android:textSize="20sp"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.20" />
 
-        <TextView
-            android:id="@+id/caloriesUnits"
+        <ImageView
+            android:id="@+id/foodCaloriesImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="top"
-            android:text="Kcals"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingBottom="4dp"
+            android:src="@drawable/ic_calories_128dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintTop_toBottomOf="@id/mealCalories"
             app:layout_constraintWidth_percent="0.20" />
 
         <TextView
             android:id="@+id/mealSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
             android:text="size"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/foodScalesImage" />
+
+        <ImageView
+            android:id="@+id/foodScalesImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="4dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/ic_scales_food"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/mealImage" />
 
