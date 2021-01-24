@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/card_height"
     android:layout_marginTop="8dp"
     app:cardCornerRadius="16dp">
 
@@ -21,61 +21,79 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25" />
 
-        <TextView
-            android:id="@+id/mealTitle"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mealData"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Food name"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toEndOf="@id/mealImage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.55" />
+            app:layout_constraintWidth_percent="0.55"
+            android:paddingBottom="4dp">
 
-        <TextView
-            android:id="@+id/mealCalories"
+            <TextView
+                android:id="@+id/mealTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Food name"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mealSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="size"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/foodScalesImage" />
+
+            <ImageView
+                android:id="@+id/foodScalesImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="4dp"
+                android:src="@drawable/ic_scales_food"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/caloriesResult"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="bottom|center"
-            android:maxLines="1"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@id/mealData"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.20" />
+            app:layout_constraintWidth_percent="0.2">
 
-        <ImageView
-            android:id="@+id/foodCaloriesImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:paddingBottom="4dp"
-            android:src="@drawable/ic_calories_128dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.50"
-            app:layout_constraintTop_toBottomOf="@id/mealCalories"
-            app:layout_constraintWidth_percent="0.20" />
+            <TextView
+                android:id="@+id/mealCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="bottom|center"
+                android:maxLines="1"
+                android:text="3000.7"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/mealSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="size"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/foodScalesImage" />
+            <ImageView
+                android:id="@+id/foodCaloriesImage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/ic_calories_128dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.50"
+                app:layout_constraintTop_toBottomOf="@id/mealCalories" />
 
-        <ImageView
-            android:id="@+id/foodScalesImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:src="@drawable/ic_scales_food"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mealImage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.math.RoundingMode
 
 class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
@@ -31,12 +30,12 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     companion object {
-        fun getDailyCalories(): Double {
-            return DataSource.createDataSet().filterIsInstance<Meal>()
-                .sumByDouble {
-                    it.mealCalories.toBigDecimal().setScale(3, RoundingMode.HALF_EVEN).scale()
-                        .toDouble()
-                }
+
+        fun getDailyCalories(): String {
+            return "%.${2}f".format(
+                DataSource.createDataSet().filterIsInstance<Meal>()
+                    .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
+            )
         }
     }
 }
