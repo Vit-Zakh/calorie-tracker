@@ -15,30 +15,25 @@ class MealsListAdapter() :
     ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
     companion object {
-
         const val VIEW_TYPE_MEAL = 1
         const val VIEW_TYPE_USER = 2
         const val VIEW_TYPE_TEXT = 3
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
         return when (viewType) {
-
             VIEW_TYPE_MEAL -> {
                 MealViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.layout_meal_item, parent, false)
                 )
             }
-
             VIEW_TYPE_USER -> {
                 UserViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.layout_user_item, parent, false)
                 )
             }
-
             else -> {
                 TextViewHolder(
                     LayoutInflater.from(parent.context)
@@ -50,7 +45,6 @@ class MealsListAdapter() :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-
             is MealViewHolder -> {
                 holder.bind(getItem(position) as Meal)
             }
@@ -90,7 +84,6 @@ class MealsListAdapter() :
         private val mealSize: TextView = itemView.findViewById(R.id.mealSize)
 
         fun bind(meal: Meal) {
-
             mealTitle.text = meal.mealName
             mealCalories.text = meal.setIntakeCalories()
             mealSize.text = meal.setWeightUnit()
