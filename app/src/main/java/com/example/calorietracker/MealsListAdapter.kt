@@ -24,7 +24,7 @@ class MealsListAdapter() :
             VIEW_TYPE_MEAL -> {
                 MealViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.layout_meal_item, parent, false)
+                        .inflate(R.layout.layout_meal_item_2, parent, false)
                 )
             }
             VIEW_TYPE_USER -> {
@@ -91,6 +91,7 @@ class MealsListAdapter() :
         private val mealSize: TextView = itemView.findViewById(R.id.mealSize)
 
         fun bind(meal: Meal) {
+
             mealTitle.text = meal.mealName
             mealCalories.text = meal.getIntakeCaloriesRounded()
             mealSize.text = meal.getConvertedWeight()

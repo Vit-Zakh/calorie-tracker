@@ -49,11 +49,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/foodScalesImage"
+                app:layout_constraintStart_toEndOf="@id/mealWeightImage"
                 tools:text="2.1 kg" />
 
             <ImageView
-                android:id="@+id/foodScalesImage"
+                android:id="@+id/mealWeightImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="4dp"

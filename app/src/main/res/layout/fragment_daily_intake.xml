@@ -13,7 +13,7 @@
         android:id="@+id/dailyIntakeList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/layout_meal_item">
+        tools:listitem="@layout/layout_meal_item_2">
 
     </androidx.recyclerview.widget.RecyclerView>
 
