@@ -84,9 +84,5 @@ class DataSource {
             )
             return list
         }
-
-        fun createUser(): User {
-            return User(0, "Кошка Машка", "http://random.cat/view/1062", 5.4f, 0f)
-        }
     }
 }
