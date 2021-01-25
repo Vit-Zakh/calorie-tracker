@@ -9,16 +9,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.calorietracker.RecyclerData.*
+import java.lang.RuntimeException
 
 class MealsListAdapter() :
     ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
 
-    companion object {
-        const val VIEW_TYPE_MEAL = 1
-        const val VIEW_TYPE_USER = 2
-        const val VIEW_TYPE_TEXT = 3
-    }
+    private val VIEW_TYPE_MEAL = 1
+    private val VIEW_TYPE_USER = 2
+    private val VIEW_TYPE_TEXT = 3
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -60,19 +59,27 @@ class MealsListAdapter() :
     class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
 
         override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return if (oldItem is Meal && newItem is Meal) {
-                oldItem.id == newItem.id
-            } else if (oldItem is User && newItem is User) {
-                oldItem.id == newItem.id
-            } else false
+            return when {
+                oldItem is Meal && newItem is Meal -> {
+                    oldItem.id == newItem.id
+                }
+                oldItem is User && newItem is User -> {
+                    oldItem.id == newItem.id
+                }
+                else -> false
+            }
         }
 
         override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return if (oldItem is Meal && newItem is Meal) {
-                oldItem == newItem
-            } else if (oldItem is User && newItem is User) {
-                oldItem == newItem
-            } else false
+            return when {
+                oldItem is Meal && newItem is Meal -> {
+                    oldItem == newItem
+                }
+                oldItem is User && newItem is User -> {
+                    oldItem == newItem
+                }
+                else -> false
+            }
         }
     }
 
@@ -85,34 +92,24 @@ class MealsListAdapter() :
 
         fun bind(meal: Meal) {
             mealTitle.text = meal.mealName
-            mealCalories.text = meal.setIntakeCalories()
-            mealSize.text = meal.setWeightUnit()
-            Glide.with(itemView.context)
-                .load(meal.imageUrl)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
-                .into(mealImage)
+            mealCalories.text = meal.getIntakeCaloriesRounded()
+            mealSize.text = meal.getConvertedWeight()
+            mealImage.loadImageByUrl(meal.imageUrl)
         }
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val userName: TextView = itemView.findViewById(R.id.userName)
-        private val userImage: CircleImageView = itemView.findViewById(R.id.userImage)
+        private val userImage: ImageView = itemView.findViewById(R.id.userImage)
         private val userWeight: TextView = itemView.findViewById(R.id.userWeight)
         private val userDailyCalories: TextView = itemView.findViewById(R.id.userDailyCalories)
 
         fun bind(user: User) {
             userName.text = user.userName
             userWeight.text = "${user.userWeight} kg"
-            userDailyCalories.text = "${DailyIntakeFragment.getDailyCalories()} kcal"
-            Glide.with(itemView.context)
-                .load(user.userImage)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
-                .into(userImage)
+            userDailyCalories.text = "${DataSource.getDailyCalories()} kcal"
+            userImage.loadCircleImageByUrl(user.userImage)
         }
     }
 
@@ -129,22 +126,45 @@ class MealsListAdapter() :
         return when (getItem(position)) {
             is Meal -> VIEW_TYPE_MEAL
             is User -> VIEW_TYPE_USER
-            else -> VIEW_TYPE_TEXT
+            is TextLine -> VIEW_TYPE_TEXT
+            else -> throw RuntimeException("Crash while defining view type")
         }
     }
 }
 
-private fun Meal.setWeightUnit(): String {
+private fun Meal.getConvertedWeight(): String {
     return if (this.mealWeight.div(1000) >= 1) {
         "${this.mealWeight.div(1000)} kg"
     } else "${this.mealWeight} g"
 }
 
-private fun Meal.setIntakeCalories(): String {
+private fun Meal.getIntakeCaloriesRounded(): String {
     val intakeCalories = this.mealWeight.div(100f).times(this.mealCalories)
-    return if (intakeCalories.div(10000) in 1..10) {
-        "%.${0}f".format(intakeCalories)
-    } else if ((intakeCalories.div(10000) < 1)) {
-        "%.${2}f".format(intakeCalories)
-    } else "Err!"
+    return when {
+        intakeCalories.div(10000) in 1f..10f -> {
+            "%.${0}f".format(intakeCalories)
+        }
+        intakeCalories.div(10000) < 1 -> {
+            "%.${2}f".format(intakeCalories)
+        }
+        else -> throw RuntimeException("Crash while converting calories")
+    }
+}
+
+private fun ImageView.loadImageByUrl(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .centerCrop()
+        .placeholder(R.drawable.ic_launcher_background)
+        .error(R.drawable.ic_launcher_background)
+        .into(this)
+}
+
+private fun ImageView.loadCircleImageByUrl(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .circleCrop()
+        .placeholder(R.drawable.ic_launcher_background)
+        .error(R.drawable.ic_launcher_background)
+        .into(this)
 }

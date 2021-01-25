@@ -17,16 +17,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         initRecyclerView()
 
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            findNavController().navigate(R.id.action_dailyIntakeFragment2_to_foodListFragment2)
-        }
-    }
-
-    companion object {
-        fun getDailyCalories(): String {
-            return "%.${2}f".format(
-                DataSource.createDataSet().filterIsInstance<Meal>()
-                    .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
-            )
+            findNavController().navigate(R.id.action_dailyIntakeFragment_to_foodListFragment)
         }
     }
 
@@ -35,6 +26,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
         mealsListAdapter = MealsListAdapter()
         dailyIntakeList.adapter = mealsListAdapter
-        mealsListAdapter.submitList(DataSource.createDataSet())
+        mealsListAdapter.submitList(DataSource.getDataSet())
     }
 }

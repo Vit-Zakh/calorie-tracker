@@ -2,6 +2,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_height"
     android:layout_marginTop="8dp"
@@ -36,19 +37,20 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@string/food_name_stub"
+
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
 
             <TextView
                 android:id="@+id/mealSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/size_stub"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/foodScalesImage" />
+                app:layout_constraintStart_toEndOf="@id/foodScalesImage"
+                tools:text="2.1 kg" />
 
             <ImageView
                 android:id="@+id/foodScalesImage"
@@ -75,12 +77,12 @@
                 android:layout_height="0dp"
                 android:gravity="bottom|center"
                 android:maxLines="1"
-                android:text="@string/calories_stub"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2100.94" />
 
             <ImageView
                 android:id="@+id/foodCaloriesImage"
