@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Food name"
+                android:text="@string/food_name_stub"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
                 android:id="@+id/mealSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="size"
+                android:text="@string/size_stub"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/foodScalesImage" />
@@ -75,7 +75,7 @@
                 android:layout_height="0dp"
                 android:gravity="bottom|center"
                 android:maxLines="1"
-                android:text="3000.7"
+                android:text="@string/calories_stub"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.5"

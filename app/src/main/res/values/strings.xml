@@ -2,4 +2,11 @@
     <string name="app_name">Calorie Tracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="food_name_stub">Food name</string>
+    <string name="size_stub">size</string>
+    <string name="calories_stub">3000.7</string>
+    <string name="your_daily_intake_category">Your daily intake</string>
+    <string name="user_name_stub">User name</string>
+    <string name="user_s_weight_stub">User\'s weight</string>
+    <string name="calories_for_today_stub">Calories for today</string>
 </resources>
