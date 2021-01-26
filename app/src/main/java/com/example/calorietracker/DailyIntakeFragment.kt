@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 
 class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
@@ -25,11 +24,12 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     private fun initRecyclerView() {
-        val dailyIntakeList: RecyclerView = fragmentBinding!!.dailyIntakeList
-        dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
-        mealsListAdapter = MealsListAdapter()
-        dailyIntakeList.adapter = mealsListAdapter
-        mealsListAdapter.submitList(DataSource.getDataSet())
+        fragmentBinding?.let {
+            it.dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
+            mealsListAdapter = MealsListAdapter()
+            it.dailyIntakeList.adapter = mealsListAdapter
+            mealsListAdapter.submitList(DataSource.list)
+        }
     }
 
     override fun onDestroyView() {

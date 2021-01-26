@@ -110,6 +110,7 @@ class MealsListAdapter() :
             with(userBinding) {
                 userName.text = user.userName
                 userWeight.text = "${user.userWeight} kg"
+//                userWeight.text = String.format(R.string.user_weight, user.userWeight)
                 userDailyCalories.text = "${DataSource.getDailyCalories()} kcal"
                 userImage.loadCircleImageByUrl(user.userImage)
             }

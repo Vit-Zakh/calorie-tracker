@@ -4,7 +4,7 @@ import com.example.calorietracker.RecyclerData.*
 
 object DataSource {
 
-    private val list = arrayListOf(
+    val list = listOf(
         User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f),
 
         TextLine,
@@ -73,10 +73,6 @@ object DataSource {
             700.9f
         )
     )
-
-    fun getDataSet(): ArrayList<RecyclerData> {
-        return list
-    }
 
     fun getDailyCalories(): String {
         return "%.${2}f".format(
