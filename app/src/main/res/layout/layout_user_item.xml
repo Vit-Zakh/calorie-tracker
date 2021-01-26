@@ -3,12 +3,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardBackgroundColor="@color/primary_700"
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_height"
-    app:cardCornerRadius="0dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/primary_700"
 
-    android:layout_marginBottom="8dp">
+    app:cardCornerRadius="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_meal_calories_orange_24"
+            android:src="@drawable/ic_meal_calories_orange_26"
             app:layout_constraintBottom_toBottomOf="@+id/userDailyCalories"
             app:layout_constraintEnd_toStartOf="@+id/userDailyCalories"
             app:layout_constraintHorizontal_bias="0.0"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_weight_sofa_orange_24"
+            android:src="@drawable/ic_weight_scales_orange_26"
             app:layout_constraintBottom_toBottomOf="@+id/userWeight"
             app:layout_constraintEnd_toStartOf="@+id/userWeight"
             app:layout_constraintHorizontal_bias="0.0"
@@ -75,9 +75,11 @@
             android:id="@+id/userWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="4dp"
+            android:textColor="@color/primary_back"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/primary_back"
             app:layout_constraintBottom_toTopOf="@+id/userDailyCalories"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -91,6 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:paddingLeft="4dp"
+            android:textColor="@color/primary_back"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -98,8 +102,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/caloriesImage"
             app:layout_constraintTop_toBottomOf="@+id/userWeight"
-            tools:text="3200.17 kcal"
-            android:textColor="@color/primary_back"/>
+            tools:text="3200.17 kcal" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/userItemGuidelineVertical"

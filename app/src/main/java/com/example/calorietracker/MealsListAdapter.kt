@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.calorietracker.RecyclerData.*
+import com.example.calorietracker.databinding.LayoutMealItemBinding
+import com.example.calorietracker.databinding.LayoutTextItemBinding
+import com.example.calorietracker.databinding.LayoutUserItemBinding
 import java.lang.RuntimeException
 
 class MealsListAdapter() :
@@ -24,7 +26,7 @@ class MealsListAdapter() :
             VIEW_TYPE_MEAL -> {
                 MealViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.layout_meal_item_2, parent, false)
+                        .inflate(R.layout.layout_meal_item, parent, false)
                 )
             }
             VIEW_TYPE_USER -> {
@@ -85,41 +87,40 @@ class MealsListAdapter() :
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val mealTitle: TextView = itemView.findViewById(R.id.mealTitle)
-        private val mealCalories: TextView = itemView.findViewById(R.id.mealCalories)
-        private val mealImage: ImageView = itemView.findViewById(R.id.mealImage)
-        private val mealSize: TextView = itemView.findViewById(R.id.mealSize)
+        private val mealBinding = LayoutMealItemBinding.bind(itemView)
 
         fun bind(meal: Meal) {
-
-            mealTitle.text = meal.mealName
-            mealCalories.text = meal.getIntakeCaloriesRounded()
-            mealSize.text = meal.getConvertedWeight()
-            mealImage.loadImageByUrl(meal.imageUrl)
+            with(mealBinding) {
+                mealTitle.text = meal.mealName
+                mealCalories.text = meal.getIntakeCaloriesRounded()
+                mealSize.text = meal.getConvertedWeight()
+                mealImage.loadImageByUrl(meal.imageUrl)
+            }
         }
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val userName: TextView = itemView.findViewById(R.id.userName)
-        private val userImage: ImageView = itemView.findViewById(R.id.userImage)
-        private val userWeight: TextView = itemView.findViewById(R.id.userWeight)
-        private val userDailyCalories: TextView = itemView.findViewById(R.id.userDailyCalories)
+        private val userBinding = LayoutUserItemBinding.bind(itemView)
 
         fun bind(user: User) {
-            userName.text = user.userName
-            userWeight.text = "${user.userWeight} kg"
-            userDailyCalories.text = "${DataSource.getDailyCalories()} kcal"
-            userImage.loadCircleImageByUrl(user.userImage)
+            with(userBinding) {
+                userName.text = user.userName
+                userWeight.text = "${user.userWeight} kg"
+                userDailyCalories.text = "${DataSource.getDailyCalories()} kcal"
+                userImage.loadCircleImageByUrl(user.userImage)
+            }
         }
     }
 
     class TextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val textToHold: TextView = itemView.findViewById(R.id.textToHold)
+        private val textBinding = LayoutTextItemBinding.bind(itemView)
 
         fun bind(string: String) {
-            textToHold.text = string
+            with(textBinding) {
+                textToHold.text = string
+            }
         }
     }
 

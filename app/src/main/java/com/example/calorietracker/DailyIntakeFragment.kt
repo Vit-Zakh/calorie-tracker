@@ -31,4 +31,9 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         dailyIntakeList.adapter = mealsListAdapter
         mealsListAdapter.submitList(DataSource.getDataSet())
     }
+
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
+    }
 }
