@@ -26,6 +26,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/user_frame"
+            android:layout_width="@dimen/frame_diameter"
+            android:layout_height="@dimen/frame_diameter"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/circle_user_frame"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/userImage"
+            app:layout_constraintEnd_toEndOf="@id/userImage"
+            app:layout_constraintStart_toStartOf="@id/userImage"
+            app:layout_constraintTop_toTopOf="@id/userImage" />
+
         <TextView
             android:id="@+id/userName"
             android:layout_width="wrap_content"

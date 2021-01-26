@@ -105,13 +105,14 @@ class MealsListAdapter() :
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val userBinding = LayoutUserItemBinding.bind(itemView)
+        val res = itemView.resources
 
         fun bind(user: User) {
             with(userBinding) {
                 userName.text = user.userName
-                userWeight.text = "${user.userWeight} kg"
-//                userWeight.text = String.format(R.string.user_weight, user.userWeight)
-                userDailyCalories.text = "${DataSource.getDailyCalories()} kcal"
+                userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
+                userDailyCalories.text =
+                    res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
                 userImage.loadCircleImageByUrl(user.userImage)
             }
         }
