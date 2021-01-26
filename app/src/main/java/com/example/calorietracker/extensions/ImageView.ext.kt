@@ -12,12 +12,3 @@ fun ImageView.loadImageByUrl(url: String) {
         .error(R.drawable.ic_launcher_background)
         .into(this)
 }
-
-fun ImageView.loadCircleImageByUrl(url: String) {
-    Glide.with(this.context)
-        .load(url)
-        .circleCrop()
-        .placeholder(R.drawable.ic_launcher_background)
-        .error(R.drawable.ic_launcher_background)
-        .into(this)
-}

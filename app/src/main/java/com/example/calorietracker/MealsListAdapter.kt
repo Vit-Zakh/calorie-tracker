@@ -10,7 +10,6 @@ import com.example.calorietracker.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
-import com.example.calorietracker.extensions.loadCircleImageByUrl
 import com.example.calorietracker.extensions.loadImageByUrl
 import java.lang.RuntimeException
 
@@ -113,7 +112,7 @@ class MealsListAdapter() :
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
                     res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
-                userImage.loadCircleImageByUrl(user.userImage)
+                userImage.loadImageByUrl(user.userImage)
             }
         }
     }
