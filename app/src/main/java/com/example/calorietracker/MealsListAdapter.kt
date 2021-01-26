@@ -3,15 +3,15 @@ package com.example.calorietracker
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.calorietracker.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
+import com.example.calorietracker.extensions.loadCircleImageByUrl
+import com.example.calorietracker.extensions.loadImageByUrl
 import java.lang.RuntimeException
 
 class MealsListAdapter() :
@@ -35,11 +35,14 @@ class MealsListAdapter() :
                         .inflate(R.layout.layout_user_item, parent, false)
                 )
             }
-            else -> {
+            VIEW_TYPE_TEXT -> {
                 TextViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.layout_text_item, parent, false)
                 )
+            }
+            else -> {
+                throw RuntimeException("Crash while defining view holder")
             }
         }
     }
@@ -151,22 +154,4 @@ private fun Meal.getIntakeCaloriesRounded(): String {
         }
         else -> throw RuntimeException("Crash while converting calories")
     }
-}
-
-private fun ImageView.loadImageByUrl(url: String) {
-    Glide.with(this.context)
-        .load(url)
-        .centerCrop()
-        .placeholder(R.drawable.ic_launcher_background)
-        .error(R.drawable.ic_launcher_background)
-        .into(this)
-}
-
-private fun ImageView.loadCircleImageByUrl(url: String) {
-    Glide.with(this.context)
-        .load(url)
-        .circleCrop()
-        .placeholder(R.drawable.ic_launcher_background)
-        .error(R.drawable.ic_launcher_background)
-        .into(this)
 }
