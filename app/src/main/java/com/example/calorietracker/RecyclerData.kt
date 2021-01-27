@@ -21,5 +21,15 @@ sealed class RecyclerData {
         val userIntake: Float
     ) : RecyclerData()
 
+    data class Food(
+        val id: Int,
+        val name: String,
+        val imageUrl: String,
+        val calories: Float,
+        val protein: Float? = null,
+        val fat: Float? = null,
+        val carbs: Float? = null
+    ) : RecyclerData()
+
     object TextLine : RecyclerData()
 }
