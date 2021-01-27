@@ -9,7 +9,7 @@
         android:label="fragment_daily_intake"
         tools:layout="@layout/fragment_daily_intake" >
         <action
-            android:id="@+id/action_dailyIntakeFragment2_to_foodListFragment2"
+            android:id="@+id/action_dailyIntakeFragment_to_foodListFragment"
             app:destination="@id/foodListFragment2" />
     </fragment>
     <fragment
