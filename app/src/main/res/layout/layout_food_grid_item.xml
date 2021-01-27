@@ -4,16 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/card_height"
+    android:layout_height="128dp"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
     android:background="@color/primary_back"
     app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/foodContainer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/foodContainer"
+        android:maxWidth="368dp"
         app:layout_constraintBottom_toTopOf="@+id/foodCaloriesImage"
         app:layout_constraintTop_toTopOf="@+id/foodCaloriesImage">
 
@@ -55,11 +56,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
             android:ellipsize="end"
             android:maxWidth="192dp"
             android:maxLines="2"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -74,7 +75,7 @@
         <ImageView
             android:id="@+id/foodImage"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
