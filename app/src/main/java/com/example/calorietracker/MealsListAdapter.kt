@@ -2,6 +2,7 @@ package com.example.calorietracker
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -152,6 +153,11 @@ class MealsListAdapter() :
                 foodCalories.text = food.calories.toString()
                 foodImage.loadImageByUrl(food.imageUrl)
                 foodContainer.background = getRandomBackground()
+            }
+            with(itemView) {
+                setOnClickListener {
+                    Log.d("TAG", "bind: $adapterPosition ${food.name}")
+                }
             }
         }
     }

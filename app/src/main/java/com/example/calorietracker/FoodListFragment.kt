@@ -31,6 +31,7 @@ class FoodListFragment : Fragment() {
             it.foodGridList.layoutManager = StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
             mealsListAdapter = MealsListAdapter()
             it.foodGridList.adapter = mealsListAdapter
+            it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
             mealsListAdapter.submitList(DataSource.foodList)
         }
     }
