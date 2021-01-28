@@ -1,13 +1,13 @@
 package com.example.calorietracker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.calorietracker.RecyclerData.*
 import com.example.calorietracker.databinding.FragmentFoodListBinding
 
 class FoodListFragment : Fragment() {
@@ -23,7 +23,9 @@ class FoodListFragment : Fragment() {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
         initRecyclerView()
-        setCalorieProgress(1347f)
+
+        val user = arguments?.getParcelable<User>("User")
+        user?.let { setCalorieProgress(it) }
         return binding.root
     }
 
@@ -43,15 +45,22 @@ class FoodListFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun setCalorieProgress(intake: Float) {
-        val userProgress = intake / 2500f
+    private fun setCalorieProgress(user: User) {
+        val userProgress = user.userIntake / user.plannedIntake
         fragmentBinding?.let {
-            it.progressBar.progress = if (userProgress <= 1)
+            it.progressBar.progress = if (userProgress <= 1) {
                 ((userProgress) * 70f).toInt()
-            else 70
-            it.progressText.text = "1347 \n out of \n2500"
-            it.progressPercentText.text = resources.getString(R.string.user_calories_progress_text, userProgress * 100)
-            Log.d("MyTag", "setCalorieProgress: ${(1347f / 2500f) * 70f.toInt()}")
+            } else {
+                it.progressPercentText.setTextColor(R.color.secondary_orange)
+                70
+            }
+            it.progressText.text = resources.getString(
+                R.string.user_calories_progress_text,
+                user.userIntake,
+                user.plannedIntake
+            )
+            it.progressPercentText.text =
+                resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
         }
     }
 }

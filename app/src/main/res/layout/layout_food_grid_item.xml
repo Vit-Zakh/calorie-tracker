@@ -47,28 +47,24 @@
             app:layout_constraintStart_toStartOf="@+id/foodTitle"
             app:layout_constraintTop_toTopOf="@+id/foodCalories" />
 
-
         <TextView
             android:id="@+id/foodTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
-            android:maxWidth="192dp"
+            android:maxWidth="164dp"
             android:maxLines="2"
-            android:paddingEnd="8dp"
-            android:paddingRight="8dp"
+            android:minWidth="96dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal"
-            app:layout_constraintEnd_toStartOf="@id/foodImage"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/foodImage"
             app:layout_constraintTop_toTopOf="@+id/foodImage"
             tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
 
@@ -78,8 +74,8 @@
             android:layout_height="match_parent"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/guidelineVertical"
+            app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />

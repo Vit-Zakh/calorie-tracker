@@ -5,7 +5,7 @@ import com.example.calorietracker.RecyclerData.*
 object DataSource {
 
     val list = listOf(
-        User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f, null),
+        User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f, 40000f),
 
         TextLine,
 
@@ -137,5 +137,17 @@ object DataSource {
             list.filterIsInstance<Meal>()
                 .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
         )
+    }
+
+    fun getDailyCaloriesValue(): Float {
+        return (
+            list.filterIsInstance<Meal>()
+                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
+            ).toFloat()
+    }
+
+    fun getUser(): User {
+        return list.filterIsInstance<User>()
+            .first()
     }
 }

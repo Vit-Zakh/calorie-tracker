@@ -2,6 +2,7 @@ package com.example.calorietracker
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,10 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         initRecyclerView()
 
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_dailyIntakeFragment_to_foodListFragment)
+            findNavController().navigate(
+                R.id.action_dailyIntakeFragment_to_foodListFragment,
+                bundleOf("User" to getCurrentUser())
+            )
         }
     }
 
@@ -35,5 +39,11 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
+    }
+
+    private fun getCurrentUser(): RecyclerData.User {
+        val user = DataSource.getUser()
+        user.userIntake = DataSource.getDailyCaloriesValue()
+        return user
     }
 }

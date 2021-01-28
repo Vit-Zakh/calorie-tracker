@@ -1,6 +1,5 @@
 package com.example.calorietracker
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -127,7 +126,7 @@ class MealsListAdapter() :
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
                     res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
-                userImage.loadImageByUrl(user.userImage)
+                user.userImage?.let { userImage.loadImageByUrl(it) }
             }
         }
     }
@@ -152,7 +151,8 @@ class MealsListAdapter() :
                 foodTitle.text = food.name
                 foodCalories.text = food.calories.toString()
                 foodImage.loadImageByUrl(food.imageUrl)
-                foodContainer.background = getRandomBackground()
+//                foodContainer.background = getRandomBackground()
+                this.setRandomBackground()
             }
             with(itemView) {
                 setOnClickListener {
@@ -192,15 +192,33 @@ private fun Meal.getIntakeCaloriesRounded(): String {
     }
 }
 
-private fun getRandomBackground(): GradientDrawable {
-    fun getRandomColor(): Int {
-        return Color.rgb(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
-    }
-    return GradientDrawable(
+private fun LayoutFoodGridItemBinding.setRandomBackground() {
+
+    val colorsList = listOf(
+        0X0FF1E88E5.toInt(), // Blue
+        0XFF7CB342.toInt(), // Green
+        0XFF5E35B1.toInt(), // Violet
+        0XFF8E24AA.toInt(), // Purple
+        0XFFFDD835.toInt(), // Yellow
+        0XFFF4511E.toInt() // Orange
+    )
+
+    val randomColor = colorsList[Random.nextInt(colorsList.size)]
+
+    this.foodImage.foreground = GradientDrawable(
         GradientDrawable.Orientation.LEFT_RIGHT,
         intArrayOf(
-            getRandomColor(),
-            0XFFFFFFFF.toInt()
+            0X00000000.toInt(),
+            0X7CD8D8D8.toInt(),
+            randomColor
+        )
+    )
+    this.foodContainer.background = GradientDrawable(
+        GradientDrawable.Orientation.LEFT_RIGHT,
+        intArrayOf(
+            0X00000000.toInt(),
+            randomColor,
+            randomColor
         )
     )
 }
