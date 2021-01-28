@@ -6,6 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".FoodListFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBarContainer"
+        android:layout_width="@dimen/arc_bar_diameter"
+        android:layout_height="@dimen/arc_bar_diameter"
+        android:indeterminateOnly="false"
+        android:progress="70"
+        android:progressDrawable="@drawable/arc_progress_bar_container"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/arc_bar_diameter"
+        android:layout_height="@dimen/arc_bar_diameter"
+        android:indeterminateOnly="false"
+        android:progress="40"
+        android:progressDrawable="@drawable/arc_progress_bar"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarContainer"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarContainer"
+        app:layout_constraintStart_toStartOf="@+id/progressBarContainer"
+        app:layout_constraintTop_toTopOf="@+id/progressBarContainer"
+        tools:text="1500 out of 2000" />
+
+    <TextView
+        android:id="@+id/progressPercentText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarContainer"
+        app:layout_constraintStart_toStartOf="@+id/progressBarContainer"
+        app:layout_constraintTop_toBottomOf="@+id/progressText"
+        app:layout_constraintVertical_bias="0.65999997"
+        tools:text="54.99%" />
+
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontal_foodList"
         android:layout_width="wrap_content"
@@ -14,6 +67,7 @@
         app:layout_constraintGuide_percent="0.4" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -29,11 +83,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal_foodList"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/layout_food_grid_item"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal_foodList"
+        tools:listitem="@layout/layout_food_grid_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

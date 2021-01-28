@@ -5,7 +5,7 @@ import com.example.calorietracker.RecyclerData.*
 object DataSource {
 
     val list = listOf(
-        User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f),
+        User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f, null),
 
         TextLine,
 

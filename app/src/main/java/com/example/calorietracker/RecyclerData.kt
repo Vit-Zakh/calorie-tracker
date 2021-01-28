@@ -18,7 +18,8 @@ sealed class RecyclerData {
         val userName: String,
         val userImage: String,
         val userWeight: Float,
-        val userIntake: Float
+        val userIntake: Float,
+        val plannedIntake: Float?
     ) : RecyclerData()
 
     data class Food(
