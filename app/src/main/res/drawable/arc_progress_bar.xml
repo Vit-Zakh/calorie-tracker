@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<item>
-    <shape
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="ring"
-        android:thicknessRatio="16"
-        android:useLevel="false">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="ring"
+            android:thicknessRatio="16"
+            android:useLevel="false">
 
-    </shape>
-</item>
+        </shape>
+    </item>
     <item>
         <rotate
             android:fromDegrees="145"
             android:toDegrees="145">
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="ring"
-            android:thicknessRatio="16"
-            android:useLevel="true"
-            >
-            <solid android:color="@color/secondary_orange"/>
-        </shape>
+            <shape xmlns:android="http://schemas.android.com/apk/res/android"
+                android:shape="ring"
+                android:thicknessRatio="16"
+                android:useLevel="true">
+                <solid android:color="@color/secondary_orange" />
+            </shape>
         </rotate>
     </item>
 
