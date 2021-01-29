@@ -12,7 +12,7 @@ import com.example.calorietracker.databinding.FragmentFoodListBinding
 
 class FoodListFragment : Fragment() {
 
-    private lateinit var mealsListAdapter: MealsListAdapter
+    private lateinit var foodListAdapter: FoodListAdapter
     private var fragmentBinding: FragmentFoodListBinding? = null
 
     override fun onCreateView(
@@ -33,10 +33,10 @@ class FoodListFragment : Fragment() {
         fragmentBinding?.let {
             it.foodGridList.layoutManager =
                 StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
-            mealsListAdapter = MealsListAdapter()
-            it.foodGridList.adapter = mealsListAdapter
+            foodListAdapter = FoodListAdapter()
+            it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
-            mealsListAdapter.submitList(DataSource.foodList)
+            foodListAdapter.submitList(DataSource.foodList)
         }
     }
 
@@ -51,7 +51,7 @@ class FoodListFragment : Fragment() {
             it.progressBar.progress = if (userProgress <= 1) {
                 ((userProgress) * 70f).toInt()
             } else {
-                it.progressPercentText.setTextColor(R.color.secondary_orange)
+                it.progressPercentText.setTextColor(0XF93333)
                 70
             }
             it.progressText.text = resources.getString(
