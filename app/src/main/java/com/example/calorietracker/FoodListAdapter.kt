@@ -16,11 +16,11 @@ import java.lang.RuntimeException
 import kotlin.random.Random
 
 class FoodListAdapter() :
-    ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
+    ListAdapter<RecyclerData, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
 
     private val VIEW_TYPE_FOOD = 1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         return when (viewType) {
             VIEW_TYPE_FOOD -> {
                 FoodViewHolder(
@@ -34,15 +34,11 @@ class FoodListAdapter() :
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is FoodViewHolder -> {
-                holder.bind(getItem(position) as Food)
-            }
-        }
+    override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+        holder.bind(getItem(position) as Food)
     }
 
-    class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+    class FoodItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
 
         override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
             return when {
