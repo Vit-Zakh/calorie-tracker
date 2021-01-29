@@ -1,7 +1,7 @@
 package com.example.calorietracker
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 sealed class RecyclerData {
 
@@ -16,6 +16,7 @@ sealed class RecyclerData {
         val carbs: Float? = null
     ) : RecyclerData()
 
+    @Parcelize
     data class User(
         val id: Int,
         val userName: String?,
@@ -23,39 +24,7 @@ sealed class RecyclerData {
         var userWeight: Float,
         var userIntake: Float,
         var plannedIntake: Float
-    ) : RecyclerData(), Parcelable {
-        constructor(parcel: Parcel) : this(
-            parcel.readInt(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readFloat(),
-            parcel.readFloat(),
-            parcel.readValue(Float::class.java.classLoader) as Float
-        )
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeInt(id)
-            parcel.writeString(userName)
-            parcel.writeString(userImage)
-            parcel.writeFloat(userWeight)
-            parcel.writeFloat(userIntake)
-            parcel.writeValue(plannedIntake)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<User> {
-            override fun createFromParcel(parcel: Parcel): User {
-                return User(parcel)
-            }
-
-            override fun newArray(size: Int): Array<User?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+    ) : RecyclerData(), Parcelable
 
     data class Food(
         val id: Int,

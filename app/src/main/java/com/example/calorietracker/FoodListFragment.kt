@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.RecyclerData.*
@@ -14,6 +15,7 @@ class FoodListFragment : Fragment() {
 
     private lateinit var foodListAdapter: FoodListAdapter
     private var fragmentBinding: FragmentFoodListBinding? = null
+    private val args: FoodListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +26,7 @@ class FoodListFragment : Fragment() {
         fragmentBinding = binding
         initRecyclerView()
 
-        val user = arguments?.getParcelable<User>("User")
+        val user = args.User
         user?.let { setCalorieProgress(it) }
         return binding.root
     }

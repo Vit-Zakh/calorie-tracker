@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/dailyIntakeFragment">
@@ -7,10 +8,12 @@
         android:id="@+id/dailyIntakeFragment"
         android:name="com.example.calorietracker.DailyIntakeFragment"
         android:label="fragment_daily_intake"
-        tools:layout="@layout/fragment_daily_intake" >
+        tools:layout="@layout/fragment_daily_intake">
         <action
             android:id="@+id/action_dailyIntakeFragment_to_foodListFragment"
-            app:destination="@id/foodListFragment" />
+            app:destination="@id/foodListFragment">
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/foodListFragment"
