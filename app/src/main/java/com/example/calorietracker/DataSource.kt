@@ -141,9 +141,9 @@ object DataSource {
 
     fun getDailyCaloriesValue(): Float {
         return (
-                list.filterIsInstance<Meal>()
-                    .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
-                ).toFloat()
+            list.filterIsInstance<Meal>()
+                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
+            ).toFloat()
     }
 
     fun getUser(): User {
