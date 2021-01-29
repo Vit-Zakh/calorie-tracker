@@ -1,6 +1,7 @@
 package com.example.calorietracker
 
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -102,18 +103,20 @@ private fun LayoutFoodGridItemBinding.setRandomBackground() {
 
     val randomColor = colorsList[Random.nextInt(colorsList.size)]
 
-    this.foodImage.foreground = GradientDrawable(
-        GradientDrawable.Orientation.LEFT_RIGHT,
-        intArrayOf(
-            0X00000000.toInt(),
-            0X7CD8D8D8.toInt(),
-            randomColor
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        this.foodImage.foreground = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(
+                0X00000000,
+                0X7CD8D8D8,
+                randomColor
+            )
         )
-    )
+    }
     this.foodContainer.background = GradientDrawable(
         GradientDrawable.Orientation.LEFT_RIGHT,
         intArrayOf(
-            0X00000000.toInt(),
+            0X00000000,
             randomColor,
             randomColor
         )

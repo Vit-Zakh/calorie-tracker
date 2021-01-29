@@ -4,7 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.calorietracker.R
 
-fun ImageView.loadImageByUrl(url: String) {
+fun ImageView.loadImageByUrl(url: String?) {
     Glide.with(this.context)
         .load(url)
         .centerCrop()

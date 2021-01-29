@@ -27,7 +27,7 @@ class FoodListFragment : Fragment() {
         initRecyclerView()
 
         val user = args.User
-        user?.let { setCalorieProgress(it) }
+        setCalorieProgress(user)
         return binding.root
     }
 
