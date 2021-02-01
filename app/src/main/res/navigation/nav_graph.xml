@@ -11,9 +11,7 @@
         tools:layout="@layout/fragment_daily_intake">
         <action
             android:id="@+id/action_dailyIntakeFragment_to_foodListFragment"
-            app:destination="@id/foodListFragment">
-
-        </action>
+            app:destination="@id/foodListFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodListFragment"
@@ -23,5 +21,19 @@
         <argument
             android:name="User"
             app:argType="com.example.calorietracker.RecyclerData$User" />
+        <action
+            android:id="@+id/action_foodListFragment_to_addMealDialog"
+            app:destination="@id/addMealDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/addMealDialog"
+        android:name="com.example.calorietracker.AddMealDialog"
+        android:label="AddMealDialog">
+        <argument
+            android:name="Food"
+            app:argType="com.example.calorietracker.RecyclerData$Food" />
+        <action
+            android:id="@+id/action_addMealDialog_to_foodListFragment"
+            app:destination="@id/foodListFragment" />
+    </dialog>
 </navigation>

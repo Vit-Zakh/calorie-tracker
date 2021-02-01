@@ -26,6 +26,7 @@ sealed class RecyclerData {
         var plannedIntake: Float
     ) : RecyclerData(), Parcelable
 
+    @Parcelize
     data class Food(
         val id: Int,
         val name: String,
@@ -34,7 +35,7 @@ sealed class RecyclerData {
         val protein: Float? = null,
         val fat: Float? = null,
         val carbs: Float? = null
-    ) : RecyclerData()
+    ) : RecyclerData(), Parcelable
 
     object TextLine : RecyclerData()
 }
