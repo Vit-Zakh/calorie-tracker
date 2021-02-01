@@ -19,7 +19,11 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         initRecyclerView()
 
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_dailyIntakeFragment_to_foodListFragment)
+            findNavController().navigate(
+                DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment(
+                    getCurrentUser()
+                )
+            )
         }
     }
 
@@ -35,5 +39,11 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
+    }
+
+    private fun getCurrentUser(): RecyclerData.User {
+        val user = DataSource.getUser()
+        user.userIntake = DataSource.getDailyCaloriesValue()
+        return user
     }
 }

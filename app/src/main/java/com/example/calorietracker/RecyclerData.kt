@@ -1,5 +1,8 @@
 package com.example.calorietracker
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 sealed class RecyclerData {
 
     data class Meal(
@@ -13,12 +16,24 @@ sealed class RecyclerData {
         val carbs: Float? = null
     ) : RecyclerData()
 
+    @Parcelize
     data class User(
         val id: Int,
-        val userName: String,
-        val userImage: String,
-        val userWeight: Float,
-        val userIntake: Float
+        val userName: String?,
+        val userImage: String?,
+        var userWeight: Float,
+        var userIntake: Float,
+        var plannedIntake: Float
+    ) : RecyclerData(), Parcelable
+
+    data class Food(
+        val id: Int,
+        val name: String,
+        val imageUrl: String,
+        val calories: Float,
+        val protein: Float? = null,
+        val fat: Float? = null,
+        val carbs: Float? = null
     ) : RecyclerData()
 
     object TextLine : RecyclerData()
