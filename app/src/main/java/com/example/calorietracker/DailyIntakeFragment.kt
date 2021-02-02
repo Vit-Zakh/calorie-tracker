@@ -18,19 +18,21 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     private val model: DailyIntakeViewModel by viewModels()
     private lateinit var recyclerData: MutableLiveData<List<RecyclerData>>
 
+    override fun onStart() {
+        super.onStart()
+        recyclerData = model.getList()
+        recyclerData.observe(
+            viewLifecycleOwner,
+            Observer {
+                mealsListAdapter.submitList(it.toList())
+            }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDailyIntakeBinding.bind(view)
         fragmentBinding = binding
-        recyclerData = model.getList()
-
-        recyclerData.observe(
-            viewLifecycleOwner,
-            Observer { data ->
-                mealsListAdapter.submitList(data)
-            }
-        )
-
         initRecyclerView()
 
         /** Test buttons block */
@@ -58,7 +60,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
                     213f
                 )
             )
-            mealsListAdapter.notifyDataSetChanged()
         }
 
         /** End of test buttons block */

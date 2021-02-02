@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,6 +20,9 @@ class FoodListFragment : Fragment() {
     private var fragmentBinding: FragmentFoodListBinding? = null
     private val args: FoodListFragmentArgs by navArgs()
 
+    private val model: FoodListViewModel by viewModels()
+    private lateinit var recyclerData: MutableLiveData<List<RecyclerData.Food>>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,7 +30,14 @@ class FoodListFragment : Fragment() {
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
+        recyclerData = model.getFoodList()
+
         initRecyclerView()
+
+        recyclerData.observe(
+            viewLifecycleOwner,
+            Observer { foodListAdapter.submitList(it.toList()) }
+        )
 
         val user = args.User
         setCalorieProgress(user)
@@ -38,7 +51,7 @@ class FoodListFragment : Fragment() {
             foodListAdapter = FoodListAdapter()
             it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
-            foodListAdapter.submitList(DataSource.foodList)
+            foodListAdapter.submitList(model.getFoodList().value)
         }
     }
 

@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 sealed class RecyclerData {
 
+    @Parcelize
     data class Meal(
         val id: Int,
         val mealName: String,
@@ -14,7 +15,7 @@ sealed class RecyclerData {
         val protein: Float? = null,
         val fat: Float? = null,
         val carbs: Float? = null
-    ) : RecyclerData()
+    ) : RecyclerData(), Parcelable
 
     @Parcelize
     data class User(
@@ -22,9 +23,14 @@ sealed class RecyclerData {
         val userName: String?,
         val userImage: String?,
         var userWeight: Float,
-        var userIntake: Float,
-        var plannedIntake: Float
-    ) : RecyclerData(), Parcelable
+//        var userIntake: Float,
+        var plannedIntake: Float,
+        var list: List<Meal>
+    ) : RecyclerData(), Parcelable {
+        var userIntake = list.sumByDouble {
+            it.mealCalories.times(it.mealWeight.div(100)).toDouble()
+        }
+    }
 
     @Parcelize
     data class Food(

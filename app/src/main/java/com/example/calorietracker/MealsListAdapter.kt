@@ -3,7 +3,6 @@ package com.example.calorietracker
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.RecyclerData.*
@@ -60,33 +59,6 @@ class MealsListAdapter() :
         }
     }
 
-    class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
-
-        override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return when {
-                oldItem is Meal && newItem is Meal -> {
-                    oldItem.id == newItem.id
-                }
-                oldItem is User && newItem is User -> {
-                    oldItem.id == newItem.id
-                }
-                else -> false
-            }
-        }
-
-        override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return when {
-                oldItem is Meal && newItem is Meal -> {
-                    oldItem == newItem
-                }
-                oldItem is User && newItem is User -> {
-                    oldItem == newItem
-                }
-                else -> false
-            }
-        }
-    }
-
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val mealBinding = LayoutMealItemBinding.bind(itemView)
@@ -107,11 +79,15 @@ class MealsListAdapter() :
         val res = itemView.resources
 
         fun bind(user: User) {
+//            user.userIntake = DataSource.list.filterIsInstance<Meal>()
+//                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }.toFloat()
+
             with(userBinding) {
                 userName.text = user.userName
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
-                    res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
+//                    res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
+                    res.getString(R.string.user_daily_calories_text, "%.${2}f".format(user.userIntake))
                 userImage.loadImageByUrl(user.userImage)
             }
         }
