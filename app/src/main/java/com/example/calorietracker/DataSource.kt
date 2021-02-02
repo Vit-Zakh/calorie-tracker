@@ -1,6 +1,5 @@
 package com.example.calorietracker
 
-import androidx.lifecycle.MutableLiveData
 import com.example.calorietracker.RecyclerData.*
 
 object DataSource {
@@ -150,11 +149,5 @@ object DataSource {
     fun getUser(): User {
         return list.filterIsInstance<User>()
             .first()
-    }
-
-    fun getLiveData(): MutableLiveData<List<RecyclerData>> {
-        val liveDataList = MutableLiveData<List<RecyclerData>>()
-        liveDataList.value = list
-        return liveDataList
     }
 }
