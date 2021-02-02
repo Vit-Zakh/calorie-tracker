@@ -49,7 +49,7 @@ class AddMealDialog : DialogFragment() {
                 ).show()
             }
             it.cancelDialogAction.setOnClickListener {
-                this.dismiss()
+                dismiss()
             }
         }
     }
