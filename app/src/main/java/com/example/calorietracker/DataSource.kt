@@ -1,10 +1,11 @@
 package com.example.calorietracker
 
+import androidx.lifecycle.MutableLiveData
 import com.example.calorietracker.RecyclerData.*
 
 object DataSource {
 
-    val list = listOf(
+    val list = mutableListOf(
         User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f, 40000f),
 
         TextLine,
@@ -149,5 +150,11 @@ object DataSource {
     fun getUser(): User {
         return list.filterIsInstance<User>()
             .first()
+    }
+
+    fun getLiveData(): MutableLiveData<List<RecyclerData>> {
+        val liveDataList = MutableLiveData<List<RecyclerData>>()
+        liveDataList.value = list
+        return liveDataList
     }
 }
