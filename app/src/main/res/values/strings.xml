@@ -7,4 +7,8 @@
     <string name="user_daily_calories_text">%s kcal</string>
     <string name="user_calories_progress_percent">%.2f \%%</string>
     <string name="user_calories_progress_text">%1.2f \n out of \n %2.2f \</string>
+    <string name="add_button">Add</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="unit_gram">g</string>
+    <string name="set_dish_size_text">Set dish size</string>
 </resources>

@@ -2,10 +2,10 @@ package com.example.calorietracker
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,19 +18,14 @@ import kotlin.random.Random
 class FoodListAdapter() :
     ListAdapter<RecyclerData, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
 
-    private val VIEW_TYPE_FOOD = 1
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_FOOD -> {
-                FoodViewHolder(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.layout_food_grid_item, parent, false)
-                )
-            }
-            else -> {
-                throw RuntimeException("Crash while defining view holder")
-            }
+        return try {
+            FoodViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.layout_food_grid_item, parent, false)
+            )
+        } catch (e: Exception) {
+            throw RuntimeException("Crash while defining view holder")
         }
     }
 
@@ -72,16 +67,13 @@ class FoodListAdapter() :
             }
             with(itemView) {
                 setOnClickListener {
-                    Log.d("TAG", "bind: $adapterPosition ${food.name}")
+                    findNavController().navigate(
+                        FoodListFragmentDirections.actionFoodListFragmentToAddMealDialog(
+                            food
+                        )
+                    )
                 }
             }
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is Food -> VIEW_TYPE_FOOD
-            else -> throw RuntimeException("Crash while defining view type")
         }
     }
 }
