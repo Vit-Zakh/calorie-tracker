@@ -1,5 +1,6 @@
 package com.example.calorietracker
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,18 @@ class MealsListAdapter() :
         }
     }
 
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            (holder as UserViewHolder).bindWithPayloads((getItem(position) as User), (payloads[0] as Bundle))
+        }
+    }
+
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val mealBinding = LayoutMealItemBinding.bind(itemView)
@@ -85,6 +98,17 @@ class MealsListAdapter() :
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
                     res.getString(R.string.user_daily_calories_text, "%.${2}f".format(user.userIntake))
+                userImage.loadImageByUrl(user.userImage)
+            }
+        }
+
+        fun bindWithPayloads(user: User, bundle: Bundle) {
+
+            with(userBinding) {
+                userName.text = user.userName
+                userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
+                userDailyCalories.text =
+                    res.getString(R.string.user_daily_calories_text, "%.${2}f".format(bundle.getDouble("dailyIntake")))
                 userImage.loadImageByUrl(user.userImage)
             }
         }
