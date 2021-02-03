@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DailyIntakeFragment">
+    tools:context=".dailyintake.DailyIntakeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyIntakeList"
@@ -38,18 +38,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/removeMeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"/>
+            android:text="-" />
+
         <Button
             android:id="@+id/addMeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"/>
+            android:text="+" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,9 +18,9 @@ class AddMealDialog : DialogFragment() {
     private val args: AddMealDialogArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding = DialogAddMealBinding.inflate(inflater, container, false)
         addMealBinding = binding
@@ -43,9 +43,9 @@ class AddMealDialog : DialogFragment() {
             it.mealNameTextDialog.text = food.name
             it.addMealDialogAction.setOnClickListener {
                 Toast.makeText(
-                    context,
-                    "Meal added!",
-                    Toast.LENGTH_SHORT
+                        context,
+                        "Meal added!",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
             it.cancelDialogAction.setOnClickListener {

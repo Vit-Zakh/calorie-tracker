@@ -1,4 +1,4 @@
-package com.example.calorietracker
+package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import android.view.View
@@ -8,12 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.calorietracker.R
+import com.example.calorietracker.RecyclerData
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import kotlin.random.Random
 
 class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
-    private lateinit var mealsListAdapter: MealsListAdapter
+    private lateinit var dailyIntakeAdapter: DailyIntakeAdapter
     private var fragmentBinding: FragmentDailyIntakeBinding? = null
     private val model: DailyIntakeViewModel by viewModels()
     private lateinit var recyclerData: MutableLiveData<List<RecyclerData>>
@@ -24,7 +26,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         recyclerData.observe(
             viewLifecycleOwner,
             Observer {
-                mealsListAdapter.submitList(it.toList())
+                dailyIntakeAdapter.submitList(it.toList())
             }
         )
     }
@@ -63,8 +65,8 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     private fun initRecyclerView() {
         fragmentBinding?.let {
             it.dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
-            mealsListAdapter = MealsListAdapter()
-            it.dailyIntakeList.adapter = mealsListAdapter
+            dailyIntakeAdapter = DailyIntakeAdapter()
+            it.dailyIntakeList.adapter = dailyIntakeAdapter
         }
     }
 

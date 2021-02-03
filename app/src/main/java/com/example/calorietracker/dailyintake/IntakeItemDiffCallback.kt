@@ -1,9 +1,10 @@
-package com.example.calorietracker
+package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
+import com.example.calorietracker.RecyclerData
 
-class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
 
     override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
         return when {

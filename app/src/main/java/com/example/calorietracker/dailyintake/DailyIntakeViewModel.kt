@@ -1,7 +1,9 @@
-package com.example.calorietracker
+package com.example.calorietracker.dailyintake
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.calorietracker.DataSource
+import com.example.calorietracker.RecyclerData
 
 class DailyIntakeViewModel() : ViewModel() {
 

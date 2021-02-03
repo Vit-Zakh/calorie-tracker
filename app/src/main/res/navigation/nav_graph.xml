@@ -6,7 +6,7 @@
     app:startDestination="@id/dailyIntakeFragment">
     <fragment
         android:id="@+id/dailyIntakeFragment"
-        android:name="com.example.calorietracker.DailyIntakeFragment"
+        android:name="com.example.calorietracker.dailyintake.DailyIntakeFragment"
         android:label="fragment_daily_intake"
         tools:layout="@layout/fragment_daily_intake">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/foodListFragment"
-        android:name="com.example.calorietracker.FoodListFragment"
+        android:name="com.example.calorietracker.foodlist.FoodListFragment"
         android:label="fragment_food_list"
         tools:layout="@layout/fragment_food_list">
         <argument
