@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class DailyIntakeViewModel() : ViewModel() {
 
+    val dataSource = DataSource()
     private var recyclerData: MutableLiveData<List<RecyclerData>> = loadData()
 
 //    private val recyclerData: MutableLiveData<List<RecyclerData>> by lazy {
@@ -18,13 +19,13 @@ class DailyIntakeViewModel() : ViewModel() {
     }
 
     fun addMeal(meal: RecyclerData.Meal) {
-        DataSource.list.add(meal)
-        recyclerData.value = DataSource.list
+        dataSource.mealList.add(0, meal)
+        recyclerData.value = dataSource.getDataList()
     }
 
     private fun loadData(): MutableLiveData<List<RecyclerData>> {
         val liveDataList = MutableLiveData<List<RecyclerData>>()
-        liveDataList.value = DataSource.list
+        liveDataList.value = dataSource.getDataList()
         return liveDataList
     }
 }

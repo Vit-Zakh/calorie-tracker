@@ -23,14 +23,9 @@ sealed class RecyclerData {
         val userName: String?,
         val userImage: String?,
         var userWeight: Float,
-//        var userIntake: Float,
-        var plannedIntake: Float,
-        var list: List<Meal>
-    ) : RecyclerData(), Parcelable {
-        var userIntake = list.sumByDouble {
-            it.mealCalories.times(it.mealWeight.div(100)).toDouble()
-        }
-    }
+        var userIntake: Double = 0.0,
+        var plannedIntake: Float
+    ) : RecyclerData(), Parcelable
 
     @Parcelize
     data class Food(

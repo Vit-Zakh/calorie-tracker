@@ -18,8 +18,8 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     private val model: DailyIntakeViewModel by viewModels()
     private lateinit var recyclerData: MutableLiveData<List<RecyclerData>>
 
-    override fun onStart() {
-        super.onStart()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         recyclerData = model.getList()
         recyclerData.observe(
             viewLifecycleOwner,
@@ -36,19 +36,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         initRecyclerView()
 
         /** Test buttons block */
-
-//        binding.addMeal.setOnClickListener {
-//            model.addMeal(
-//                RecyclerData.Meal(
-//                    13,
-//                    "Popcorn",
-//                    "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-//                    490f,
-//                    213f
-//                )
-//            )
-// //            model.getList()
-//        }
 
         binding.addMeal.setOnClickListener {
             model.addMeal(
@@ -87,8 +74,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     private fun getCurrentUser(): RecyclerData.User {
-        val user = DataSource.getUser()
-        user.userIntake = DataSource.getDailyCaloriesValue()
-        return user
+        return model.dataSource.getCurrentUser()
     }
 }

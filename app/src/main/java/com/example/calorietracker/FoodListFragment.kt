@@ -30,7 +30,7 @@ class FoodListFragment : Fragment() {
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
-        recyclerData = model.getFoodList()
+//        recyclerData = model.getFoodList()
 
         initRecyclerView()
 
@@ -51,7 +51,7 @@ class FoodListFragment : Fragment() {
             foodListAdapter = FoodListAdapter()
             it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
-            foodListAdapter.submitList(model.getFoodList().value)
+//            foodListAdapter.submitList(model.getFoodList().value)
         }
     }
 

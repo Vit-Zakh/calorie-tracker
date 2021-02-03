@@ -79,14 +79,11 @@ class MealsListAdapter() :
         val res = itemView.resources
 
         fun bind(user: User) {
-//            user.userIntake = DataSource.list.filterIsInstance<Meal>()
-//                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }.toFloat()
 
             with(userBinding) {
                 userName.text = user.userName
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
-//                    res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
                     res.getString(R.string.user_daily_calories_text, "%.${2}f".format(user.userIntake))
                 userImage.loadImageByUrl(user.userImage)
             }

@@ -1,5 +1,6 @@
 package com.example.calorietracker
 
+import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
 
 class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
@@ -10,7 +11,7 @@ class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
                 oldItem.id == newItem.id
             }
             oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
-                oldItem.userIntake == newItem.userIntake
+                oldItem.id == newItem.id
             }
             oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
                 oldItem == newItem
@@ -31,6 +32,19 @@ class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
                 oldItem == newItem
             }
             else -> false
+        }
+    }
+
+    override fun getChangePayload(oldItem: RecyclerData, newItem: RecyclerData): Any? {
+        return when {
+            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+                val diff = Bundle()
+                if (newItem.userIntake != oldItem.userIntake) {
+                    diff.putDouble("dailyIntake", newItem.userIntake)
+                }
+                diff
+            }
+            else -> return super.getChangePayload(oldItem, newItem)
         }
     }
 }
