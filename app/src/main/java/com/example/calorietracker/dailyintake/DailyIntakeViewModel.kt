@@ -2,8 +2,8 @@ package com.example.calorietracker.dailyintake
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.DataSource
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.DataSource
+import com.example.calorietracker.data.RecyclerData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,6 +21,7 @@ class DailyIntakeViewModel @Inject constructor(
 //    }
 
     fun getList(): MutableLiveData<List<RecyclerData>> {
+        recyclerData.value = dataSource.getDataList()
         return recyclerData
     }
 

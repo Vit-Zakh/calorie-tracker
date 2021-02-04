@@ -11,10 +11,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
-import com.example.calorietracker.RecyclerData
-import com.example.calorietracker.RecyclerData.*
-import com.example.calorietracker.RightSpacingItemDecoration
+import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +27,11 @@ class FoodListFragment : Fragment() {
     private lateinit var recyclerData: MutableLiveData<List<RecyclerData.Food>>
     private lateinit var currentUser: MutableLiveData<User>
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        subscribeObservers()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,7 +40,6 @@ class FoodListFragment : Fragment() {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
 
-        subscribeObservers()
         initRecyclerView()
 
         /** Test buttons block */

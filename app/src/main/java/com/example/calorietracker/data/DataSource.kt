@@ -1,13 +1,8 @@
-package com.example.calorietracker
+package com.example.calorietracker.data
 
-import com.example.calorietracker.RecyclerData.*
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import com.example.calorietracker.data.RecyclerData.*
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @ActivityRetainedScoped
 class DataSource @Inject constructor() {
@@ -160,18 +155,5 @@ class DataSource @Inject constructor() {
         recyclerDataList.add(TextLine)
         recyclerDataList.addAll(mealList)
         return recyclerDataList
-    }
-}
-
-@Module
-@InstallIn(ActivityComponent::class)
-object DataModule {
-
-    @Singleton
-
-    val dataSource = DataSource()
-    @Provides
-    fun provideDataSource(): DataSource {
-        return dataSource
     }
 }

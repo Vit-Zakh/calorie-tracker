@@ -8,8 +8,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
-import com.example.calorietracker.RecyclerData
-import com.example.calorietracker.RecyclerData.*
+import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutFoodGridItemBinding
 import com.example.calorietracker.extensions.loadImageByUrl
 import java.lang.RuntimeException

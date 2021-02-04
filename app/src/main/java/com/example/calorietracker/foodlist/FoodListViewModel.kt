@@ -2,8 +2,8 @@ package com.example.calorietracker.foodlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.DataSource
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.DataSource
+import com.example.calorietracker.data.RecyclerData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -26,6 +26,7 @@ class FoodListViewModel @Inject constructor(
     }
 
     fun getCurrentUser(): MutableLiveData<RecyclerData.User> {
+        currentUser.value = dataSource.getCurrentUser()
         return currentUser
     }
 

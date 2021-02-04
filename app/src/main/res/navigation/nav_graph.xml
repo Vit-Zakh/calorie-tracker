@@ -20,18 +20,18 @@
         tools:layout="@layout/fragment_food_list">
         <argument
             android:name="User"
-            app:argType="com.example.calorietracker.RecyclerData$User" />
+            app:argType="com.example.calorietracker.data.RecyclerData$User" />
         <action
             android:id="@+id/action_foodListFragment_to_addMealDialog"
             app:destination="@id/addMealDialog" />
     </fragment>
     <dialog
         android:id="@+id/addMealDialog"
-        android:name="com.example.calorietracker.AddMealDialog"
+        android:name="com.example.calorietracker.foodlist.AddMealDialog"
         android:label="AddMealDialog">
         <argument
             android:name="Food"
-            app:argType="com.example.calorietracker.RecyclerData$Food" />
+            app:argType="com.example.calorietracker.data.RecyclerData$Food" />
         <action
             android:id="@+id/action_addMealDialog_to_foodListFragment"
             app:destination="@id/foodListFragment" />

@@ -1,7 +1,7 @@
 package com.example.calorietracker.foodlist
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.RecyclerData
 
 class FoodItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
 

@@ -1,6 +1,6 @@
 package com.example.calorietracker.utils
 
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.RecyclerData
 
 object MealMapper {
 

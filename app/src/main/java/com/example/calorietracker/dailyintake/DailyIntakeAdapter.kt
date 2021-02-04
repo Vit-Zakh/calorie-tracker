@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
-import com.example.calorietracker.RecyclerData
-import com.example.calorietracker.RecyclerData.*
+import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding

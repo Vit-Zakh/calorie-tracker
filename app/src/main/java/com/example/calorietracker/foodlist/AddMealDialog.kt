@@ -1,4 +1,4 @@
-package com.example.calorietracker
+package com.example.calorietracker.foodlist
 
 import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.ColorDrawable
@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.DialogAddMealBinding
 import com.example.calorietracker.extensions.loadImageByUrl
-import com.example.calorietracker.foodlist.FoodListViewModel
 import com.example.calorietracker.utils.MealMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_meal.*

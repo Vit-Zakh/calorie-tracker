@@ -1,15 +1,16 @@
 package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
@@ -27,15 +28,18 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         recyclerData = model.getList()
         recyclerData.observe(
             viewLifecycleOwner,
-            Observer {
+            {
                 dailyIntakeAdapter.submitList(it.toList())
             }
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentDailyIntakeBinding.bind(view)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentDailyIntakeBinding.inflate(inflater, container, false)
         fragmentBinding = binding
         initRecyclerView()
 
@@ -66,6 +70,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
                 )
             )
         }
+        return binding.root
     }
 
     private fun initRecyclerView() {

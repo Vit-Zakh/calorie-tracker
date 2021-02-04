@@ -2,7 +2,7 @@ package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.RecyclerData
+import com.example.calorietracker.data.RecyclerData
 
 class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
 
