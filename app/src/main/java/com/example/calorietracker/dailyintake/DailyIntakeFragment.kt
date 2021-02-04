@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
@@ -21,11 +21,11 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     private lateinit var dailyIntakeAdapter: DailyIntakeAdapter
     private var fragmentBinding: FragmentDailyIntakeBinding? = null
     private val model: DailyIntakeViewModel by viewModels()
-    private lateinit var recyclerData: MutableLiveData<List<RecyclerData>>
+    private lateinit var recyclerData: LiveData<List<RecyclerData>>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recyclerData = model.getList()
+        recyclerData = model.recyclerDataList
         recyclerData.observe(
             viewLifecycleOwner,
             {
@@ -65,9 +65,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(
-                DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment(
-                    getCurrentUser()
-                )
+                DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
             )
         }
         return binding.root
@@ -84,9 +82,5 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
-    }
-
-    private fun getCurrentUser(): RecyclerData.User {
-        return model.getCurrentUser()
     }
 }

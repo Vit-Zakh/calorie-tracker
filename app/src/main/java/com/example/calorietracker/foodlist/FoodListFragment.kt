@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
-import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.FragmentFoodListBinding
 import com.example.calorietracker.utils.RightSpacingItemDecoration
@@ -22,10 +20,9 @@ class FoodListFragment : Fragment() {
 
     private lateinit var foodListAdapter: FoodListAdapter
     private var fragmentBinding: FragmentFoodListBinding? = null
-    private val args: FoodListFragmentArgs by navArgs()
     private val model: FoodListViewModel by activityViewModels()
-    private lateinit var recyclerData: MutableLiveData<List<RecyclerData.Food>>
-    private lateinit var currentUser: MutableLiveData<User>
+    private lateinit var recyclerData: LiveData<List<Food>>
+    private lateinit var currentUser: LiveData<User>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -75,8 +72,8 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        recyclerData = model.getFoodList()
-        currentUser = model.getCurrentUser()
+        recyclerData = model.foodList
+        currentUser = model.currentUser
 
         recyclerData.observe(
             viewLifecycleOwner,
@@ -100,7 +97,7 @@ class FoodListFragment : Fragment() {
             it.progressBar.progress = if (userProgress <= 1) {
                 ((userProgress) * 70f).toInt()
             } else {
-                it.progressPercentText.setTextColor(R.color.design_default_color_error)
+                it.progressPercentText.setTextColor(this.resources.getColor(R.color.design_default_color_error))
                 70
             }
             it.progressText.text = resources.getString(

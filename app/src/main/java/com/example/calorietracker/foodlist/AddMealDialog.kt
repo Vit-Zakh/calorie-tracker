@@ -27,7 +27,7 @@ class AddMealDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = DialogAddMealBinding.inflate(inflater, container, false)
         addMealBinding = binding
         initDialog(args.Food)

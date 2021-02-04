@@ -1,5 +1,6 @@
 package com.example.calorietracker.dailyintake
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.data.DataSource
@@ -12,36 +13,24 @@ class DailyIntakeViewModel @Inject constructor(
     private val dataSource: DataSource
 ) : ViewModel() {
 
-    private var recyclerData: MutableLiveData<List<RecyclerData>> = loadData()
+    private var recyclerData: MutableLiveData<List<RecyclerData>> =
+        MutableLiveData<List<RecyclerData>>().apply {
+            this.value = dataSource.recyclerDataList
+        }
 
-//    private val recyclerData: MutableLiveData<List<RecyclerData>> by lazy {
-//        MutableLiveData<List<RecyclerData>>().also {
-//            loadData()
-//        }
-//    }
-
-    fun getList(): MutableLiveData<List<RecyclerData>> {
-        recyclerData.value = dataSource.getDataList()
-        return recyclerData
-    }
+    val recyclerDataList: LiveData<List<RecyclerData>>
+        get() {
+            recyclerData.value = dataSource.recyclerDataList
+            return recyclerData
+        }
 
     fun addMeal(meal: RecyclerData.Meal) {
         dataSource.mealList.add(0, meal)
-        recyclerData.value = dataSource.getDataList()
+        recyclerData.value = dataSource.recyclerDataList
     }
 
     fun removeMeal(id: Int) {
         dataSource.mealList.removeAt(id)
-        recyclerData.value = dataSource.getDataList()
-    }
-
-    private fun loadData(): MutableLiveData<List<RecyclerData>> {
-        val liveDataList = MutableLiveData<List<RecyclerData>>()
-        liveDataList.value = dataSource.getDataList()
-        return liveDataList
-    }
-
-    fun getCurrentUser(): RecyclerData.User {
-        return dataSource.getCurrentUser()
+        recyclerData.value = dataSource.recyclerDataList
     }
 }

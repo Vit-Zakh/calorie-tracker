@@ -1,5 +1,6 @@
 package com.example.calorietracker.foodlist
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.data.DataSource
@@ -12,27 +13,34 @@ class FoodListViewModel @Inject constructor(
     private val dataSource: DataSource
 ) : ViewModel() {
 
-    private var foodListData: MutableLiveData<List<RecyclerData.Food>> = loadFoodData()
-    private val currentUser: MutableLiveData<RecyclerData.User> = loadCurrentUser()
+    private var foodListData: MutableLiveData<List<RecyclerData.Food>> =
+        MutableLiveData<List<RecyclerData.Food>>().apply {
+            this.value = dataSource.foodList
+        }
 
-//    private val foodListData: MutableLiveData<List<RecyclerData.Food>> by lazy {
-//        MutableLiveData<List<RecyclerData.Food>>().also {
-//            loadFoodData()
-//        }
-//    }
+    val foodList: LiveData<List<RecyclerData.Food>>
+        get() {
+            foodListData.value = dataSource.foodList
+            return foodListData
+        }
 
-    fun getFoodList(): MutableLiveData<List<RecyclerData.Food>> {
-        return foodListData
-    }
+    private var user: MutableLiveData<RecyclerData.User> =
+        MutableLiveData<RecyclerData.User>().apply {
+            this.value = dataSource.currentUser
+//            this.value = dataSource.getCurrentUser()
+        }
 
-    fun getCurrentUser(): MutableLiveData<RecyclerData.User> {
-        currentUser.value = dataSource.getCurrentUser()
-        return currentUser
-    }
+    val currentUser: LiveData<RecyclerData.User>
+        get() {
+            user.value = dataSource.currentUser
+//            user.value = dataSource.getCurrentUser()
+            return user
+        }
 
     fun addMealToList(meal: RecyclerData.Meal) {
         dataSource.mealList.add(meal)
-        currentUser.value = dataSource.getCurrentUser()
+        user.value = dataSource.currentUser
+//        user.value = dataSource.getCurrentUser()
     }
 
     fun addFood(food: RecyclerData.Food) {
@@ -43,17 +51,5 @@ class FoodListViewModel @Inject constructor(
     fun deleteFood(id: Int) {
         dataSource.foodList.removeAt(id)
         foodListData.value = dataSource.foodList
-    }
-
-    private fun loadFoodData(): MutableLiveData<List<RecyclerData.Food>> {
-        val liveDataFoodList = MutableLiveData<List<RecyclerData.Food>>()
-        liveDataFoodList.value = dataSource.foodList
-        return liveDataFoodList
-    }
-
-    private fun loadCurrentUser(): MutableLiveData<RecyclerData.User> {
-        val liveDataUser = MutableLiveData<RecyclerData.User>()
-        liveDataUser.value = dataSource.getCurrentUser()
-        return liveDataUser
     }
 }
