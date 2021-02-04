@@ -7,8 +7,9 @@ import com.example.calorietracker.RecyclerData
 
 class FoodListViewModel : ViewModel() {
 
-    val dataSource = DataSource()
+    private val dataSource = DataSource()
     private var foodListData: MutableLiveData<List<RecyclerData.Food>> = loadFoodData()
+    private val currentUser: MutableLiveData<RecyclerData.User> = loadCurrentUser()
 
 //    private val foodListData: MutableLiveData<List<RecyclerData.Food>> by lazy {
 //        MutableLiveData<List<RecyclerData.Food>>().also {
@@ -20,6 +21,15 @@ class FoodListViewModel : ViewModel() {
         return foodListData
     }
 
+    fun getCurrentUser(): MutableLiveData<RecyclerData.User> {
+        return currentUser
+    }
+
+    fun addMealToList(meal: RecyclerData.Meal) {
+        dataSource.mealList.add(0, meal)
+        currentUser.value = dataSource.getCurrentUser()
+    }
+
     fun addFood(food: RecyclerData.Food) {
         dataSource.foodList.add(food)
         foodListData.value = dataSource.foodList
@@ -29,5 +39,11 @@ class FoodListViewModel : ViewModel() {
         val liveDataFoodList = MutableLiveData<List<RecyclerData.Food>>()
         liveDataFoodList.value = dataSource.foodList
         return liveDataFoodList
+    }
+
+    private fun loadCurrentUser(): MutableLiveData<RecyclerData.User> {
+        val liveDataUser = MutableLiveData<RecyclerData.User>()
+        liveDataUser.value = dataSource.getCurrentUser()
+        return liveDataUser
     }
 }

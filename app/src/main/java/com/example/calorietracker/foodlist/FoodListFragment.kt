@@ -16,6 +16,7 @@ import com.example.calorietracker.RecyclerData
 import com.example.calorietracker.RecyclerData.*
 import com.example.calorietracker.RightSpacingItemDecoration
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import kotlin.random.Random
 
 class FoodListFragment : Fragment() {
 
@@ -24,6 +25,7 @@ class FoodListFragment : Fragment() {
     private val args: FoodListFragmentArgs by navArgs()
     private val model: FoodListViewModel by viewModels()
     private lateinit var recyclerData: MutableLiveData<List<RecyclerData.Food>>
+    private lateinit var currentUser: MutableLiveData<User>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,25 +34,29 @@ class FoodListFragment : Fragment() {
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
-        recyclerData = model.getFoodList()
 
+        subscribeObservers()
         initRecyclerView()
 
-        recyclerData.observe(
-            viewLifecycleOwner,
-            Observer { foodListAdapter.submitList(it.toList()) }
-        )
-
-        val user = args.User
-        setCalorieProgress(user)
+//        val user = args.User
+//        setCalorieProgress(user)
 
         binding.addFood.setOnClickListener {
-            model.addFood(
-                Food(
-                    7,
+//            model.addFood(
+//                Food(
+//                    7,
+//                    "Popcorn",
+//                    "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+//                    17f
+//                )
+//            )
+            model.addMealToList(
+                RecyclerData.Meal(
+                    Random.nextInt(20, 1998),
                     "Popcorn",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-                    17f
+                    490f,
+                    213f
                 )
             )
         }
@@ -80,6 +86,21 @@ class FoodListFragment : Fragment() {
         }
     }
 
+    private fun subscribeObservers() {
+        recyclerData = model.getFoodList()
+        currentUser = model.getCurrentUser()
+
+        recyclerData.observe(
+            viewLifecycleOwner,
+            Observer { foodListAdapter.submitList(it.toList()) }
+        )
+
+        currentUser.observe(
+            viewLifecycleOwner,
+            Observer { setCalorieProgress(it) }
+        )
+    }
+
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
@@ -91,7 +112,7 @@ class FoodListFragment : Fragment() {
             it.progressBar.progress = if (userProgress <= 1) {
                 ((userProgress) * 70f).toInt()
             } else {
-                it.progressPercentText.setTextColor(0XF93333)
+                it.progressPercentText.setTextColor(R.color.design_default_color_error)
                 70
             }
             it.progressText.text = resources.getString(
@@ -102,5 +123,16 @@ class FoodListFragment : Fragment() {
             it.progressPercentText.text =
                 resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
         }
+    }
+    fun addMealToList(meal: Meal) {
+        model.addMealToList(
+            RecyclerData.Meal(
+                Random.nextInt(20, 1998),
+                "Popcorn",
+                "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+                490f,
+                213f
+            )
+        )
     }
 }

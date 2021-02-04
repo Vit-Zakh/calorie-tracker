@@ -134,7 +134,7 @@ class DataSource {
         userImage = "https://cataas.com/cat/cute",
         userName = "Кошка Машка",
         userWeight = 5.4f,
-        plannedIntake = 25000f
+        plannedIntake = 50000f
     )
 
     fun getCurrentUser(): User {
