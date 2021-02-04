@@ -5,12 +5,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class DataSource
-@Inject
-constructor() {
+@ActivityRetainedScoped
+class DataSource @Inject constructor() {
     val mealList = mutableListOf(
         Meal(
             1,
@@ -165,10 +165,13 @@ constructor() {
 
 @Module
 @InstallIn(ActivityComponent::class)
-class DataModule {
+object DataModule {
+
     @Singleton
+
+    val dataSource = DataSource()
     @Provides
     fun provideDataSource(): DataSource {
-        return DataSource()
+        return dataSource
     }
 }
