@@ -4,10 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.DataSource
 import com.example.calorietracker.RecyclerData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DailyIntakeViewModel() : ViewModel() {
+@HiltViewModel
+class DailyIntakeViewModel @Inject constructor(
+    private val dataSource: DataSource
+) : ViewModel() {
 
-    val dataSource = DataSource()
     private var recyclerData: MutableLiveData<List<RecyclerData>> = loadData()
 
 //    private val recyclerData: MutableLiveData<List<RecyclerData>> by lazy {
@@ -29,5 +33,9 @@ class DailyIntakeViewModel() : ViewModel() {
         val liveDataList = MutableLiveData<List<RecyclerData>>()
         liveDataList.value = dataSource.getDataList()
         return liveDataList
+    }
+
+    fun getCurrentUser(): RecyclerData.User {
+        return dataSource.getCurrentUser()
     }
 }

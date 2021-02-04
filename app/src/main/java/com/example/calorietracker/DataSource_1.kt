@@ -1,16 +1,9 @@
 package com.example.calorietracker
 
 import com.example.calorietracker.RecyclerData.*
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import javax.inject.Inject
-import javax.inject.Singleton
 
-class DataSource
-@Inject
-constructor() {
+class DataSource_1 {
+
     val mealList = mutableListOf(
         Meal(
             1,
@@ -161,14 +154,17 @@ constructor() {
         recyclerDataList.addAll(mealList)
         return recyclerDataList
     }
-}
 
-@Module
-@InstallIn(ActivityComponent::class)
-class DataModule {
-    @Singleton
-    @Provides
-    fun provideDataSource(): DataSource {
-        return DataSource()
+    fun getDailyCalories(): String {
+        return "%.${2}f".format(
+            mealList.sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
+        )
+    }
+
+    fun getDailyCaloriesValue(): Float {
+        return (
+            mealList.sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
+                .toFloat()
+            )
     }
 }

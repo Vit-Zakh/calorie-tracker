@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.RecyclerData
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     private lateinit var dailyIntakeAdapter: DailyIntakeAdapter
@@ -76,6 +78,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     private fun getCurrentUser(): RecyclerData.User {
-        return model.dataSource.getCurrentUser()
+        return model.getCurrentUser()
     }
 }

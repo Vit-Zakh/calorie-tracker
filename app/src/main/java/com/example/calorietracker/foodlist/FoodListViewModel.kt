@@ -1,13 +1,19 @@
 package com.example.calorietracker.foodlist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.DataSource
 import com.example.calorietracker.RecyclerData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FoodListViewModel : ViewModel() {
+@HiltViewModel
+class FoodListViewModel @Inject constructor(
+    private val dataSource: DataSource
+) : ViewModel() {
 
-    private val dataSource = DataSource()
+//    private val dataSource = DataSource()
     private var foodListData: MutableLiveData<List<RecyclerData.Food>> = loadFoodData()
     private val currentUser: MutableLiveData<RecyclerData.User> = loadCurrentUser()
 
@@ -26,8 +32,14 @@ class FoodListViewModel : ViewModel() {
     }
 
     fun addMealToList(meal: RecyclerData.Meal) {
-        dataSource.mealList.add(0, meal)
+        dataSource.mealList.add(meal)
         currentUser.value = dataSource.getCurrentUser()
+        Log.d("DIFFERENT_TAG", "addMealToList: ${dataSource.mealList.size}")
+    }
+
+    /** Test fun */
+    fun getMealListSize(): Int {
+        return dataSource.mealList.size
     }
 
     fun addFood(food: RecyclerData.Food) {
