@@ -1,6 +1,5 @@
 package com.example.calorietracker.foodlist
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.DataSource
@@ -34,12 +33,6 @@ class FoodListViewModel @Inject constructor(
     fun addMealToList(meal: RecyclerData.Meal) {
         dataSource.mealList.add(meal)
         currentUser.value = dataSource.getCurrentUser()
-        Log.d("DIFFERENT_TAG", "addMealToList: ${dataSource.mealList.size}")
-    }
-
-    /** Test fun */
-    fun getMealListSize(): Int {
-        return dataSource.mealList.size
     }
 
     fun addFood(food: RecyclerData.Food) {

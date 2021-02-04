@@ -3,7 +3,6 @@ package com.example.calorietracker
 import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.calorietracker.databinding.DialogAddMealBinding
 import com.example.calorietracker.extensions.loadImageByUrl
 import com.example.calorietracker.foodlist.FoodListViewModel
+import com.example.calorietracker.utils.MealMapper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
+import kotlinx.android.synthetic.main.dialog_add_meal.*
 
 @AndroidEntryPoint
 class AddMealDialog : DialogFragment() {
@@ -54,21 +54,20 @@ class AddMealDialog : DialogFragment() {
                     "Meal added!",
                     Toast.LENGTH_SHORT
                 ).show()
-                model.addMealToList(
-                    RecyclerData.Meal(
-                        Random.nextInt(20, 1998),
-                        "Popcorn",
-                        "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-                        490f,
-                        213f
-                    )
+                addMealToList(
+                    food = food,
+                    weight = this.sizeEditTextDialog.text.toString().toFloat()
                 )
-                Log.d("MY_TAG", "initDialog: ${model.getMealListSize()}")
                 dismiss()
             }
             it.cancelDialogAction.setOnClickListener {
                 dismiss()
             }
         }
+    }
+
+    private fun addMealToList(food: RecyclerData.Food, weight: Float) {
+        val meal = MealMapper.mapToMeal(food, weight)
+        model.addMealToList(meal)
     }
 }

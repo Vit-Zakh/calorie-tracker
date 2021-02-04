@@ -10,11 +10,11 @@ sealed class RecyclerData {
         val id: Int,
         val mealName: String,
         val imageUrl: String,
-        val mealWeight: Float = 0f,
-        val mealCalories: Float,
-        val protein: Float? = null,
-        val fat: Float? = null,
-        val carbs: Float? = null
+        var mealWeight: Float = 0f,
+        var mealCalories: Float,
+        var protein: Float? = null,
+        var fat: Float? = null,
+        var carbs: Float? = null
     ) : RecyclerData(), Parcelable
 
     @Parcelize
