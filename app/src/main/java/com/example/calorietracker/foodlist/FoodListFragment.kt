@@ -38,18 +38,9 @@ class FoodListFragment : Fragment() {
         subscribeObservers()
         initRecyclerView()
 
-        binding.addFood.setOnClickListener {
-            model.addFood(
-                Food(
-                    7,
-                    "Popcorn",
-                    "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-                    17f
-                )
-            )
-        }
+        /** Test buttons block */
 
-        binding.removeFood.setOnClickListener {
+        binding.addFood.setOnClickListener {
             model.addFood(
                 Food(
                     7,
@@ -59,6 +50,12 @@ class FoodListFragment : Fragment() {
                 )
             )
         }
+
+        binding.removeFood.setOnClickListener {
+            model.deleteFood(3)
+        }
+
+        /** End of test buttons block */
 
         return binding.root
     }

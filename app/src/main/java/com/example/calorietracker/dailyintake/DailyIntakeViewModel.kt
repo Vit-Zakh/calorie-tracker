@@ -29,6 +29,11 @@ class DailyIntakeViewModel @Inject constructor(
         recyclerData.value = dataSource.getDataList()
     }
 
+    fun removeMeal(id: Int) {
+        dataSource.mealList.removeAt(id)
+        recyclerData.value = dataSource.getDataList()
+    }
+
     private fun loadData(): MutableLiveData<List<RecyclerData>> {
         val liveDataList = MutableLiveData<List<RecyclerData>>()
         liveDataList.value = dataSource.getDataList()

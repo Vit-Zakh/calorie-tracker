@@ -53,6 +53,10 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
             )
         }
 
+        binding.removeMeal.setOnClickListener {
+            model.removeMeal(3)
+        }
+
         /** End of test buttons block */
 
         binding.floatingActionButton.setOnClickListener {
