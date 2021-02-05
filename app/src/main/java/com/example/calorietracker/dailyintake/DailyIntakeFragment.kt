@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
@@ -18,20 +17,14 @@ import kotlin.random.Random
 @AndroidEntryPoint
 class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
-    private lateinit var dailyIntakeAdapter: DailyIntakeAdapter
     private var fragmentBinding: FragmentDailyIntakeBinding? = null
-    private val model: DailyIntakeViewModel by viewModels()
-    private lateinit var recyclerData: LiveData<List<RecyclerData>>
+    private val viewModel: DailyIntakeViewModel by viewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recyclerData = model.recyclerData
-        recyclerData.observe(
-            viewLifecycleOwner,
-            {
-                dailyIntakeAdapter.submitList(it.toList())
-            }
-        )
+        viewModel.dailyIntakeData.observe(viewLifecycleOwner) {
+            refreshIntakeList(it.toList())
+        }
     }
 
     override fun onCreateView(
@@ -39,6 +32,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val binding = FragmentDailyIntakeBinding.inflate(inflater, container, false)
         fragmentBinding = binding
         initRecyclerView()
@@ -46,7 +40,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         /** Test buttons block */
 
         binding.addMeal.setOnClickListener {
-            model.addMeal(
+            viewModel.addMeal(
                 RecyclerData.Meal(
                     Random.nextInt(20, 1998),
                     "Popcorn",
@@ -58,7 +52,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         }
 
         binding.removeMeal.setOnClickListener {
-            model.removeMeal(3)
+            viewModel.removeMeal(3)
         }
 
         /** End of test buttons block */
@@ -74,8 +68,13 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     private fun initRecyclerView() {
         fragmentBinding?.let {
             it.dailyIntakeList.layoutManager = LinearLayoutManager(requireContext())
-            dailyIntakeAdapter = DailyIntakeAdapter()
-            it.dailyIntakeList.adapter = dailyIntakeAdapter
+            it.dailyIntakeList.adapter = DailyIntakeAdapter()
+        }
+    }
+
+    private fun refreshIntakeList(list: List<RecyclerData>) {
+        fragmentBinding?.let {
+            (it.dailyIntakeList.adapter as DailyIntakeAdapter).submitList(list)
         }
     }
 

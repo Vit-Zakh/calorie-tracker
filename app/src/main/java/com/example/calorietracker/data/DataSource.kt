@@ -131,31 +131,22 @@ class DataSource @Inject constructor() {
         )
     )
 
-    private var _user = User(
-        id = 0,
-        userImage = "https://cataas.com/cat/cute",
-        userName = "Кошка Машка",
-        userWeight = 5.4f,
-        plannedIntake = 50000f
-    )
-
     val user: User
         get() {
-            return _user.copy(
+            return User(
+                id = 0,
+                userImage = "https://cataas.com/cat/cute",
+                userName = "Кошка Машка",
+                userWeight = 5.4f,
+                plannedIntake = 50000f,
                 userIntake = mealList.sumByDouble {
                     it.mealCalories.times(it.mealWeight.div(100)).toDouble()
                 }
             )
         }
 
-    private val _dataList = ArrayList<RecyclerData>()
-
     val dataList: List<RecyclerData>
         get() {
-            _dataList.clear()
-            _dataList.add(user)
-            _dataList.add(TextLine)
-            _dataList.addAll(mealList)
-            return _dataList
+            return listOf(user, TextLine) + mealList
         }
 }

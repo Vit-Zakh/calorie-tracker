@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
@@ -20,9 +19,7 @@ class FoodListFragment : Fragment() {
 
     private lateinit var foodListAdapter: FoodListAdapter
     private var fragmentBinding: FragmentFoodListBinding? = null
-    private val model: FoodListViewModel by activityViewModels()
-    private lateinit var recyclerData: LiveData<List<Food>>
-    private lateinit var currentUser: LiveData<User>
+    private val viewModel: FoodListViewModel by activityViewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -42,7 +39,7 @@ class FoodListFragment : Fragment() {
         /** Test buttons block */
 
         binding.addFood.setOnClickListener {
-            model.addFood(
+            viewModel.addFood(
                 Food(
                     7,
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
@@ -53,7 +50,7 @@ class FoodListFragment : Fragment() {
         }
 
         binding.removeFood.setOnClickListener {
-            model.deleteFood(3)
+            viewModel.deleteFood(3)
         }
 
         /** End of test buttons block */
@@ -72,18 +69,13 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        recyclerData = model.foodList
-        currentUser = model.currentUser
+        viewModel.foodList.observe(viewLifecycleOwner) {
+            refreshFoodList(it.toList())
+        }
 
-        recyclerData.observe(
-            viewLifecycleOwner,
-            { foodListAdapter.submitList(it.toList()) }
-        )
-
-        currentUser.observe(
-            viewLifecycleOwner,
-            { setCalorieProgress(it) }
-        )
+        viewModel.currentUser.observe(viewLifecycleOwner) {
+            setCalorieProgress(it)
+        }
     }
 
     override fun onDestroyView() {
@@ -107,6 +99,12 @@ class FoodListFragment : Fragment() {
             )
             it.progressPercentText.text =
                 resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
+        }
+    }
+
+    private fun refreshFoodList(list: List<Food>) {
+        fragmentBinding?.let {
+            (it.foodGridList.adapter as FoodListAdapter).submitList(list)
         }
     }
 }

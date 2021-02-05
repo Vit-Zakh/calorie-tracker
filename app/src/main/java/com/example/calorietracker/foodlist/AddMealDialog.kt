@@ -12,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.DialogAddMealBinding
 import com.example.calorietracker.extensions.loadImageByUrl
-import com.example.calorietracker.utils.MealMapper
+import com.example.calorietracker.extensions.mapToMeal
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_meal.*
 
@@ -21,7 +21,7 @@ class AddMealDialog : DialogFragment() {
 
     private var addMealBinding: DialogAddMealBinding? = null
     private val args: AddMealDialogArgs by navArgs()
-    private val model: FoodListViewModel by activityViewModels()
+    private val viewModel: FoodListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +48,8 @@ class AddMealDialog : DialogFragment() {
             it.foodImageDialog.loadImageByUrl(food.imageUrl)
             it.mealNameTextDialog.text = food.name
             it.addMealDialogAction.setOnClickListener {
-                addMealToList(
-                    food = food,
-                    weight = this.sizeEditTextDialog.text.toString().toFloat()
+                viewModel.addMealToList(
+                    food.mapToMeal(weight = this.mealWeightDialog.text.toString().toFloat())
                 )
                 dismiss()
             }
@@ -58,10 +57,5 @@ class AddMealDialog : DialogFragment() {
                 dismiss()
             }
         }
-    }
-
-    private fun addMealToList(food: RecyclerData.Food, weight: Float) {
-        val meal = MealMapper.mapToMeal(food, weight)
-        model.addMealToList(meal)
     }
 }
