@@ -18,7 +18,7 @@ class DailyIntakeViewModel @Inject constructor(
             this.value = dataSource.dataList
         }
 
-    val dailyIntakeData: LiveData<List<RecyclerData>> = _dailyIntakeData
+    val dailyIntakeData: LiveData<List<RecyclerData>>
         get() {
             _dailyIntakeData.value = dataSource.dataList
             return _dailyIntakeData
