@@ -131,7 +131,7 @@ class DataSource @Inject constructor() {
         )
     )
 
-    private var user = User(
+    private var _user = User(
         id = 0,
         userImage = "https://cataas.com/cat/cute",
         userName = "Кошка Машка",
@@ -139,23 +139,23 @@ class DataSource @Inject constructor() {
         plannedIntake = 50000f
     )
 
-    val currentUser: User
+    val user: User
         get() {
-            return user.copy(
+            return _user.copy(
                 userIntake = mealList.sumByDouble {
                     it.mealCalories.times(it.mealWeight.div(100)).toDouble()
                 }
             )
         }
 
-    private val dataList = ArrayList<RecyclerData>()
+    private val _dataList = ArrayList<RecyclerData>()
 
-    val recyclerDataList: List<RecyclerData>
+    val dataList: List<RecyclerData>
         get() {
-            dataList.clear()
-            dataList.add(currentUser)
-            dataList.add(TextLine)
-            dataList.addAll(mealList)
-            return dataList
+            _dataList.clear()
+            _dataList.add(user)
+            _dataList.add(TextLine)
+            _dataList.addAll(mealList)
+            return _dataList
         }
 }

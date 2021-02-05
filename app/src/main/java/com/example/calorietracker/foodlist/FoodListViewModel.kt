@@ -13,43 +13,40 @@ class FoodListViewModel @Inject constructor(
     private val dataSource: DataSource
 ) : ViewModel() {
 
-    private var foodListData: MutableLiveData<List<RecyclerData.Food>> =
+    private var _foodList: MutableLiveData<List<RecyclerData.Food>> =
         MutableLiveData<List<RecyclerData.Food>>().apply {
             this.value = dataSource.foodList
         }
 
     val foodList: LiveData<List<RecyclerData.Food>>
         get() {
-            foodListData.value = dataSource.foodList
-            return foodListData
+            _foodList.value = dataSource.foodList
+            return _foodList
         }
 
-    private var user: MutableLiveData<RecyclerData.User> =
+    private var _currentUser: MutableLiveData<RecyclerData.User> =
         MutableLiveData<RecyclerData.User>().apply {
-            this.value = dataSource.currentUser
-//            this.value = dataSource.getCurrentUser()
+            this.value = dataSource.user
         }
 
     val currentUser: LiveData<RecyclerData.User>
         get() {
-            user.value = dataSource.currentUser
-//            user.value = dataSource.getCurrentUser()
-            return user
+            _currentUser.value = dataSource.user
+            return _currentUser
         }
 
     fun addMealToList(meal: RecyclerData.Meal) {
         dataSource.mealList.add(meal)
-        user.value = dataSource.currentUser
-//        user.value = dataSource.getCurrentUser()
+        _currentUser.value = dataSource.user
     }
 
     fun addFood(food: RecyclerData.Food) {
         dataSource.foodList.add(food)
-        foodListData.value = dataSource.foodList
+        _foodList.value = dataSource.foodList
     }
 
     fun deleteFood(id: Int) {
         dataSource.foodList.removeAt(id)
-        foodListData.value = dataSource.foodList
+        _foodList.value = dataSource.foodList
     }
 }

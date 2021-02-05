@@ -25,7 +25,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recyclerData = model.recyclerDataList
+        recyclerData = model.recyclerData
         recyclerData.observe(
             viewLifecycleOwner,
             {

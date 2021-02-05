@@ -13,24 +13,24 @@ class DailyIntakeViewModel @Inject constructor(
     private val dataSource: DataSource
 ) : ViewModel() {
 
-    private var recyclerData: MutableLiveData<List<RecyclerData>> =
+    private var _recyclerData: MutableLiveData<List<RecyclerData>> =
         MutableLiveData<List<RecyclerData>>().apply {
-            this.value = dataSource.recyclerDataList
+            this.value = dataSource.dataList
         }
 
-    val recyclerDataList: LiveData<List<RecyclerData>>
+    val recyclerData: LiveData<List<RecyclerData>>
         get() {
-            recyclerData.value = dataSource.recyclerDataList
-            return recyclerData
+            _recyclerData.value = dataSource.dataList
+            return _recyclerData
         }
 
     fun addMeal(meal: RecyclerData.Meal) {
         dataSource.mealList.add(0, meal)
-        recyclerData.value = dataSource.recyclerDataList
+        _recyclerData.value = dataSource.dataList
     }
 
     fun removeMeal(id: Int) {
         dataSource.mealList.removeAt(id)
-        recyclerData.value = dataSource.recyclerDataList
+        _recyclerData.value = dataSource.dataList
     }
 }
