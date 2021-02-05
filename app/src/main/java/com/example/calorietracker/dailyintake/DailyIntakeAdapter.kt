@@ -99,7 +99,10 @@ class DailyIntakeAdapter() :
                 userName.text = user.userName
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
-                    res.getString(R.string.user_daily_calories_text, "%.${2}f".format(user.userIntake))
+                    res.getString(
+                        R.string.user_daily_calories_text,
+                        "%.${2}f".format(user.userIntake)
+                    )
                 userImage.loadImageByUrl(user.userImage)
             }
         }
@@ -108,7 +111,10 @@ class DailyIntakeAdapter() :
 
             with(userBinding) {
                 userDailyCalories.text =
-                    res.getString(R.string.user_daily_calories_text, "%.${2}f".format(bundle.getDouble("dailyIntake")))
+                    res.getString(
+                        R.string.user_daily_calories_text,
+                        "%.${2}f".format(bundle.getDouble("dailyIntake"))
+                    )
             }
         }
     }

@@ -38,8 +38,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:gravity="end|center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/addMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
 
         <Button
             android:id="@+id/removeMeal"
@@ -47,11 +53,6 @@
             android:layout_height="wrap_content"
             android:text="-" />
 
-        <Button
-            android:id="@+id/addMeal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
