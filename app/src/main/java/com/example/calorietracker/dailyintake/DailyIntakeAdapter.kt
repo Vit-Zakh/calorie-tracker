@@ -1,20 +1,22 @@
-package com.example.calorietracker
+package com.example.calorietracker.dailyintake
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.calorietracker.RecyclerData.*
+import com.example.calorietracker.R
+import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
 import com.example.calorietracker.extensions.loadImageByUrl
 import java.lang.RuntimeException
 
-class MealsListAdapter() :
-    ListAdapter<RecyclerData, RecyclerView.ViewHolder>(MealItemDiffCallback()) {
+class DailyIntakeAdapter() :
+    ListAdapter<RecyclerData, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
 
     private val VIEW_TYPE_MEAL = 1
     private val VIEW_TYPE_USER = 2
@@ -60,30 +62,15 @@ class MealsListAdapter() :
         }
     }
 
-    class MealItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
-
-        override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return when {
-                oldItem is Meal && newItem is Meal -> {
-                    oldItem.id == newItem.id
-                }
-                oldItem is User && newItem is User -> {
-                    oldItem.id == newItem.id
-                }
-                else -> false
-            }
-        }
-
-        override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
-            return when {
-                oldItem is Meal && newItem is Meal -> {
-                    oldItem == newItem
-                }
-                oldItem is User && newItem is User -> {
-                    oldItem == newItem
-                }
-                else -> false
-            }
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            (holder as UserViewHolder).bindWithPayloads((payloads[0] as Bundle))
         }
     }
 
@@ -107,12 +94,27 @@ class MealsListAdapter() :
         val res = itemView.resources
 
         fun bind(user: User) {
+
             with(userBinding) {
                 userName.text = user.userName
                 userWeight.text = res.getString(R.string.user_weight_text, user.userWeight)
                 userDailyCalories.text =
-                    res.getString(R.string.user_daily_calories_text, DataSource.getDailyCalories())
+                    res.getString(
+                        R.string.user_daily_calories_text,
+                        "%.${2}f".format(user.userIntake)
+                    )
                 userImage.loadImageByUrl(user.userImage)
+            }
+        }
+
+        fun bindWithPayloads(bundle: Bundle) {
+
+            with(userBinding) {
+                userDailyCalories.text =
+                    res.getString(
+                        R.string.user_daily_calories_text,
+                        "%.${2}f".format(bundle.getDouble("dailyIntake"))
+                    )
             }
         }
     }

@@ -1,14 +1,12 @@
-package com.example.calorietracker
+package com.example.calorietracker.data
 
-import com.example.calorietracker.RecyclerData.*
+import com.example.calorietracker.data.RecyclerData.*
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import javax.inject.Inject
 
-object DataSource {
-
-    val list = listOf(
-        User(0, "Кошка Машка", "https://cataas.com/cat/cute", 5.4f, 0f, 40000f),
-
-        TextLine,
-
+@ActivityRetainedScoped
+class DataSource @Inject constructor() {
+    val mealList = mutableListOf(
         Meal(
             1,
             "Ginger Pork",
@@ -72,9 +70,10 @@ object DataSource {
             3140f,
             700.9f
         )
+
     )
 
-    val foodList = listOf(
+    val foodList = mutableListOf(
         Food(
             1,
             "Ginger Pork",
@@ -132,22 +131,22 @@ object DataSource {
         )
     )
 
-    fun getDailyCalories(): String {
-        return "%.${2}f".format(
-            list.filterIsInstance<Meal>()
-                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
-        )
-    }
+    val user: User
+        get() {
+            return User(
+                id = 0,
+                userImage = "https://cataas.com/cat/cute",
+                userName = "Кошка Машка",
+                userWeight = 5.4f,
+                plannedIntake = 50000f,
+                userIntake = mealList.sumByDouble {
+                    it.mealCalories.times(it.mealWeight.div(100)).toDouble()
+                }
+            )
+        }
 
-    fun getDailyCaloriesValue(): Float {
-        return (
-            list.filterIsInstance<Meal>()
-                .sumByDouble { it.mealCalories.times(it.mealWeight.div(100)).toDouble() }
-            ).toFloat()
-    }
-
-    fun getUser(): User {
-        return list.filterIsInstance<User>()
-            .first()
-    }
+    val dataList: List<RecyclerData>
+        get() {
+            return listOf(user, TextLine) + mealList
+        }
 }

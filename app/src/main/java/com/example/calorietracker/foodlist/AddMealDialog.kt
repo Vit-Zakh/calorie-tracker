@@ -1,4 +1,4 @@
-package com.example.calorietracker
+package com.example.calorietracker.foodlist
 
 import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.ColorDrawable
@@ -6,22 +6,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.DialogAddMealBinding
 import com.example.calorietracker.extensions.loadImageByUrl
+import com.example.calorietracker.extensions.mapToMeal
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.dialog_add_meal.*
 
+@AndroidEntryPoint
 class AddMealDialog : DialogFragment() {
 
     private var addMealBinding: DialogAddMealBinding? = null
     private val args: AddMealDialogArgs by navArgs()
+    private val viewModel: FoodListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = DialogAddMealBinding.inflate(inflater, container, false)
         addMealBinding = binding
         initDialog(args.Food)
@@ -42,11 +48,10 @@ class AddMealDialog : DialogFragment() {
             it.foodImageDialog.loadImageByUrl(food.imageUrl)
             it.mealNameTextDialog.text = food.name
             it.addMealDialogAction.setOnClickListener {
-                Toast.makeText(
-                    context,
-                    "Meal added!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                viewModel.addMealToList(
+                    food.mapToMeal(weight = this.mealWeightDialog.text.toString().toFloat())
+                )
+                dismiss()
             }
             it.cancelDialogAction.setOnClickListener {
                 dismiss()
