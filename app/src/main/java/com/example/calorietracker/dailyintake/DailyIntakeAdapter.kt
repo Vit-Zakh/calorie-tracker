@@ -76,16 +76,22 @@ class DailyIntakeAdapter() :
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val mealBinding = LayoutMealItemBinding.bind(itemView)
+//        val mealBinding = LayoutMealItemBinding.bind(itemView)
+
+        val mMealBinding = LayoutMealItemBinding.bind(itemView)
 
         fun bind(meal: Meal) {
-            with(mealBinding) {
-                mealTitle.text = meal.mealName
-                mealCalories.text = meal.getIntakeCaloriesRounded()
-                mealSize.text = meal.getConvertedWeight()
-                mealImage.loadImageByUrl(meal.imageUrl)
-            }
+            mMealBinding.meal = meal
         }
+
+//        fun bind(meal: Meal) {
+//            with(mealBinding) {
+//                mealTitle.text = meal.mealName
+//                mealCalories.text = meal.getIntakeCaloriesRounded()
+//                mealSize.text = meal.getConvertedWeight()
+//                mealImage.loadImageByUrl(meal.imageUrl)
+//            }
+//        }
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -137,24 +143,5 @@ class DailyIntakeAdapter() :
             is TextLine -> VIEW_TYPE_TEXT
             else -> throw RuntimeException("Crash while defining view type")
         }
-    }
-}
-
-private fun Meal.getConvertedWeight(): String {
-    return if (this.mealWeight.div(1000) >= 1) {
-        "${this.mealWeight.div(1000)} kg"
-    } else "${this.mealWeight} g"
-}
-
-private fun Meal.getIntakeCaloriesRounded(): String {
-    val intakeCalories = this.mealWeight.div(100f).times(this.mealCalories)
-    return when {
-        intakeCalories.div(10000) in 1f..10f -> {
-            "%.${0}f".format(intakeCalories)
-        }
-        intakeCalories.div(10000) < 1 -> {
-            "%.${2}f".format(intakeCalories)
-        }
-        else -> throw RuntimeException("Crash while converting calories")
     }
 }

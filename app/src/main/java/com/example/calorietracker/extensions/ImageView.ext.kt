@@ -1,9 +1,11 @@
 package com.example.calorietracker.extensions
 
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.calorietracker.R
 
+@BindingAdapter("loadImage")
 fun ImageView.loadImageByUrl(url: String?) {
     Glide.with(this.context)
         .load(url)
