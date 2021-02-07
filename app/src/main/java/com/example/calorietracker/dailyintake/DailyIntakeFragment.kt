@@ -58,9 +58,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         /** End of test buttons block */
 
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(
-                DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
-            )
+            openFoodList()
         }
         return binding.root
     }
@@ -81,5 +79,11 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
+    }
+
+    private fun openFoodList() {
+        findNavController().navigate(
+            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
+        )
     }
 }

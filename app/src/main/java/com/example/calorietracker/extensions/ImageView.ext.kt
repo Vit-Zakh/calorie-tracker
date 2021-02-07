@@ -1,11 +1,14 @@
 package com.example.calorietracker.extensions
 
+import android.graphics.drawable.GradientDrawable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.calorietracker.R
 import com.example.calorietracker.data.RecyclerData
+import kotlin.random.Random
 
 @BindingAdapter("loadImage")
 fun ImageView.loadImageByUrl(url: String?) {
@@ -28,4 +31,28 @@ fun formatCalories(textView: TextView, user: RecyclerData.User) {
         R.string.user_daily_calories_text,
         "%.${2}f".format(user.userIntake)
     )
+}
+
+@BindingAdapter("randomBackground")
+fun View.randomBackground(random: Boolean) {
+    val colorsList = listOf(
+        0X0FF1E88E5.toInt(), // Blue
+        0XFF7CB342.toInt(), // Green
+        0XFF5E35B1.toInt(), // Violet
+        0XFF8E24AA.toInt(), // Purple
+        0XFFFDD835.toInt(), // Yellow
+        0XFFF4511E.toInt() // Orange
+    )
+
+    val randomColor = colorsList[Random.nextInt(colorsList.size)]
+
+    if (random)
+        this.background = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(
+                0X00000000,
+                randomColor,
+                randomColor
+            )
+        )
 }

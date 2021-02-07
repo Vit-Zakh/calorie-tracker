@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
@@ -62,7 +64,11 @@ class FoodListFragment : Fragment() {
         fragmentBinding?.let {
             it.foodGridList.layoutManager =
                 StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
-            foodListAdapter = FoodListAdapter()
+            foodListAdapter = FoodListAdapter(
+                FoodItemClickListener { food ->
+                    openAddMealDialog(food)
+                }
+            )
             it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
         }
@@ -106,5 +112,13 @@ class FoodListFragment : Fragment() {
         fragmentBinding?.let {
             (it.foodGridList.adapter as FoodListAdapter).submitList(list)
         }
+    }
+
+    private fun openAddMealDialog(food: Food) {
+        findNavController().navigate(
+            FoodListFragmentDirections.actionFoodListFragmentToAddMealDialog(
+                food
+            )
+        )
     }
 }
