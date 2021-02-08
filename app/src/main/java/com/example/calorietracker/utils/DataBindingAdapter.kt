@@ -1,8 +1,9 @@
-package com.example.calorietracker.extensions
+package com.example.calorietracker.utils
 
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -33,8 +34,26 @@ fun formatCalories(textView: TextView, user: RecyclerData.User) {
     )
 }
 
+@BindingAdapter("formattedProgress")
+fun formatProgress(textView: TextView, user: RecyclerData.User) {
+    textView.text = textView.resources.getString(
+        R.string.user_calories_progress_text,
+        user.userIntake,
+        user.plannedIntake
+    )
+}
+
+@BindingAdapter("formattedProgressPercent")
+fun formatProgressPercent(textView: TextView, user: RecyclerData.User) {
+    val userProgress = user.userIntake / user.plannedIntake
+    textView.text = textView.resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
+    if (userProgress> 1.0) {
+        textView.setTextColor(textView.resources.getColor(R.color.design_default_color_error))
+    }
+}
+
 @BindingAdapter("randomBackground")
-fun View.randomBackground(random: Boolean) {
+fun randomBackground(view: View, random: Boolean) {
     val colorsList = listOf(
         0X0FF1E88E5.toInt(), // Blue
         0XFF7CB342.toInt(), // Green
@@ -47,7 +66,7 @@ fun View.randomBackground(random: Boolean) {
     val randomColor = colorsList[Random.nextInt(colorsList.size)]
 
     if (random)
-        this.background = GradientDrawable(
+        view.background = GradientDrawable(
             GradientDrawable.Orientation.LEFT_RIGHT,
             intArrayOf(
                 0X00000000,
@@ -55,4 +74,14 @@ fun View.randomBackground(random: Boolean) {
                 randomColor
             )
         )
+}
+
+@BindingAdapter("progress")
+fun calculateCalorieProgress(progressBar: ProgressBar, user: RecyclerData.User) {
+    val userProgress = user.userIntake / user.plannedIntake
+    progressBar.progress = if (userProgress <= 1) {
+        ((userProgress) * 70f).toInt()
+    } else {
+        70
+    }
 }

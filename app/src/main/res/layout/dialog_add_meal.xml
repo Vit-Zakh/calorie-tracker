@@ -1,105 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="16dp"
-    app:layout_constrainedWidth="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="food"
+            type="com.example.calorietracker.data.RecyclerData.Food" />
+
+        <variable
+            name="dialog"
+            type="com.example.calorietracker.foodlist.AddMealDialog" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constrainedWidth="true">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/foodImageDialog"
-            android:layout_width="108dp"
-            android:layout_height="108dp"
-            android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CircularImage"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-        <TextView
-            android:id="@+id/mealNameTextDialog"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:maxLines="2"
-            android:paddingHorizontal="8dp"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/foodImageDialog"
-            tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/setSizeTextDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/set_dish_size_text"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/mealWeightDialog"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mealNameTextDialog" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/foodImageDialog"
+                loadImage="@{food.imageUrl}"
+                android:layout_width="108dp"
+                android:layout_height="108dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/CircularImage"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <EditText
-            android:id="@+id/mealWeightDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="3"
-            android:gravity="center_horizontal"
-            android:hint="0"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@+id/setSizeTextDialog"
-            app:layout_constraintEnd_toStartOf="@+id/gramTextDialog"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/setSizeTextDialog"
-            app:layout_constraintTop_toTopOf="@+id/setSizeTextDialog" />
+            <TextView
+                android:id="@+id/mealNameTextDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:paddingHorizontal="8dp"
+                android:text="@{food.name}"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/foodImageDialog"
+                tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
 
-        <TextView
-            android:id="@+id/gramTextDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/unit_gram"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/setSizeTextDialog"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/mealWeightDialog"
-            app:layout_constraintTop_toTopOf="@+id/setSizeTextDialog" />
+            <TextView
+                android:id="@+id/setSizeTextDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_dish_size_text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/mealWeightDialog"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mealNameTextDialog" />
 
-        <Button
-            android:id="@+id/cancelDialogAction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="@string/cancel_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addMealDialogAction"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mealWeightDialog" />
+            <EditText
+                android:id="@+id/mealWeightDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_horizontal"
+                android:hint="0"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@+id/setSizeTextDialog"
+                app:layout_constraintEnd_toStartOf="@+id/gramTextDialog"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/setSizeTextDialog"
+                app:layout_constraintTop_toTopOf="@+id/setSizeTextDialog" />
 
-        <Button
-            android:id="@+id/addMealDialogAction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cancelDialogAction"
-            app:layout_constraintTop_toBottomOf="@+id/mealWeightDialog" />
+            <TextView
+                android:id="@+id/gramTextDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unit_gram"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/setSizeTextDialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/mealWeightDialog"
+                app:layout_constraintTop_toTopOf="@+id/setSizeTextDialog" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/cancelDialogAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> dialog.dismiss()}"
+                android:paddingBottom="8dp"
+                android:text="@string/cancel_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addMealDialogAction"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mealWeightDialog"
+                app:layout_constraintVertical_bias="0.0" />
 
-</androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/addMealDialogAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->dialog.addMealToList(food)}"
+                android:text="@string/add_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/cancelDialogAction"
+                app:layout_constraintTop_toBottomOf="@+id/mealWeightDialog" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

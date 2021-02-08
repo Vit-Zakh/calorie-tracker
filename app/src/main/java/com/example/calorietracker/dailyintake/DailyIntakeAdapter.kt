@@ -60,18 +60,6 @@ class DailyIntakeAdapter() :
         }
     }
 
-//    override fun onBindViewHolder(
-//        holder: RecyclerView.ViewHolder,
-//        position: Int,
-//        payloads: MutableList<Any>
-//    ) {
-//        if (payloads.isEmpty()) {
-//            onBindViewHolder(holder, position)
-//        } else {
-//            (holder as UserViewHolder).bindWithPayloads((payloads[0] as Bundle))
-//        }
-//    }
-
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val mealBinding = LayoutMealItemBinding.bind(itemView)

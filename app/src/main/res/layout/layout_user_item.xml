@@ -6,10 +6,6 @@
 
     <data>
 
-        <import
-            alias="ImageExtensions"
-            type="com.example.calorietracker.extensions.ImageView_extKt" />
-
         <variable
             name="user"
             type="com.example.calorietracker.data.RecyclerData.User" />

@@ -9,10 +9,6 @@
             alias="MealExtensions"
             type="com.example.calorietracker.extensions.RecyclerData_extKt" />
 
-        <import
-            alias="ImageExtensions"
-            type="com.example.calorietracker.extensions.ImageView_extKt" />
-
         <variable
             name="meal"
             type="com.example.calorietracker.data.RecyclerData.Meal" />
@@ -39,6 +35,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="bottom|center"
                 android:maxLines="1"
+                android:text="@{MealExtensions.getIntakeCaloriesRounded(meal)}"
                 android:textColor="@color/secondary_orange"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/mealImage"
@@ -46,7 +43,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/mealCaloriesImage"
                 app:layout_constraintTop_toBottomOf="@+id/mealSize"
-                tools:text="@{MealExtensions.getIntakeCaloriesRounded(meal), default=4024}" />
+                tools:text="4024" />
 
             <ImageView
                 android:id="@+id/mealCaloriesImage"
@@ -78,6 +75,7 @@
                 android:id="@+id/mealSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{MealExtensions.getConvertedWeight(meal)}"
                 android:textSize="16sp"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@+id/mealWeightImage"
@@ -85,7 +83,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/mealWeightImage"
                 app:layout_constraintTop_toTopOf="@+id/mealWeightImage"
-                tools:text="@{MealExtensions.getConvertedWeight(meal) ,default=2.1 kg}" />
+                tools:text="2.1 kg" />
 
             <TextView
                 android:id="@+id/mealTitle"
@@ -95,6 +93,7 @@
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:text="@{meal.mealName}"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -103,7 +102,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/mealImage"
                 app:layout_constraintTop_toTopOf="@+id/mealImage"
-                tools:text="@{meal.mealName, default=Teriyaki}" />
+                tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
 
             <ImageView
                 android:id="@+id/mealImage"

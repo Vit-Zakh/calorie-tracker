@@ -10,11 +10,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.calorietracker.R
 import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.FragmentFoodListBinding
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_food_list.*
+import kotlinx.android.synthetic.main.fragment_food_list.view.*
 
 @AndroidEntryPoint
 class FoodListFragment : Fragment() {
@@ -34,6 +35,8 @@ class FoodListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         fragmentBinding = binding
 
         initRecyclerView()
@@ -78,34 +81,11 @@ class FoodListFragment : Fragment() {
         viewModel.foodList.observe(viewLifecycleOwner) {
             refreshFoodList(it.toList())
         }
-
-        viewModel.currentUser.observe(viewLifecycleOwner) {
-            setCalorieProgress(it)
-        }
     }
 
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
-    }
-
-    private fun setCalorieProgress(user: User) {
-        val userProgress = user.userIntake / user.plannedIntake
-        fragmentBinding?.let {
-            it.progressBar.progress = if (userProgress <= 1) {
-                ((userProgress) * 70f).toInt()
-            } else {
-                it.progressPercentText.setTextColor(this.resources.getColor(R.color.design_default_color_error))
-                70
-            }
-            it.progressText.text = resources.getString(
-                R.string.user_calories_progress_text,
-                user.userIntake,
-                user.plannedIntake
-            )
-            it.progressPercentText.text =
-                resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
-        }
     }
 
     private fun refreshFoodList(list: List<Food>) {
