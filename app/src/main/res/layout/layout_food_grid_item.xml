@@ -1,105 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="128dp"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="16dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/foodContainer"
+    <data>
+
+        <variable
+            name="food"
+            type="com.example.calorietracker.data.RecyclerData.Food" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/foodCardView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:maxWidth="320dp"
-        app:layout_constraintBottom_toTopOf="@+id/foodCaloriesImage"
-        app:layout_constraintTop_toTopOf="@+id/foodCaloriesImage">
+        android:layout_height="128dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        app:cardCornerRadius="16dp">
 
-        <ImageView
-            android:id="@+id/foodImage"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-        <View
-            android:id="@+id/gradientFilter"
-            android:layout_width="0dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/foodTitle"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foodContainer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:ellipsize="end"
-            android:maxWidth="164dp"
-            android:maxLines="2"
-            android:minWidth="28dp"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/foodCalories"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@id/foodImage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
+            android:layout_height="match_parent"
+            android:maxWidth="320dp"
+            app:layout_constraintBottom_toTopOf="@+id/foodCaloriesImage"
+            app:layout_constraintTop_toTopOf="@+id/foodCaloriesImage">
 
-        <TextView
-            android:id="@+id/foodCalories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom|center"
-            android:maxLines="1"
-            android:textColor="@color/secondary_orange"
-            android:textSize="16sp"
-            app:layout_constrainedWidth="true"
+            <ImageView
+                android:id="@+id/foodImage"
+                loadImage="@{food.imageUrl}"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/foodItemCaloriesImage"
-            app:layout_constraintTop_toBottomOf="@+id/foodTitle"
-            tools:text="2100.94" />
+            <View
+                android:id="@+id/gradientFilter"
+                randomBackground="@{true}"
+                android:layout_width="0dp"
+                android:layout_height="128dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/foodItemCaloriesImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_meal_calories_orange_24"
-            app:layout_constraintBottom_toBottomOf="@+id/foodCalories"
-            app:layout_constraintEnd_toStartOf="@+id/foodCalories"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/foodTitle"
-            app:layout_constraintTop_toTopOf="@+id/foodCalories" />
+            <TextView
+                android:id="@+id/foodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:ellipsize="end"
+                android:maxWidth="164dp"
+                android:maxLines="2"
+                android:minWidth="28dp"
+                android:text="@{food.name}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/foodCalories"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@id/foodImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineVertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            <TextView
+                android:id="@+id/foodCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|center"
+                android:maxLines="1"
+                android:text="@{Float.toString(food.calories)}"
+                android:textColor="@color/secondary_orange"
+                android:textSize="16sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/foodItemCaloriesImage"
+                app:layout_constraintTop_toBottomOf="@+id/foodTitle"
+                tools:text="2100.94" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            <ImageView
+                android:id="@+id/foodItemCaloriesImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_meal_calories_orange_24"
+                app:layout_constraintBottom_toBottomOf="@+id/foodCalories"
+                app:layout_constraintEnd_toStartOf="@+id/foodCalories"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/foodTitle"
+                app:layout_constraintTop_toTopOf="@+id/foodCalories" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-</androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
