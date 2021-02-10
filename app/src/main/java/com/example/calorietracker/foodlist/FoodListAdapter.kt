@@ -11,7 +11,7 @@ import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutFoodGridItemBinding
 import java.lang.RuntimeException
 
-class FoodListAdapter(private val clickListener: FoodItemClickListener) :
+class FoodListAdapter(private val clickListener: (food: Food) -> Unit) :
     ListAdapter<RecyclerData, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -33,13 +33,9 @@ class FoodListAdapter(private val clickListener: FoodItemClickListener) :
 
         private val foodBinding = LayoutFoodGridItemBinding.bind(itemView)
 
-        fun bind(food: Food, clickListener: FoodItemClickListener) {
+        fun bind(food: Food, clickListener: (food: Food) -> Unit) {
             foodBinding.food = food
-            foodBinding.foodItemClickListener = clickListener
+            foodBinding.foodContainer.setOnClickListener { clickListener(food) }
         }
     }
-}
-
-class FoodItemClickListener(val clickListener: (food: Food) -> Unit) {
-    fun onCLick(food: Food) = clickListener(food)
 }

@@ -7,10 +7,6 @@
     <data>
 
         <variable
-            name="foodItemClickListener"
-            type="com.example.calorietracker.foodlist.FoodItemClickListener" />
-
-        <variable
             name="food"
             type="com.example.calorietracker.data.RecyclerData.Food" />
     </data>
@@ -21,7 +17,6 @@
         android:layout_height="128dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
-        android:onClick="@{() -> foodItemClickListener.onCLick(food)}"
         app:cardCornerRadius="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout

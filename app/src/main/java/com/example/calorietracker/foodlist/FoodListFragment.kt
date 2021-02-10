@@ -67,11 +67,9 @@ class FoodListFragment : Fragment() {
         fragmentBinding?.let {
             it.foodGridList.layoutManager =
                 StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
-            foodListAdapter = FoodListAdapter(
-                FoodItemClickListener { food ->
-                    openAddMealDialog(food)
-                }
-            )
+            foodListAdapter = FoodListAdapter { food ->
+                openAddMealDialog(food)
+            }
             it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
         }
