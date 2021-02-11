@@ -26,7 +26,6 @@ class DailyIntakeViewModel @Inject constructor(
 
     val dailyIntakeData: LiveData<List<RecyclerData>>
         get() {
-//            _dailyIntakeData.value = dataSource.dataList
             return _dailyIntakeData
         }
 
@@ -43,7 +42,7 @@ class DailyIntakeViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            delay(1000)
+            delay(2000)
             repository.fetchUserData()
             _dailyIntakeData.value = repository.intakeDataList
         }
