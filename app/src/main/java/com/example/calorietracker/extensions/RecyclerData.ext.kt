@@ -5,7 +5,7 @@ import java.lang.RuntimeException
 
 fun RecyclerData.Food.mapToMeal(weight: Float): RecyclerData.Meal {
     return RecyclerData.Meal(
-        id = this.id,
+        id = this.id.toString(),
         mealName = this.name,
         imageUrl = this.imageUrl,
         mealCalories = this.calories.times(weight).div(100),
