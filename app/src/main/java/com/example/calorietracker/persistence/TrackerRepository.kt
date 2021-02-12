@@ -2,71 +2,86 @@ package com.example.calorietracker.persistence
 
 import com.example.calorietracker.data.DataSource
 import com.example.calorietracker.data.RecyclerData
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class TrackerRepository @Inject constructor(private val dataSource: DataSource) {
+
     private val apiClient = com.example.calorietracker.network.RetrofitBuilder
+    private val _mealsList = mutableListOf<RecyclerData.Meal>()
+    private val _foodList = mutableListOf<RecyclerData.Food>()
+    private var _currentUser = RecyclerData.User()
 
-    val intakeDataList = ArrayList<RecyclerData>()
-    val currentUser = RecyclerData.User()
+    val intakeDataList: List<RecyclerData>
+        get() {
+            return mutableListOf(currentUser, RecyclerData.TextLine) + _mealsList
+        }
 
-    lateinit var user: RecyclerData.User
+    val foodList: List<RecyclerData.Food> = _foodList
+
+    val currentUser: RecyclerData.User
+        get() {
+            return RecyclerData.User(
+                id = _currentUser.id,
+                userName = _currentUser.userName,
+                userImage = _currentUser.userImage,
+                plannedIntake = _currentUser.plannedIntake,
+                userWeight = _currentUser.userWeight,
+                userIntake = _currentUser.userIntake
+            )
+        }
+
+    suspend fun fetchMeals() {
+        _mealsList.addAll(loadMealsList())
+    }
 
     suspend fun addMeal(meal: RecyclerData.Meal) {
-        intakeDataList.add(meal)
+        _mealsList.add(meal)
     }
 
     suspend fun removeMeal(index: Int) {
-        if (index in 2 until intakeDataList.size) // index 0 is user, index 1 is category
-            intakeDataList.removeAt(index)
+        if (index in 2 until intakeDataList.size)
+            _mealsList.removeAt(index)
     }
 
-    suspend fun fetchInitialData() {
-//        intakeDataList.add(0, currentUser)
-        intakeDataList.add(0, RecyclerData.TextLine)
-        intakeDataList.add(1, RecyclerData.TextLine)
-//        user = apiClient.trackerApiService.getUser()
+    suspend fun fetchFood() {
+        _foodList.addAll(loadFoodList())
     }
 
-    suspend fun fetchMeals() {
-        intakeDataList.addAll(2, getMeals())
+    suspend fun addFood(food: RecyclerData.Food) {
+        _foodList.add(food)
     }
 
-    suspend fun fetchUserData() {
-//        val fetchedData = apiClient.trackerApiService.getUser()
-//        currentUser.id = fetchedData.id
-//        currentUser.userName = fetchedData.userName
-//        currentUser.userWeight = fetchedData.userWeight
-//        currentUser.plannedIntake = fetchedData.plannedIntake
-//        currentUser.userImage = fetchedData.userImage
-//        currentUser.userIntake = getMeals().sumByDouble {
-//            it.mealCalories.times(it.mealWeight.div(100)).toDouble()
-//        }
-        intakeDataList[0] =
-            RecyclerData.User(
-                id = "0",
-                userImage = "https://cataas.com/cat/cute",
-                userName = "Кошка Машка",
-                userWeight = 5.4f,
-                plannedIntake = 50000f,
-                userIntake = getMeals().sumByDouble {
-                    it.mealCalories.times(it.mealWeight.div(100)).toDouble()
-                }
-            )
+    suspend fun removeFood(index: Int) {
+        _foodList.removeAt(index)
     }
 
-    suspend fun getMeals(): List<RecyclerData.Meal> {
-        return dataSource.mealList
+    suspend fun fetchUser() {
+        try {
+            _currentUser = apiClient.trackerApiService.getUser()
+        } catch (e: HttpException) { // In case of exceeding API-calls limit
+            _currentUser.id = "22"
+            _currentUser.userName = "Limit Reached"
+            _currentUser.userWeight = 22f
+            _currentUser.plannedIntake = 40000f
+            _currentUser.userImage = "https://cataas.com/cat/cute"
+            _currentUser.userIntake = 37000.0
+        }
     }
 
-//    var fetchedData: LiveData<List<RecyclerData>> = liveData {
-//        val recyclerList = mutableListOf(RecyclerData.User(), RecyclerData.TextLine)
-//        emit(recyclerList)
-//        kotlinx.coroutines.delay(2000)
-//        val mealsData: MutableList<RecyclerData> = (recyclerList + getMeals()).toMutableList()
-//        emit(mealsData)
-//        mealsData[0] = fetchUser()
-//        kotlinx.coroutines.delay(2000)
-//        emit(mealsData)
-//    }
+    private suspend fun loadMealsList(): List<RecyclerData.Meal> {
+        return try {
+            apiClient.trackerApiService.getMeals().meals
+        } catch (e: HttpException) { // In case of exceeding API-calls limit
+            dataSource.mealList
+        }
+    }
+
+    private suspend fun loadFoodList(): List<RecyclerData.Food> {
+        return try {
+            apiClient.trackerApiService.getFoodList().food
+        } catch (e: HttpException) { // In case of exceeding API-calls limit
+            dataSource.foodList
+        }
+    }
 }

@@ -12,7 +12,7 @@ class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
                 oldItem.id == newItem.id
             }
             oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
-                oldItem.id == newItem.id
+                true
             }
             oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
                 oldItem == newItem
@@ -40,8 +40,19 @@ class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
         return when {
             oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
                 val diff = Bundle()
-                if (newItem.userIntake != oldItem.userIntake) {
-                    diff.putDouble("dailyIntake", newItem.userIntake)
+                when {
+                    newItem.userIntake != oldItem.userIntake -> {
+                        diff.putDouble("dailyIntake", newItem.userIntake)
+                    }
+                    newItem.userImage != oldItem.userImage -> {
+                        diff.putString("userImage", newItem.userImage)
+                    }
+                    newItem.userName != oldItem.userName -> {
+                        diff.putString("userName", newItem.userName)
+                    }
+                    newItem.userWeight != oldItem.userWeight -> {
+                        diff.putFloat("userName", newItem.userWeight)
+                    }
                 }
                 diff
             }

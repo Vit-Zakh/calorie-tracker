@@ -8,8 +8,8 @@ interface TrackerApiService {
     suspend fun getUser(): RecyclerData.User
 
     @GET("meals")
-    suspend fun getMeal(): List<RecyclerData.Meal>
+    suspend fun getMeals(): MealsListResponse
 
     @GET("foodList")
-    suspend fun getFoodList(): List<RecyclerData.Food>
+    suspend fun getFoodList(): FoodListResponse
 }

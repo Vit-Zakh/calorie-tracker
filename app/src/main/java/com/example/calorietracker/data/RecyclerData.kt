@@ -39,8 +39,10 @@ sealed class RecyclerData {
 
     @Parcelize
     data class Food(
-        val id: Int,
+        val id: String,
+        @SerializedName("name")
         val name: String,
+        @SerializedName("url")
         val imageUrl: String,
         val calories: Float,
         val protein: Float? = null,

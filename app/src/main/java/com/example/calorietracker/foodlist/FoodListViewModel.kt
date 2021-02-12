@@ -3,50 +3,64 @@ package com.example.calorietracker.foodlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.calorietracker.data.DataSource
 import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.persistence.TrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FoodListViewModel @Inject constructor(
-    private val dataSource: DataSource
+    dataSource: DataSource
 ) : ViewModel() {
+
+    private val repository = TrackerRepository(dataSource)
 
     private var _foodList: MutableLiveData<List<RecyclerData.Food>> =
         MutableLiveData<List<RecyclerData.Food>>().apply {
-            this.value = dataSource.foodList
+            this.value = repository.foodList
         }
 
-    val foodList: LiveData<List<RecyclerData.Food>>
-        get() {
-            _foodList.value = dataSource.foodList
-            return _foodList
-        }
+    val foodList: LiveData<List<RecyclerData.Food>> = _foodList
 
     private var _currentUser: MutableLiveData<RecyclerData.User> =
         MutableLiveData<RecyclerData.User>().apply {
-            this.value = dataSource.user
+            this.value = repository.currentUser
         }
 
-    val currentUser: LiveData<RecyclerData.User>
-        get() {
-            _currentUser.value = dataSource.user
-            return _currentUser
+    val currentUser: LiveData<RecyclerData.User> = _currentUser
+
+    init {
+        viewModelScope.launch {
+            repository.fetchFood()
+            _foodList.value = repository.foodList
         }
+        viewModelScope.launch {
+            repository.fetchUser()
+            _currentUser.value = repository.currentUser
+        }
+    }
 
     fun addMealToList(meal: RecyclerData.Meal) {
-        dataSource.mealList.add(meal)
-        _currentUser.value = dataSource.user
+        viewModelScope.launch {
+            repository.addMeal(meal)
+            _currentUser.value = repository.currentUser
+        }
     }
 
     fun addFood(food: RecyclerData.Food) {
-        dataSource.foodList.add(food)
-        _foodList.value = dataSource.foodList
+        viewModelScope.launch {
+            repository.addFood(food)
+            _foodList.value = repository.foodList
+        }
     }
 
     fun deleteFood(id: Int) {
-        dataSource.foodList.removeAt(id)
-        _foodList.value = dataSource.foodList
+        viewModelScope.launch {
+            repository.removeFood(id)
+            _foodList.value = repository.foodList
+        }
     }
 }
