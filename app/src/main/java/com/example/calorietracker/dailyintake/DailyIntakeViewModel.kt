@@ -1,53 +1,35 @@
 package com.example.calorietracker.dailyintake
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.calorietracker.data.DataSource
+import androidx.lifecycle.*
 import com.example.calorietracker.data.RecyclerData
-import com.example.calorietracker.persistence.TrackerRepository
+import com.example.calorietracker.repositories.DailyIntakeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DailyIntakeViewModel @Inject constructor(
-    dataSource: DataSource
+    private val dailyIntakeRepository: DailyIntakeRepository
 ) : ViewModel() {
 
-    private val repository = TrackerRepository(dataSource)
-
-    private var _dailyIntakeData: MutableLiveData<List<RecyclerData>> =
-        MutableLiveData<List<RecyclerData>>().apply {
-            this.value = repository.intakeDataList
-        }
-
-    val dailyIntakeData: LiveData<List<RecyclerData>> = _dailyIntakeData
+    private lateinit var _dailyIntakeData: LiveData<List<RecyclerData>>
 
     init {
         viewModelScope.launch {
-            repository.fetchMeals()
-            _dailyIntakeData.value = repository.intakeDataList
-        }
-
-        viewModelScope.launch {
-            repository.fetchUser()
-            _dailyIntakeData.value = repository.intakeDataList
+            _dailyIntakeData = dailyIntakeRepository.fetchData().asLiveData()
         }
     }
 
+    var dailyIntakeData: LiveData<List<RecyclerData>> = _dailyIntakeData
+
     fun addMeal(meal: RecyclerData.Meal) {
         viewModelScope.launch {
-            repository.addMeal(meal)
-            _dailyIntakeData.value = repository.intakeDataList
+            dailyIntakeRepository.addMeal(meal)
         }
     }
 
     fun removeMeal(id: Int) {
         viewModelScope.launch {
-            repository.removeMeal(id)
-            _dailyIntakeData.value = repository.intakeDataList
         }
     }
 }

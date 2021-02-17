@@ -52,7 +52,7 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            progress="@{viewModel.currentUser}"
+            progress="@{viewModel.currentUserData}"
             android:layout_width="@dimen/arc_bar_diameter"
             android:layout_height="@dimen/arc_bar_diameter"
             android:indeterminateOnly="false"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/progressText"
-            formattedProgress="@{viewModel.currentUser}"
+            formattedProgress="@{viewModel.currentUserData}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -79,7 +79,7 @@
 
         <TextView
             android:id="@+id/progressPercentText"
-            formattedProgressPercent="@{viewModel.currentUser}"
+            formattedProgressPercent="@{viewModel.currentUserData}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="42sp"

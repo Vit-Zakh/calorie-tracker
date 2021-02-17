@@ -1,10 +1,10 @@
 package com.example.calorietracker.data
 
 import com.example.calorietracker.data.RecyclerData.*
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityRetainedScoped
+@Singleton
 class DataSource @Inject constructor() {
     val mealList = mutableListOf(
         Meal(

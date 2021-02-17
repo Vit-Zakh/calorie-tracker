@@ -76,7 +76,7 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.foodList.observe(viewLifecycleOwner) {
+        viewModel.foodListData.observe(viewLifecycleOwner) {
             refreshFoodList(it.toList())
         }
     }
