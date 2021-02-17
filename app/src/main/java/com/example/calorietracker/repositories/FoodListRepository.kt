@@ -11,5 +11,9 @@ interface FoodListRepository {
 
     suspend fun addFood(food: RecyclerData.Food)
 
-    suspend fun removeFood(index: Int)
+    suspend fun deleteFood(index: Int)
+
+    suspend fun refreshFood()
+
+    suspend fun refreshUser()
 }

@@ -7,7 +7,6 @@ import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.network.mapToBusinessModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class FoodListRepositoryImpl(
     private val userState: UserState,
@@ -17,42 +16,45 @@ class FoodListRepositoryImpl(
 ) : FoodListRepository {
 
     override suspend fun fetchUser(): Flow<RecyclerData.User> {
-        return flow {
-            if (userState.cachedUser != null) userState.cachedUser?.let { emit(it) }
-            updateUserCache()
-//            kotlinx.coroutines.delay(2000)
-            userState.cachedUser?.let { emit(it) }
-        }
+        return userState.userFlow
     }
 
     override suspend fun fetchFood(): Flow<List<RecyclerData.Food>> {
-        return flow {
-            val cachedFoodList = foodListState.cachedFoodList
-            if (cachedFoodList != null) emit(cachedFoodList)
-//            val refreshedFoodList = dataSource.foodList
-//            delay(2000)
-            val refreshedFoodList = apiService.getFoodList().mapToBusinessModel()
-            emit(refreshedFoodList)
-        }
+        return foodListState.foodListFlow
     }
 
     override suspend fun addFood(food: RecyclerData.Food) {
-        TODO("Not yet implemented")
+        foodListState.cachedFoodList.add(food)
     }
 
-    override suspend fun removeFood(index: Int) {
-        TODO("Not yet implemented")
+    override suspend fun deleteFood(index: Int) {
+        foodListState.cachedFoodList.removeAt(index)
     }
 
-    suspend fun updateUserCache() {
-//        userState.cachedUser = RecyclerData.User(
-//            id = "0",
-//            userImage = "https://cataas.com/cat/cute",
-//            userName = "Кошка Машка",
-//            userWeight = 5.4f,
-//            plannedIntake = 50000f,
-//            userIntake = 0.0
-//        )
-        userState.cachedUser = apiService.getUser().mapToBusinessModel()
+    override suspend fun refreshFood() {
+//        delay(4000)
+//        foodListState.cachedFoodList.addAll(dataSource.foodList)
+        foodListState.cachedFoodList.addAll(apiService.getFoodList().mapToBusinessModel())
+    }
+
+    override suspend fun refreshUser() {
+//        delay(5000)
+//        with(userState.cachedUser) {
+//            this.id = "0"
+//            this.userName = "Кошка Машка"
+//            this.userImage = "https://cataas.com/cat/cute"
+//            this.userWeight = 5.4f
+//            this.plannedIntake = 50000f
+//            this.userIntake = 0.0
+//        }
+        val refreshedUser = apiService.getUser().mapToBusinessModel()
+        with(userState.cachedUser) {
+            this.id = refreshedUser.id
+            this.userName = refreshedUser.userName
+            this.userImage = refreshedUser.userImage
+            this.userWeight = refreshedUser.userWeight
+            this.plannedIntake = refreshedUser.plannedIntake
+            this.userIntake = refreshedUser.userIntake
+        }
     }
 }

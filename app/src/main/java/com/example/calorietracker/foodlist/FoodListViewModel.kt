@@ -1,10 +1,10 @@
 package com.example.calorietracker.foodlist
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.repositories.FoodListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,17 +13,19 @@ class FoodListViewModel @Inject constructor(
     private val foodListRepository: FoodListRepository
 ) : ViewModel() {
 
-    private lateinit var _foodListData: LiveData<List<RecyclerData.Food>>
-    private lateinit var _currentUserData: LiveData<RecyclerData.User>
-    var testDataValue = MutableLiveData<List<RecyclerData.Food>>()
+    private val _foodListData = MutableLiveData<List<RecyclerData.Food>>()
+    private val _currentUserData = MutableLiveData<RecyclerData.User>()
+//        .also { it.value = RecyclerData.User() }
 
     init {
         viewModelScope.launch {
-            _currentUserData = foodListRepository.fetchUser().asLiveData()
+            foodListRepository.fetchUser().collect { _currentUserData.value = it }
         }
+        viewModelScope.launch { foodListRepository.refreshUser() }
         viewModelScope.launch {
-            _foodListData = foodListRepository.fetchFood().asLiveData()
+            foodListRepository.fetchFood().collect { _foodListData.value = it }
         }
+        viewModelScope.launch { foodListRepository.refreshFood() }
     }
 
     val currentUserData = _currentUserData
@@ -37,13 +39,12 @@ class FoodListViewModel @Inject constructor(
     fun addFood(food: RecyclerData.Food) {
         viewModelScope.launch {
             foodListRepository.addFood(food)
-            Log.d("_VIEWMODEL", "addFood: called")
-            _foodListData = foodListRepository.fetchFood().asLiveData()
         }
     }
 
-    fun deleteFood(id: Int) {
+    fun deleteFood(index: Int) {
         viewModelScope.launch {
+            foodListRepository.deleteFood(index)
         }
     }
 }

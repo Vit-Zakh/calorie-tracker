@@ -1,5 +1,6 @@
 package com.example.calorietracker.di
 
+import com.example.calorietracker.cache.FirstBootState
 import com.example.calorietracker.cache.FoodListState
 import com.example.calorietracker.cache.MealsState
 import com.example.calorietracker.cache.UserState
@@ -24,10 +25,11 @@ object RepositoryModule {
     fun provideDailyIntakeRepository(
         mealsState: MealsState,
         userState: UserState,
+        firstBootState: FirstBootState,
         dataSource: DataSource,
         apiService: TrackerApiService
     ): DailyIntakeRepository {
-        return DailyRepositoryImpl(mealsState, userState, dataSource, apiService)
+        return DailyRepositoryImpl(mealsState, userState, firstBootState, dataSource, apiService)
     }
 
     @Singleton

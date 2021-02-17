@@ -10,4 +10,6 @@ interface DailyIntakeRepository {
     suspend fun addMeal(meal: RecyclerData.Meal)
 
     suspend fun removeMeal(index: Int)
+
+    suspend fun refreshState()
 }
