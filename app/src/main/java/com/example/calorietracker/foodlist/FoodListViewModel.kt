@@ -33,6 +33,7 @@ class FoodListViewModel @Inject constructor(
 
     fun addMealToList(meal: RecyclerData.Meal) {
         viewModelScope.launch {
+            foodListRepository.addMealToList(meal)
         }
     }
 

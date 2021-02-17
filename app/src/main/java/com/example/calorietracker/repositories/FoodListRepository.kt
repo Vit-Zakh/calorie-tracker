@@ -13,6 +13,8 @@ interface FoodListRepository {
 
     suspend fun deleteFood(index: Int)
 
+    suspend fun addMealToList(meal: RecyclerData.Meal)
+
     suspend fun refreshFood()
 
     suspend fun refreshUser()

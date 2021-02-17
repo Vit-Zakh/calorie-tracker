@@ -37,9 +37,10 @@ object RepositoryModule {
     fun provideFoodListRepository(
         userState: UserState,
         foodListState: FoodListState,
+        firstBootState: FirstBootState,
         dataSource: DataSource,
         apiService: TrackerApiService
     ): FoodListRepository {
-        return FoodListRepositoryImpl(userState, foodListState, dataSource, apiService)
+        return FoodListRepositoryImpl(userState, foodListState, firstBootState, dataSource, apiService)
     }
 }

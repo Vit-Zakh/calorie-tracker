@@ -1,5 +1,6 @@
 package com.example.calorietracker.repositories
 
+import com.example.calorietracker.cache.FirstBootState
 import com.example.calorietracker.cache.FoodListState
 import com.example.calorietracker.cache.UserState
 import com.example.calorietracker.data.DataSource
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 class FoodListRepositoryImpl(
     private val userState: UserState,
     private val foodListState: FoodListState,
+    private val firstBootState: FirstBootState,
     private val dataSource: DataSource,
     private val apiService: TrackerApiService
 ) : FoodListRepository {
@@ -29,6 +31,10 @@ class FoodListRepositoryImpl(
 
     override suspend fun deleteFood(index: Int) {
         foodListState.cachedFoodList.removeAt(index)
+    }
+
+    override suspend fun addMealToList(meal: RecyclerData.Meal) {
+        firstBootState.initialList.add(meal)
     }
 
     override suspend fun refreshFood() {
