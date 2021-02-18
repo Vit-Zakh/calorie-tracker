@@ -2,6 +2,7 @@ package com.example.calorietracker.dailyintake
 
 import androidx.lifecycle.*
 import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.network.UserResponse
 import com.example.calorietracker.repositories.DailyIntakeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -13,16 +14,32 @@ class DailyIntakeViewModel @Inject constructor(
     private val dailyIntakeRepository: DailyIntakeRepository
 ) : ViewModel() {
 
-    private var _dailyIntakeData = MutableLiveData<List<RecyclerData>>()
+    private val _dailyLiveData: MediatorLiveData<List<RecyclerData>> = MediatorLiveData()
+
+    val dailyLiveData: MutableLiveData<List<RecyclerData>> = MutableLiveData(listOf())
 
     init {
-        viewModelScope.launch {
-            dailyIntakeRepository.fetchData().collect { _dailyIntakeData.value = it }
-        }
-        viewModelScope.launch { dailyIntakeRepository.refreshState() }
-    }
 
-    var dailyIntakeData: LiveData<List<RecyclerData>> = _dailyIntakeData
+        val userLiveData: LiveData<UserResponse> = dailyIntakeRepository.user.asLiveData()
+
+        viewModelScope.launch {
+            dailyIntakeRepository.refreshState()
+         val mealsLiveData = dailyIntakeRepository.meals.collect {
+                val some = it
+            }
+        }
+//
+//        _dailyLiveData.addSource(userLiveData) {
+//            val user = userLiveData.value ?: RecyclerData.User()
+//            val mealsList = mealsLiveData.value ?: listOf()
+//            _dailyLiveData.value = listOf(user, RecyclerData.TextLine) + mealsList
+//        }
+//        _dailyLiveData.addSource(mealsLiveData) {
+//            val user = userLiveData.value ?: RecyclerData.User()
+//            val mealsList = mealsLiveData.value ?: listOf()
+//            _dailyLiveData.value = listOf(user, RecyclerData.TextLine) + mealsList
+//        }
+    }
 
     fun addMeal(meal: RecyclerData.Meal) {
         viewModelScope.launch {

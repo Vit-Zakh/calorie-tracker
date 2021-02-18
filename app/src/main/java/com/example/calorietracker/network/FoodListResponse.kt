@@ -17,7 +17,7 @@ data class Food(
     val url: String
 )
 
-fun FoodResponse.mapToBusinessModel(): List<RecyclerData.Food> {
+fun FoodResponse.mapToUiModel(): List<RecyclerData.Food> {
     val mappedFoodList = mutableListOf<RecyclerData.Food>()
     this.food.forEach {
         mappedFoodList.add(

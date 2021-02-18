@@ -3,7 +3,7 @@ package com.example.calorietracker.network
 import com.example.calorietracker.data.RecyclerData
 
 data class MealsListResponse(
-    val meals: List<Meal>
+    val meals: List<Meal> = listOf()
 )
 
 data class Meal(
@@ -15,7 +15,7 @@ data class Meal(
     val weight: String
 )
 
-fun MealsListResponse.mapToBusinessModel(): List<RecyclerData.Meal> {
+fun MealsListResponse.mapToUiModel(): List<RecyclerData.Meal> {
     val mappedMeals = mutableListOf<RecyclerData.Meal>()
     this.meals.forEach {
         mappedMeals.add(

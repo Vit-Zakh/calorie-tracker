@@ -3,16 +3,16 @@ package com.example.calorietracker.network
 import com.example.calorietracker.data.RecyclerData
 
 data class UserResponse(
-    val id: String,
-    val image: String,
-    val name: String,
-    val currentIntake: Double,
-    val maxIntake: Float,
-    val weight: Float
+    val id: String = "-1",
+    val image: String = "",
+    val name: String = "Loading user",
+    val currentIntake: Double = 0.0,
+    val maxIntake: Float = 0f,
+    val weight: Float = 0f
 
 )
 
-fun UserResponse.mapToBusinessModel(): RecyclerData.User {
+fun UserResponse.mapToUiModel(): RecyclerData.User {
     return RecyclerData.User(
         id = this.id,
         userName = this.name,

@@ -1,6 +1,6 @@
 package com.example.calorietracker.di
 
-import com.example.calorietracker.cache.FirstBootState
+import com.example.calorietracker.cache.DailyIntakeState
 import com.example.calorietracker.cache.FoodListState
 import com.example.calorietracker.cache.MealsState
 import com.example.calorietracker.cache.UserState
@@ -25,11 +25,11 @@ object RepositoryModule {
     fun provideDailyIntakeRepository(
         mealsState: MealsState,
         userState: UserState,
-        firstBootState: FirstBootState,
+        dailyIntakeState: DailyIntakeState,
         dataSource: DataSource,
         apiService: TrackerApiService
     ): DailyIntakeRepository {
-        return DailyRepositoryImpl(mealsState, userState, firstBootState, dataSource, apiService)
+        return DailyRepositoryImpl(mealsState, userState, dailyIntakeState, dataSource, apiService)
     }
 
     @Singleton
@@ -37,10 +37,10 @@ object RepositoryModule {
     fun provideFoodListRepository(
         userState: UserState,
         foodListState: FoodListState,
-        firstBootState: FirstBootState,
+        dailyIntakeState: DailyIntakeState,
         dataSource: DataSource,
         apiService: TrackerApiService
     ): FoodListRepository {
-        return FoodListRepositoryImpl(userState, foodListState, firstBootState, dataSource, apiService)
+        return FoodListRepositoryImpl(userState, foodListState, dailyIntakeState, dataSource, apiService)
     }
 }

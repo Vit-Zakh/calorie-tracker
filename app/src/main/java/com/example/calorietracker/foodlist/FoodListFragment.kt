@@ -76,9 +76,9 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.foodListData.observe(viewLifecycleOwner) {
-            refreshFoodList(it.toList())
-        }
+//        viewModel.foodListData.observe(viewLifecycleOwner) {
+//            refreshFoodList(it.toList())
+//        }
     }
 
     override fun onDestroyView() {
