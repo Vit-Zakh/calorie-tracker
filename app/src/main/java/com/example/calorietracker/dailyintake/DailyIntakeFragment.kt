@@ -22,7 +22,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.dailyIntakeData.observe(viewLifecycleOwner) {
+        viewModel.dailyLiveData.observe(viewLifecycleOwner) {
             refreshIntakeList(it.toList())
         }
     }
