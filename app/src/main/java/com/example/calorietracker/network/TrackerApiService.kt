@@ -12,5 +12,5 @@ interface TrackerApiService {
 //    suspend fun getMeals(): List<RecyclerData.Meal>
 
     @GET("foodList")
-    suspend fun getFoodList(): FoodResponse
+    suspend fun getFoodList(): FoodListResponse
 }

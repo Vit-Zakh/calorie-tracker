@@ -1,6 +1,5 @@
 package com.example.calorietracker.cache
 
-import android.util.Log
 import com.example.calorietracker.network.MealsListResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -14,6 +13,5 @@ class MealsState @Inject constructor() {
 
     fun refreshMealsList(meals: MealsListResponse) {
         _cashedMealsList.value = meals
-        Log.d("TAG", "refreshMealsList: ${meals.meals.size}")
     }
 }

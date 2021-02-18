@@ -5,11 +5,10 @@ import com.example.calorietracker.cache.FoodListState
 import com.example.calorietracker.cache.UserState
 import com.example.calorietracker.data.DataSource
 import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.network.FoodListResponse
 import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.network.UserResponse
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class FoodListRepositoryImpl(
     private val userState: UserState,
@@ -19,34 +18,30 @@ class FoodListRepositoryImpl(
     private val apiService: TrackerApiService
 ) : FoodListRepository {
 
-    override suspend fun fetchUser(): StateFlow<UserResponse> {
-        return userState.cashedUser
-    }
-
-    override suspend fun fetchFood(): Flow<List<RecyclerData.Food>> {
-        return foodListState.foodListFlow
-    }
+    override val user: MutableStateFlow<UserResponse> = userState.cashedUser
+    override val food: MutableStateFlow<FoodListResponse> = foodListState.cashedFoodList
 
     override suspend fun addFood(food: RecyclerData.Food) {
-        foodListState.cachedFoodList.add(food)
     }
 
     override suspend fun deleteFood(index: Int) {
-        foodListState.cachedFoodList.removeAt(index)
     }
 
     override suspend fun addMealToList(meal: RecyclerData.Meal) {
-        dailyIntakeState.initialList.add(meal)
     }
 
     override suspend fun refreshFood() {
-        delay(4000)
-        foodListState.cachedFoodList.addAll(dataSource.foodList)
+        foodListState.refreshFoodList(apiService.getFoodList())
+
+//        delay(4000)
+
 //        foodListState.cachedFoodList.addAll(apiService.getFoodList().mapToBusinessModel())
     }
 
     override suspend fun refreshUser() {
-        delay(5000)
+        userState.refreshUser(apiService.getUser())
+
+//        delay(5000)
 //        with(userState.cachedUser) {
 //            this.id = "0"
 //            this.userName = "Кошка Машка"

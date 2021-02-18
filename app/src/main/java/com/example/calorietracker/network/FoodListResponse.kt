@@ -3,11 +3,7 @@ package com.example.calorietracker.network
 import com.example.calorietracker.data.RecyclerData
 
 data class FoodListResponse(
-    val food: List<RecyclerData.Food>
-)
-
-data class FoodResponse(
-    val food: List<Food>
+    val food: List<Food> = listOf()
 )
 
 data class Food(
@@ -17,7 +13,7 @@ data class Food(
     val url: String
 )
 
-fun FoodResponse.mapToUiModel(): List<RecyclerData.Food> {
+fun FoodListResponse.mapToUiModel(): List<RecyclerData.Food> {
     val mappedFoodList = mutableListOf<RecyclerData.Food>()
     this.food.forEach {
         mappedFoodList.add(

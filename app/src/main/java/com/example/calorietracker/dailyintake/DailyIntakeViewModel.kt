@@ -18,10 +18,10 @@ class DailyIntakeViewModel @Inject constructor(
     private val dailyIntakeRepository: DailyIntakeRepository
 ) : ViewModel() {
 
-    lateinit var _dailyLiveData: LiveData<List<RecyclerData>>
+    private lateinit var _dailyLiveData: LiveData<List<RecyclerData>>
 
-    val userFlow: MutableStateFlow<UserResponse> = dailyIntakeRepository.user
-    val mealsFlow: MutableStateFlow<MealsListResponse> = dailyIntakeRepository.meals
+    private val userFlow: MutableStateFlow<UserResponse> = dailyIntakeRepository.user
+    private val mealsFlow: MutableStateFlow<MealsListResponse> = dailyIntakeRepository.meals
 
     init {
         viewModelScope.launch {

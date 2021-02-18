@@ -1,15 +1,14 @@
 package com.example.calorietracker.repositories
 
 import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.network.FoodListResponse
 import com.example.calorietracker.network.UserResponse
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface FoodListRepository {
 
-    suspend fun fetchUser(): StateFlow<UserResponse>
-
-    suspend fun fetchFood(): Flow<List<RecyclerData.Food>>
+    val user: MutableStateFlow<UserResponse>
+    val food: MutableStateFlow<FoodListResponse>
 
     suspend fun addFood(food: RecyclerData.Food)
 
