@@ -5,7 +5,10 @@ import com.example.calorietracker.cache.MealsState
 import com.example.calorietracker.cache.UserState
 import com.example.calorietracker.data.DataSource
 import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.network.MealsListResponse
 import com.example.calorietracker.network.TrackerApiService
+import com.example.calorietracker.network.UserResponse
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class DailyRepositoryImpl(
     private val mealsState: MealsState,
@@ -15,13 +18,13 @@ class DailyRepositoryImpl(
     private val apiService: TrackerApiService
 ) : DailyIntakeRepository {
 
-    override val user = userState.cashedUser
-    override val meals = mealsState.cashedMealsList
+    override val user: MutableStateFlow<UserResponse> = userState.cashedUser
+    override val meals: MutableStateFlow<MealsListResponse> = mealsState.cashedMealsList
 
     override suspend fun refreshState() {
 
-//        userState.refreshUser(apiService.getUser())
-//        mealsState.refreshMealsList(apiService.getMeals())
+        userState.refreshUser(apiService.getUser())
+        mealsState.refreshMealsList(apiService.getMeals())
 
 //        delay(1000)
 //        dailyIntakeState.initialList[0] = RecyclerData.User(
