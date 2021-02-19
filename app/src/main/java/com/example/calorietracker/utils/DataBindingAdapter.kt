@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.calorietracker.R
-import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.models.UiModel
 import kotlin.random.Random
 
 @BindingAdapter("loadImage")
@@ -22,12 +22,12 @@ fun ImageView.loadImageByUrl(url: String?) {
 }
 
 @BindingAdapter("userFormattedWeight")
-fun formatWeight(textView: TextView, user: RecyclerData.User) {
+fun formatWeight(textView: TextView, user: UiModel.User) {
     textView.text = textView.resources.getString(R.string.user_weight_text, user.userWeight)
 }
 
 @BindingAdapter("formattedCalories")
-fun formatCalories(textView: TextView, user: RecyclerData.User) {
+fun formatCalories(textView: TextView, user: UiModel.User) {
     textView.text = textView.resources.getString(
         R.string.user_daily_calories_text,
         "%.${2}f".format(user.userIntake)
@@ -35,7 +35,7 @@ fun formatCalories(textView: TextView, user: RecyclerData.User) {
 }
 
 @BindingAdapter("formattedProgress")
-fun formatProgress(textView: TextView, user: RecyclerData.User) {
+fun formatProgress(textView: TextView, user: UiModel.User) {
     textView.text = textView.resources.getString(
         R.string.user_calories_progress_text,
         user.userIntake,
@@ -44,7 +44,7 @@ fun formatProgress(textView: TextView, user: RecyclerData.User) {
 }
 
 @BindingAdapter("formattedProgressPercent")
-fun formatProgressPercent(textView: TextView, user: RecyclerData.User) {
+fun formatProgressPercent(textView: TextView, user: UiModel.User) {
     val userProgress = user.userIntake / user.plannedIntake
     textView.text = textView.resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
     if (userProgress> 1.0) {
@@ -77,7 +77,7 @@ fun randomBackground(view: View, random: Boolean) {
 }
 
 @BindingAdapter("progress")
-fun calculateCalorieProgress(progressBar: ProgressBar, user: RecyclerData.User) {
+fun calculateCalorieProgress(progressBar: ProgressBar, user: UiModel.User) {
     val userProgress = user.userIntake / user.plannedIntake
     progressBar.progress = if (userProgress <= 1) {
         ((userProgress) * 70f).toInt()

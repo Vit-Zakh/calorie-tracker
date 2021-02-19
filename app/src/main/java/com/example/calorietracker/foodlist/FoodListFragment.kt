@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import com.example.calorietracker.models.UiModel.*
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_food_list.*
 import kotlinx.android.synthetic.main.fragment_food_list.view.*
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class FoodListFragment : Fragment() {
@@ -46,7 +46,7 @@ class FoodListFragment : Fragment() {
         binding.addFood.setOnClickListener {
             viewModel.addFood(
                 Food(
-                    "7",
+                    Random.nextInt(9, 2000).toString(),
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
                     17f

@@ -1,22 +1,22 @@
 package com.example.calorietracker.foodlist
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.models.UiModel
 
-class FoodItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+class FoodItemDiffCallback : DiffUtil.ItemCallback<UiModel>() {
 
-    override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
         return when {
-            oldItem is RecyclerData.Food && newItem is RecyclerData.Food -> {
+            oldItem is UiModel.Food && newItem is UiModel.Food -> {
                 oldItem.id == newItem.id
             }
             else -> false
         }
     }
 
-    override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
         return when {
-            oldItem is RecyclerData.Food && newItem is RecyclerData.Food -> {
+            oldItem is UiModel.Food && newItem is UiModel.Food -> {
                 oldItem == newItem
             }
             else -> false

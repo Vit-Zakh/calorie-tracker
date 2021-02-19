@@ -1,15 +1,13 @@
 package com.example.calorietracker.di
 
-import com.example.calorietracker.cache.DailyIntakeState
-import com.example.calorietracker.cache.FoodListState
-import com.example.calorietracker.cache.MealsState
-import com.example.calorietracker.cache.UserState
-import com.example.calorietracker.data.DataSource
+import com.example.calorietracker.dailyintake.DailyIntakeRepository
+import com.example.calorietracker.dailyintake.DailyRepositoryImpl
+import com.example.calorietracker.foodlist.FoodListRepository
+import com.example.calorietracker.foodlist.FoodListRepositoryImpl
 import com.example.calorietracker.network.TrackerApiService
-import com.example.calorietracker.repositories.DailyIntakeRepository
-import com.example.calorietracker.repositories.DailyRepositoryImpl
-import com.example.calorietracker.repositories.FoodListRepository
-import com.example.calorietracker.repositories.FoodListRepositoryImpl
+import com.example.calorietracker.state.FoodListState
+import com.example.calorietracker.state.MealsState
+import com.example.calorietracker.state.UserState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,11 +23,9 @@ object RepositoryModule {
     fun provideDailyIntakeRepository(
         mealsState: MealsState,
         userState: UserState,
-        dailyIntakeState: DailyIntakeState,
-        dataSource: DataSource,
         apiService: TrackerApiService
     ): DailyIntakeRepository {
-        return DailyRepositoryImpl(mealsState, userState, dailyIntakeState, dataSource, apiService)
+        return DailyRepositoryImpl(mealsState, userState, apiService)
     }
 
     @Singleton
@@ -37,10 +33,9 @@ object RepositoryModule {
     fun provideFoodListRepository(
         userState: UserState,
         foodListState: FoodListState,
-        dailyIntakeState: DailyIntakeState,
-        dataSource: DataSource,
+        mealsState: MealsState,
         apiService: TrackerApiService
     ): FoodListRepository {
-        return FoodListRepositoryImpl(userState, foodListState, dailyIntakeState, dataSource, apiService)
+        return FoodListRepositoryImpl(userState, foodListState, mealsState, apiService)
     }
 }

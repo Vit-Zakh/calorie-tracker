@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
-import com.example.calorietracker.data.RecyclerData
-import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutFoodGridItemBinding
+import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.UiModel.*
 import java.lang.RuntimeException
 
 class FoodListAdapter(private val clickListener: (food: Food) -> Unit) :
-    ListAdapter<RecyclerData, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
+    ListAdapter<UiModel, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         return try {

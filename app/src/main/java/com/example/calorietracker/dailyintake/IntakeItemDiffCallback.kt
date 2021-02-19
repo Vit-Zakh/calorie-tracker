@@ -2,43 +2,43 @@ package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.models.UiModel
 
-class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+class IntakeItemDiffCallback : DiffUtil.ItemCallback<UiModel>() {
 
-    override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
         return when {
-            oldItem is RecyclerData.Meal && newItem is RecyclerData.Meal -> {
+            oldItem is UiModel.Meal && newItem is UiModel.Meal -> {
                 oldItem.id == newItem.id
             }
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+            oldItem is UiModel.User && newItem is UiModel.User -> {
                 true
             }
-            oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
+            oldItem is UiModel.TextLine && newItem is UiModel.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
         return when {
-            oldItem is RecyclerData.Meal && newItem is RecyclerData.Meal -> {
+            oldItem is UiModel.Meal && newItem is UiModel.Meal -> {
                 oldItem == newItem
             }
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+            oldItem is UiModel.User && newItem is UiModel.User -> {
                 oldItem == newItem
             }
-            oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
+            oldItem is UiModel.TextLine && newItem is UiModel.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun getChangePayload(oldItem: RecyclerData, newItem: RecyclerData): Any? {
+    override fun getChangePayload(oldItem: UiModel, newItem: UiModel): Any? {
         return when {
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+            oldItem is UiModel.User && newItem is UiModel.User -> {
                 val diff = Bundle()
                 when {
                     newItem.userIntake != oldItem.userIntake -> {

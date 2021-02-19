@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
-import com.example.calorietracker.data.RecyclerData
-import com.example.calorietracker.data.RecyclerData.*
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
+import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.UiModel.*
 import java.lang.RuntimeException
 
 class DailyIntakeAdapter() :
-    ListAdapter<RecyclerData, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
+    ListAdapter<UiModel, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
 
     private val VIEW_TYPE_MEAL = 1
     private val VIEW_TYPE_USER = 2

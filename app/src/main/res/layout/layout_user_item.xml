@@ -8,7 +8,7 @@
 
         <variable
             name="user"
-            type="com.example.calorietracker.data.RecyclerData.User" />
+            type="com.example.calorietracker.models.UiModel.User" />
     </data>
 
     <androidx.cardview.widget.CardView

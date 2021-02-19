@@ -7,11 +7,11 @@
 
         <import
             alias="MealExtensions"
-            type="com.example.calorietracker.extensions.RecyclerData_extKt" />
+            type="com.example.calorietracker.extensions.UiModel_extKt" />
 
         <variable
             name="meal"
-            type="com.example.calorietracker.data.RecyclerData.Meal" />
+            type="com.example.calorietracker.models.UiModel.Meal" />
     </data>
 
     <androidx.cardview.widget.CardView

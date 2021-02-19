@@ -1,10 +1,10 @@
-package com.example.calorietracker.data
+package com.example.calorietracker.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-sealed class RecyclerData {
+sealed class UiModel {
 
     @Parcelize
     data class Meal(
@@ -20,7 +20,7 @@ sealed class RecyclerData {
         var protein: Float? = null,
         var fat: Float? = null,
         var carbs: Float? = null
-    ) : RecyclerData(), Parcelable
+    ) : UiModel(), Parcelable
 
     @Parcelize
     data class User(
@@ -35,7 +35,7 @@ sealed class RecyclerData {
         var userIntake: Double = 0.0,
         @SerializedName("maxIntake")
         var plannedIntake: Float = 0f
-    ) : RecyclerData(), Parcelable
+    ) : UiModel(), Parcelable
 
     @Parcelize
     data class Food(
@@ -48,7 +48,7 @@ sealed class RecyclerData {
         val protein: Float? = null,
         val fat: Float? = null,
         val carbs: Float? = null
-    ) : RecyclerData(), Parcelable
+    ) : UiModel(), Parcelable
 
-    object TextLine : RecyclerData()
+    object TextLine : UiModel()
 }

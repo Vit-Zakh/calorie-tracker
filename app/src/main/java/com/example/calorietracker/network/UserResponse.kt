@@ -1,6 +1,6 @@
 package com.example.calorietracker.network
 
-import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.models.UiModel
 
 data class UserResponse(
     val id: String = "-1",
@@ -9,11 +9,10 @@ data class UserResponse(
     val currentIntake: Double = 0.0,
     val maxIntake: Float = 0f,
     val weight: Float = 0f
-
 )
 
-fun UserResponse.mapToUiModel(): RecyclerData.User {
-    return RecyclerData.User(
+fun UserResponse.mapToUiModel(): UiModel.User {
+    return UiModel.User(
         id = this.id,
         userName = this.name,
         userImage = this.image,
