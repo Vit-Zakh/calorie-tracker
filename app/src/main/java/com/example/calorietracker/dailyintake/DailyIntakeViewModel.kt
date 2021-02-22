@@ -7,7 +7,6 @@ import com.example.calorietracker.models.UiModel
 import com.example.calorietracker.network.UserResponse
 import com.example.calorietracker.network.mapToUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,9 +16,6 @@ class DailyIntakeViewModel @Inject constructor(
     private val dailyIntakeRepository: DailyIntakeRepository
 ) : ViewModel() {
 
-    private val userFlow: StateFlow<UserResponse> = dailyIntakeRepository.user
-    private val mealsFlow: StateFlow<List<DomainModel.Meal>> = dailyIntakeRepository.meals
-
     init {
         viewModelScope.launch {
             dailyIntakeRepository.refreshState()
@@ -27,7 +23,7 @@ class DailyIntakeViewModel @Inject constructor(
     }
 
     val dailyLiveData: LiveData<List<UiModel>> =
-        userFlow.combine(mealsFlow) { user: UserResponse, list: List<DomainModel.Meal> ->
+        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { user: UserResponse, list: List<DomainModel.Meal> ->
             listOf(user.mapToUiModel(), UiModel.TextLine) + list.map {
                 it.mapToUiModel()
             }

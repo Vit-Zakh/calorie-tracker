@@ -21,4 +21,3 @@ fun Meal.mapToUiModel(): UiModel.Meal {
         mealCalories = calories.toFloat()
     )
 }
-

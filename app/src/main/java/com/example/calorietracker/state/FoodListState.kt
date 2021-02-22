@@ -1,6 +1,5 @@
 package com.example.calorietracker.state
 
-import android.util.Log
 import com.example.calorietracker.extensions.mapToDomainModel
 import com.example.calorietracker.models.DomainModel
 import com.example.calorietracker.models.UiModel

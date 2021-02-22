@@ -1,6 +1,6 @@
 package com.example.calorietracker.models
 
-sealed class DomainModel {
+abstract class DomainModel {
 
     data class Meal(
         val calories: String,
@@ -17,5 +17,4 @@ sealed class DomainModel {
         val name: String,
         val url: String
     ) : DomainModel()
-
 }
