@@ -9,12 +9,12 @@ import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
-import com.example.calorietracker.models.UiModel
-import com.example.calorietracker.models.UiModel.*
+import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.models.ui.DailyIntakeProps.*
 import java.lang.RuntimeException
 
 class DailyIntakeAdapter() :
-    ListAdapter<UiModel, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
+    ListAdapter<DailyIntakeProps, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
 
     private val VIEW_TYPE_MEAL = 1
     private val VIEW_TYPE_USER = 2
@@ -49,10 +49,10 @@ class DailyIntakeAdapter() :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MealViewHolder -> {
-                holder.bind(getItem(position) as Meal)
+                holder.bind(getItem(position) as MealProps)
             }
             is UserViewHolder -> {
-                holder.bind(getItem(position) as User)
+                holder.bind(getItem(position) as UserProps)
             }
             is TextViewHolder -> {
                 holder.bind("Your daily intake")
@@ -64,8 +64,8 @@ class DailyIntakeAdapter() :
 
         private val mealBinding = LayoutMealItemBinding.bind(itemView)
 
-        fun bind(meal: Meal) {
-            mealBinding.meal = meal
+        fun bind(mealProps: MealProps) {
+            mealBinding.meal = mealProps
         }
     }
 
@@ -73,8 +73,8 @@ class DailyIntakeAdapter() :
 
         private val userBinding = LayoutUserItemBinding.bind(itemView)
 
-        fun bind(user: User) {
-            userBinding.user = user
+        fun bind(userProps: UserProps) {
+            userBinding.user = userProps
         }
     }
 
@@ -89,8 +89,8 @@ class DailyIntakeAdapter() :
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is Meal -> VIEW_TYPE_MEAL
-            is User -> VIEW_TYPE_USER
+            is MealProps -> VIEW_TYPE_MEAL
+            is UserProps -> VIEW_TYPE_USER
             is TextLine -> VIEW_TYPE_TEXT
             else -> throw RuntimeException("Crash while defining view type")
         }

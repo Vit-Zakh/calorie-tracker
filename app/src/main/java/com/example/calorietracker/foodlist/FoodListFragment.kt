@@ -10,7 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.databinding.FragmentFoodListBinding
-import com.example.calorietracker.models.UiModel.*
+import com.example.calorietracker.models.ui.DailyIntakeProps.*
+import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_food_list.*
@@ -45,7 +46,7 @@ class FoodListFragment : Fragment() {
 
         binding.addFood.setOnClickListener {
             viewModel.addFood(
-                Food(
+                FoodProps(
                     Random.nextInt(9, 2000).toString(),
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
@@ -86,13 +87,13 @@ class FoodListFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun refreshFoodList(list: List<Food>) {
+    private fun refreshFoodList(list: List<FoodProps>) {
         fragmentBinding?.let {
             (it.foodGridList.adapter as FoodListAdapter).submitList(list)
         }
     }
 
-    private fun openAddMealDialog(food: Food) {
+    private fun openAddMealDialog(food: FoodProps) {
         findNavController().navigate(
             FoodListFragmentDirections.actionFoodListFragmentToAddMealDialog(
                 food

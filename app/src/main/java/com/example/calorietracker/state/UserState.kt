@@ -1,6 +1,6 @@
 package com.example.calorietracker.state
 
-import com.example.calorietracker.network.UserResponse
+import com.example.calorietracker.models.network.UserResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

@@ -28,7 +28,7 @@
         android:label="AddMealDialog">
         <argument
             android:name="Food"
-            app:argType="com.example.calorietracker.models.UiModel$Food" />
+            app:argType="com.example.calorietracker.models.ui.FoodProps" />
         <action
             android:id="@+id/action_addMealDialog_to_foodListFragment"
             app:destination="@id/foodListFragment" />

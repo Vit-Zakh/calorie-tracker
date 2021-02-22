@@ -1,9 +1,9 @@
 package com.example.calorietracker.foodlist
 
 import androidx.lifecycle.*
-import com.example.calorietracker.extensions.mapToUiModel
-import com.example.calorietracker.models.UiModel
-import com.example.calorietracker.network.mapToUiModel
+import com.example.calorietracker.models.network.mapToUiModel
+import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.models.ui.FoodProps
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -22,14 +22,14 @@ class FoodListViewModel @Inject constructor(
     }
 
     val currentUserData = foodListRepository.user.map { it.mapToUiModel() }.asLiveData()
-    val foodListData =
+    val foodListData: LiveData<List<FoodProps>> =
         foodListRepository.food.map { it.map { food -> food.mapToUiModel() } }.asLiveData()
 
-    fun addMealToList(meal: UiModel.Meal) {
-        foodListRepository.addMealToList(meal)
+    fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
+        foodListRepository.addMealToList(mealProps)
     }
 
-    fun addFood(food: UiModel.Food) {
+    fun addFood(food: FoodProps) {
         foodListRepository.addFood(food)
     }
 

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
-import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.ui.DailyIntakeProps
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
@@ -41,7 +41,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.addMeal.setOnClickListener {
             viewModel.addMeal(
-                UiModel.Meal(
+                DailyIntakeProps.MealProps(
                     Random.nextInt(20, 1998).toString(),
                     "Popcorn",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
@@ -70,7 +70,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         }
     }
 
-    private fun refreshIntakeList(list: List<UiModel>) {
+    private fun refreshIntakeList(list: List<DailyIntakeProps>) {
         fragmentBinding?.let {
             (it.dailyIntakeList.adapter as DailyIntakeAdapter).submitList(list)
         }

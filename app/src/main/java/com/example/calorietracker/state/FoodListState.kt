@@ -1,9 +1,9 @@
 package com.example.calorietracker.state
 
-import com.example.calorietracker.extensions.mapToDomainModel
-import com.example.calorietracker.models.DomainModel
-import com.example.calorietracker.models.UiModel
-import com.example.calorietracker.network.FoodListResponse
+import com.example.calorietracker.models.network.FoodListResponse
+import com.example.calorietracker.models.network.FoodResponse
+import com.example.calorietracker.models.ui.FoodProps
+import com.example.calorietracker.models.ui.mapToDomainModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -11,17 +11,17 @@ import javax.inject.Singleton
 
 @Singleton
 class FoodListState @Inject constructor() {
-    private val _cashedFoodList = MutableStateFlow(listOf<DomainModel.Food>())
+    private val _cashedFoodList = MutableStateFlow(listOf<FoodResponse>())
 
-    val cashedFoodList: StateFlow<List<DomainModel.Food>> = _cashedFoodList
+    val cashedFoodList: StateFlow<List<FoodResponse>> = _cashedFoodList
 
     fun refreshFoodList(food: FoodListResponse) {
         _cashedFoodList.value = food.food
     }
 
-    fun addFood(food: UiModel.Food) {
+    fun addFood(food: FoodProps) {
         val updatedList = _cashedFoodList.value.toMutableList()
-        updatedList.add(food.mapToDomainModel())
+        updatedList.add(3, food.mapToDomainModel())
         _cashedFoodList.value = updatedList
     }
 

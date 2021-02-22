@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutFoodGridItemBinding
-import com.example.calorietracker.models.UiModel
-import com.example.calorietracker.models.UiModel.*
+import com.example.calorietracker.models.ui.DailyIntakeProps.*
+import com.example.calorietracker.models.ui.FoodProps
 import java.lang.RuntimeException
 
-class FoodListAdapter(private val clickListener: (food: Food) -> Unit) :
-    ListAdapter<UiModel, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
+class FoodListAdapter(private val clickListener: (food: FoodProps) -> Unit) :
+    ListAdapter<FoodProps, FoodListAdapter.FoodViewHolder>(FoodItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         return try {
@@ -26,14 +26,14 @@ class FoodListAdapter(private val clickListener: (food: Food) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.bind(getItem(position) as Food, clickListener)
+        holder.bind(getItem(position) as FoodProps, clickListener)
     }
 
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val foodBinding = LayoutFoodGridItemBinding.bind(itemView)
 
-        fun bind(food: Food, clickListener: (food: Food) -> Unit) {
+        fun bind(food: FoodProps, clickListener: (food: FoodProps) -> Unit) {
             foodBinding.food = food
             foodBinding.foodContainer.setOnClickListener { clickListener(food) }
         }

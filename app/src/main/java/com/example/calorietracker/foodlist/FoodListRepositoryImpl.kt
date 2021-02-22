@@ -1,9 +1,10 @@
 package com.example.calorietracker.foodlist
 
-import com.example.calorietracker.models.DomainModel
-import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.network.FoodResponse
+import com.example.calorietracker.models.network.UserResponse
+import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.network.TrackerApiService
-import com.example.calorietracker.network.UserResponse
 import com.example.calorietracker.state.FoodListState
 import com.example.calorietracker.state.MealsState
 import com.example.calorietracker.state.UserState
@@ -17,9 +18,9 @@ class FoodListRepositoryImpl(
 ) : FoodListRepository {
 
     override val user: StateFlow<UserResponse> = userState.cashedUser
-    override val food: StateFlow<List<DomainModel.Food>> = foodListState.cashedFoodList
+    override val food: StateFlow<List<FoodResponse>> = foodListState.cashedFoodList
 
-    override fun addFood(food: UiModel.Food) {
+    override fun addFood(food: FoodProps) {
         foodListState.addFood(food)
     }
 
@@ -27,8 +28,8 @@ class FoodListRepositoryImpl(
         foodListState.deleteFood(index)
     }
 
-    override fun addMealToList(meal: UiModel.Meal) {
-        mealsState.addMeal(meal)
+    override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
+        mealsState.addMeal(mealProps)
     }
 
     override suspend fun refreshFood() {

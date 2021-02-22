@@ -1,18 +1,18 @@
-package com.example.calorietracker.network
+package com.example.calorietracker.models.network
 
-import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.ui.DailyIntakeProps
 
 data class UserResponse(
     val id: String = "-1",
     val image: String = "",
     val name: String = "Loading user",
-    val currentIntake: Double = 0.0,
+    var currentIntake: Double = 0.0,
     val maxIntake: Float = 0f,
     val weight: Float = 0f
 )
 
-fun UserResponse.mapToUiModel(): UiModel.User {
-    return UiModel.User(
+fun UserResponse.mapToUiModel(): DailyIntakeProps.UserProps {
+    return DailyIntakeProps.UserProps(
         id = this.id,
         userName = this.name,
         userImage = this.image,

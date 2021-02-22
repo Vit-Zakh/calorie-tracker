@@ -8,7 +8,7 @@
 
         <variable
             name="food"
-            type="com.example.calorietracker.models.UiModel.Food" />
+            type="com.example.calorietracker.models.ui.FoodProps" />
 
         <variable
             name="dialog"

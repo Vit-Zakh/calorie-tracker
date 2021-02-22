@@ -1,11 +1,10 @@
 package com.example.calorietracker.dailyintake
 
 import androidx.lifecycle.*
-import com.example.calorietracker.extensions.mapToUiModel
-import com.example.calorietracker.models.DomainModel
-import com.example.calorietracker.models.UiModel
-import com.example.calorietracker.network.UserResponse
-import com.example.calorietracker.network.mapToUiModel
+import com.example.calorietracker.models.network.MealResponse
+import com.example.calorietracker.models.network.UserResponse
+import com.example.calorietracker.models.network.mapToUiModel
+import com.example.calorietracker.models.ui.DailyIntakeProps
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -22,15 +21,15 @@ class DailyIntakeViewModel @Inject constructor(
         }
     }
 
-    val dailyLiveData: LiveData<List<UiModel>> =
-        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { user: UserResponse, list: List<DomainModel.Meal> ->
-            listOf(user.mapToUiModel(), UiModel.TextLine) + list.map {
+    val dailyLiveData: LiveData<List<DailyIntakeProps>> =
+        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { user: UserResponse, list: List<MealResponse> ->
+            listOf(user.mapToUiModel(), DailyIntakeProps.TextLine) + list.map {
                 it.mapToUiModel()
             }
         }.asLiveData()
 
-    fun addMeal(meal: UiModel.Meal) {
-        dailyIntakeRepository.addMeal(meal)
+    fun addMeal(mealProps: DailyIntakeProps.MealProps) {
+        dailyIntakeRepository.addMeal(mealProps)
     }
 
     fun removeMeal(index: Int) {

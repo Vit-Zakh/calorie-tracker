@@ -8,7 +8,7 @@
 
         <variable
             name="user"
-            type="com.example.calorietracker.models.UiModel.User" />
+            type="com.example.calorietracker.models.ui.DailyIntakeProps.UserProps" />
     </data>
 
     <androidx.cardview.widget.CardView

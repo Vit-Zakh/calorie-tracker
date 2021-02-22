@@ -2,43 +2,43 @@ package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.models.UiModel
+import com.example.calorietracker.models.ui.DailyIntakeProps
 
-class IntakeItemDiffCallback : DiffUtil.ItemCallback<UiModel>() {
+class IntakeItemDiffCallback : DiffUtil.ItemCallback<DailyIntakeProps>() {
 
-    override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
+    override fun areItemsTheSame(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Boolean {
         return when {
-            oldItem is UiModel.Meal && newItem is UiModel.Meal -> {
+            oldItem is DailyIntakeProps.MealProps && newItem is DailyIntakeProps.MealProps -> {
                 oldItem.id == newItem.id
             }
-            oldItem is UiModel.User && newItem is UiModel.User -> {
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
                 true
             }
-            oldItem is UiModel.TextLine && newItem is UiModel.TextLine -> {
+            oldItem is DailyIntakeProps.TextLine && newItem is DailyIntakeProps.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun areContentsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
+    override fun areContentsTheSame(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Boolean {
         return when {
-            oldItem is UiModel.Meal && newItem is UiModel.Meal -> {
+            oldItem is DailyIntakeProps.MealProps && newItem is DailyIntakeProps.MealProps -> {
                 oldItem == newItem
             }
-            oldItem is UiModel.User && newItem is UiModel.User -> {
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
                 oldItem == newItem
             }
-            oldItem is UiModel.TextLine && newItem is UiModel.TextLine -> {
+            oldItem is DailyIntakeProps.TextLine && newItem is DailyIntakeProps.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun getChangePayload(oldItem: UiModel, newItem: UiModel): Any? {
+    override fun getChangePayload(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Any? {
         return when {
-            oldItem is UiModel.User && newItem is UiModel.User -> {
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
                 val diff = Bundle()
                 when {
                     newItem.userIntake != oldItem.userIntake -> {
