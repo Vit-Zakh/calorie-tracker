@@ -8,6 +8,7 @@ import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.state.FoodListState
 import com.example.calorietracker.state.MealsState
 import com.example.calorietracker.state.UserState
+import com.example.calorietracker.utils.Operations
 import kotlinx.coroutines.flow.StateFlow
 
 class FoodListRepositoryImpl(
@@ -29,14 +30,15 @@ class FoodListRepositoryImpl(
     }
 
     override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
+        userState.changeProgress(mealProps, Operations.ADDITION)
         mealsState.addMeal(mealProps)
     }
 
     override suspend fun refreshFood() {
-        foodListState.refreshFoodList(apiService.getFoodList())
+//        foodListState.refreshFoodList(apiService.getFoodList())
     }
 
     override suspend fun refreshUser() {
-        userState.refreshUser(apiService.getUser())
+//        userState.refreshUser(apiService.getUser())
     }
 }

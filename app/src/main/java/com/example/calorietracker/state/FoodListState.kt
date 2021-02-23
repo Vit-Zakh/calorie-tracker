@@ -21,7 +21,7 @@ class FoodListState @Inject constructor() {
 
     fun addFood(food: FoodProps) {
         val updatedList = _cashedFoodList.value.toMutableList()
-        updatedList.add(3, food.mapToDomainModel())
+        updatedList.add(0, food.mapToDomainModel())
         _cashedFoodList.value = updatedList
     }
 

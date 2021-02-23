@@ -80,6 +80,8 @@ class FoodListFragment : Fragment() {
         viewModel.foodListData.observe(viewLifecycleOwner) {
             refreshFoodList(it.toList())
         }
+        viewModel.currentUserData.observe(viewLifecycleOwner) {
+        }
     }
 
     override fun onDestroyView() {
