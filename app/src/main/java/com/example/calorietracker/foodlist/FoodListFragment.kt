@@ -1,10 +1,10 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.databinding.FragmentFoodListBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps.*
 import com.example.calorietracker.models.ui.FoodProps
+import com.example.calorietracker.utils.ListStates
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_food_list.*
@@ -83,6 +84,18 @@ class FoodListFragment : Fragment() {
         }
         viewModel.currentUserData.observe(viewLifecycleOwner) {
         }
+
+        viewModel.listState.observe(viewLifecycleOwner) {
+            when (it) {
+                ListStates.LOADING -> fragmentBinding?.foodListProgressBar?.visibility = View.VISIBLE
+
+                ListStates.ERROR -> {
+                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+                    Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show()
+                }
+                else -> fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -92,13 +105,13 @@ class FoodListFragment : Fragment() {
 
     private fun refreshFoodList(list: List<FoodProps>) {
 
-        if (list.isNotEmpty()) {
-            Log.d("TAG", "refreshIntakeList: you have some food ")
-            fragmentBinding?.foodListProgressBar?.visibility = View.GONE
-        } else {
-            Log.d("TAG", "refreshIntakeList: you have no food ")
-            fragmentBinding?.foodListProgressBar?.visibility = View.VISIBLE
-        }
+//        if (list.isNotEmpty()) {
+//            Log.d("TAG", "refreshIntakeList: you have some food ")
+//            fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+//        } else {
+//            Log.d("TAG", "refreshIntakeList: you have no food ")
+//            fragmentBinding?.foodListProgressBar?.visibility = View.VISIBLE
+//        }
         fragmentBinding?.let {
             (it.foodGridList.adapter as FoodListAdapter).submitList(list)
         }
