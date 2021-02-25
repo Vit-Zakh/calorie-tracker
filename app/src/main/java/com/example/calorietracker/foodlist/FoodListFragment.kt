@@ -1,6 +1,7 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,6 +91,14 @@ class FoodListFragment : Fragment() {
     }
 
     private fun refreshFoodList(list: List<FoodProps>) {
+
+        if (list.isNotEmpty()) {
+            Log.d("TAG", "refreshIntakeList: you have some food ")
+            fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+        } else {
+            Log.d("TAG", "refreshIntakeList: you have no food ")
+            fragmentBinding?.foodListProgressBar?.visibility = View.VISIBLE
+        }
         fragmentBinding?.let {
             (it.foodGridList.adapter as FoodListAdapter).submitList(list)
         }

@@ -31,4 +31,6 @@ class UserState @Inject constructor() {
         }
         _cashedUser.value = progressedUser
     }
+
+//    fun handleApiCallError(error: String)
 }

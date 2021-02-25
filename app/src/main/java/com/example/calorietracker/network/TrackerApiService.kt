@@ -4,14 +4,24 @@ import com.example.calorietracker.models.network.FoodListResponse
 import com.example.calorietracker.models.network.MealsListResponse
 import com.example.calorietracker.models.network.UserResponse
 import retrofit2.http.GET
+import java.lang.Error
 
 interface TrackerApiService {
+//    @GET("user")
+//    suspend fun getUser(): UserResponse
+//
+//    @GET("meals")
+//    suspend fun getMeals(): MealsListResponse
+//
+//    @GET("foodList")
+//    suspend fun getFoodList(): FoodListResponse
+
     @GET("user")
-    suspend fun getUser(): UserResponse
+    suspend fun getUser(): NetworkResponse<UserResponse, Error>
 
     @GET("meals")
-    suspend fun getMeals(): MealsListResponse
+    suspend fun getMeals(): NetworkResponse<MealsListResponse, Error>
 
     @GET("foodList")
-    suspend fun getFoodList(): FoodListResponse
+    suspend fun getFoodList(): NetworkResponse<FoodListResponse, Error>
 }

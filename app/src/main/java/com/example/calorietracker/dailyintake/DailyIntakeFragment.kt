@@ -1,8 +1,11 @@
 package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,9 +25,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.dailyLiveData.observe(viewLifecycleOwner) {
-            refreshIntakeList(it.toList())
-        }
+        subscribeObservers()
     }
 
     override fun onCreateView(
@@ -70,7 +71,21 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         }
     }
 
+    private fun subscribeObservers() {
+        viewModel.dailyLiveData.observe(viewLifecycleOwner) {
+            refreshIntakeList(it.toList())
+        }
+    }
+
     private fun refreshIntakeList(list: List<DailyIntakeProps>) {
+
+        if (list.any { it is DailyIntakeProps.MealProps }) {
+            Log.d("TAG", "refreshIntakeList: you have a meal ")
+            fragmentBinding?.dailyIntakeProgressBar?.visibility = GONE
+        } else {
+            Log.d("TAG", "refreshIntakeList: you have no meals ")
+            fragmentBinding?.dailyIntakeProgressBar?.visibility = VISIBLE
+        }
         fragmentBinding?.let {
             (it.dailyIntakeList.adapter as DailyIntakeAdapter).submitList(list)
         }

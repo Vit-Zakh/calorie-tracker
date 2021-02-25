@@ -11,12 +11,17 @@ import javax.inject.Singleton
 
 @Singleton
 class MealsState @Inject constructor() {
-    private val _cashedMealsList = MutableStateFlow(listOf<MealResponse>())
+    private val _cashedMealsList = MutableStateFlow(
+        listOf<MealResponse>()
+    )
 
     val cashedMealsList: StateFlow<List<MealResponse>> = _cashedMealsList
 
     fun refreshMealsList(meals: MealsListResponse) {
+        // state -> Loading
+        // if response success -> state success -> new value
         _cashedMealsList.value = meals.meals
+        // if response error -> logd error
     }
 
     fun addMeal(mealProps: DailyIntakeProps.MealProps) {

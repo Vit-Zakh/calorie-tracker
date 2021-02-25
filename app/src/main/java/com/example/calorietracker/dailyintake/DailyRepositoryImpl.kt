@@ -1,14 +1,17 @@
 package com.example.calorietracker.dailyintake
 
+import android.util.Log
 import com.example.calorietracker.models.network.MealResponse
 import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.network.NetworkResponse.*
 import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.state.MealsState
 import com.example.calorietracker.state.UserState
 import com.example.calorietracker.utils.Operations
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.RuntimeException
 
 class DailyRepositoryImpl(
     private val mealsState: MealsState,
@@ -22,6 +25,26 @@ class DailyRepositoryImpl(
     override suspend fun refreshState() {
 //        userState.refreshUser(apiService.getUser())
 //        mealsState.refreshMealsList(apiService.getMeals())
+
+        when (val fetchedUser = apiService.getUser()) {
+            is Success -> {
+                userState.refreshUser(fetchedUser.body)
+                Log.d("TAG", "refreshState: SUCCESS")
+            }
+            is ApiError -> throw RuntimeException(fetchedUser.code.toString())
+            is NetworkError -> throw RuntimeException(fetchedUser.error)
+            is UnknownError -> throw RuntimeException(fetchedUser.error)
+        }
+
+        when (val fetchedMeals = apiService.getMeals()) {
+            is Success -> {
+                mealsState.refreshMealsList(fetchedMeals.body)
+                Log.d("TAG", "refreshState: SUCCESS")
+            }
+            is ApiError -> throw RuntimeException(fetchedMeals.body)
+            is NetworkError -> throw RuntimeException(fetchedMeals.error)
+            is UnknownError -> throw RuntimeException(fetchedMeals.error)
+        }
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {
