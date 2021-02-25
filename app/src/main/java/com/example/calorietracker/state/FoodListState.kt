@@ -26,15 +26,15 @@ class FoodListState @Inject constructor() {
 
         when (food) {
             is NetworkResponse.Success -> {
-                listState.value = ListStates.SUCCESS
-                _cashedFoodList.value = food.body.food
+                if (food.body.food.isNotEmpty()) {
+                    listState.value = ListStates.SUCCESS
+                    _cashedFoodList.value = food.body.food
+                } else listState.value = ListStates.SUCCESS_EMPTY_LIST
             }
-            is NetworkResponse.NetworkError -> {
+            else -> {
                 listState.value = ListStates.ERROR
             }
         }
-
-//        _cashedFoodList.value = food.food
     }
 
     fun addFood(food: FoodProps) {

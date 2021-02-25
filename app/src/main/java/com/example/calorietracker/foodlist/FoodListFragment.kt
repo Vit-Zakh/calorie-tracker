@@ -1,6 +1,7 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.databinding.FragmentFoodListBinding
-import com.example.calorietracker.models.ui.DailyIntakeProps.*
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.ListStates
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_food_list.*
-import kotlinx.android.synthetic.main.fragment_food_list.view.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -79,20 +77,34 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.foodListData.observe(viewLifecycleOwner) {
-            refreshFoodList(it.toList())
-        }
         viewModel.currentUserData.observe(viewLifecycleOwner) {
         }
 
         viewModel.listState.observe(viewLifecycleOwner) {
             when (it) {
-                ListStates.LOADING -> fragmentBinding?.foodListProgressBar?.visibility = View.VISIBLE
+
+                ListStates.LOADING ->
+                    fragmentBinding?.foodListProgressBar?.visibility =
+                        View.VISIBLE
+
+                ListStates.SUCCESS -> {
+                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+                    viewModel.foodListData.observe(viewLifecycleOwner) { foodList ->
+                        refreshFoodList(foodList.toList())
+                        Log.d("TAG", "subscribeObservers: отработало")
+                    }
+                }
 
                 ListStates.ERROR -> {
                     fragmentBinding?.foodListProgressBar?.visibility = View.GONE
                     Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show()
                 }
+
+                ListStates.SUCCESS_EMPTY_LIST -> {
+                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+                    Toast.makeText(context, "Your list is empty", Toast.LENGTH_SHORT).show()
+                }
+
                 else -> fragmentBinding?.foodListProgressBar?.visibility = View.GONE
             }
         }

@@ -3,6 +3,6 @@ package com.example.calorietracker.utils
 enum class ListStates {
     LOADING,
     SUCCESS,
-    EMPTY_LIST,
+    SUCCESS_EMPTY_LIST,
     ERROR
 }

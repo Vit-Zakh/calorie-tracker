@@ -13,7 +13,6 @@ import com.example.calorietracker.state.UserState
 import com.example.calorietracker.utils.ListStates
 import com.example.calorietracker.utils.Operations
 import kotlinx.coroutines.flow.StateFlow
-import java.lang.RuntimeException
 
 class FoodListRepositoryImpl(
     private val userState: UserState,
@@ -50,6 +49,7 @@ class FoodListRepositoryImpl(
 //            is NetworkResponse.NetworkError -> throw RuntimeException(fetchedFood.error)
 //            is NetworkResponse.UnknownError -> throw RuntimeException(fetchedFood.error)
 //        }
+
         foodListState.refreshFoodList(apiService.getFoodList())
     }
 
@@ -59,9 +59,9 @@ class FoodListRepositoryImpl(
                 userState.refreshUser(fetchedUser.body)
                 Log.d("TAG", "refreshState: SUCCESS")
             }
-            is NetworkResponse.ApiError -> throw RuntimeException(fetchedUser.code.toString())
-            is NetworkResponse.NetworkError -> throw RuntimeException(fetchedUser.error)
-            is NetworkResponse.UnknownError -> throw RuntimeException(fetchedUser.error)
+//            is NetworkResponse.ApiError -> throw RuntimeException(fetchedUser.code.toString())
+//            is NetworkResponse.NetworkError -> throw RuntimeException(fetchedUser.error)
+//            is NetworkResponse.UnknownError -> throw RuntimeException(fetchedUser.error)
         }
     }
 }
