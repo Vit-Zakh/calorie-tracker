@@ -2,7 +2,9 @@ package com.example.calorietracker.foodlist
 
 import androidx.lifecycle.*
 import com.example.calorietracker.models.network.mapToUiModel
+import com.example.calorietracker.models.network.mapToUiModel_1
 import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.models.ui.FoodListProps
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.ListStates
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +25,10 @@ class FoodListViewModel @Inject constructor(
     }
 
     val currentUserData = foodListRepository.user.map { it.mapToUiModel() }.asLiveData()
-    val foodListData: LiveData<List<FoodProps>> =
-        foodListRepository.food.map { it.map { food -> food.mapToUiModel() } }.asLiveData()
+//    val foodListData: LiveData<List<FoodProps>> =
+//        foodListRepository.food.map { it.map { food -> food.mapToUiModel() } }.asLiveData()
+    val foodListData_1: LiveData<List<FoodListProps.FoodProps>> =
+        foodListRepository.food.map { it.map { food -> food.mapToUiModel_1() } }.asLiveData()
 
     val listState: LiveData<ListStates> = foodListRepository.listState.asLiveData()
 
