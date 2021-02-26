@@ -1,19 +1,19 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import com.example.calorietracker.models.ui.FoodListProps
 import com.example.calorietracker.models.ui.FoodProps
-import com.example.calorietracker.utils.ListStates
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
@@ -60,9 +60,11 @@ class FoodListFragment : Fragment() {
         }
 
         binding.empty.setOnClickListener {
+            showEmptyListMessage()
         }
 
         binding.error.setOnClickListener {
+            showFailedListMessage()
         }
 
         /** End of test buttons block */
@@ -86,31 +88,12 @@ class FoodListFragment : Fragment() {
         viewModel.currentUserData.observe(viewLifecycleOwner) {
         }
 
-        viewModel.listState.observe(viewLifecycleOwner) {
-            when (it) {
-
-                ListStates.LOADING ->
-                    fragmentBinding?.foodListProgressBar?.visibility =
-                        View.VISIBLE
-
-                ListStates.SUCCESS -> {
-                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
-                    viewModel.foodListData.observe(viewLifecycleOwner) { foodList ->
-                        Log.d("TAG", "subscribeObservers: отработало")
-                    }
-                }
-
-                ListStates.ERROR -> {
-                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
-                    Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show()
-                }
-
-                ListStates.SUCCESS_EMPTY_LIST -> {
-                    fragmentBinding?.foodListProgressBar?.visibility = View.GONE
-                    Toast.makeText(context, "Your list is empty", Toast.LENGTH_SHORT).show()
-                }
-
-                else -> fragmentBinding?.foodListProgressBar?.visibility = View.GONE
+        viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
+            when (listData) {
+                is FoodListProps.LoadedFoodList -> refreshFoodList(listData.foodList)
+                is FoodListProps.LoadingFoodList -> showProgressBar()
+                is FoodListProps.EmptyFoodList -> showEmptyListMessage()
+                is FoodListProps.FailedFoodList -> showFailedListMessage()
             }
         }
     }
@@ -123,6 +106,11 @@ class FoodListFragment : Fragment() {
     private fun refreshFoodList(list: List<FoodProps>) {
         fragmentBinding?.let {
             (it.foodGridList.adapter as FoodListAdapter).submitList(list)
+            it.foodGridList.visibility = VISIBLE
+            it.foodListProgressBar.visibility = GONE
+            it.emptyListMessage.visibility = GONE
+            it.failedListMessage.visibility = GONE
+            it.textView.text = "Choose your meal"
         }
     }
 
@@ -132,5 +120,34 @@ class FoodListFragment : Fragment() {
                 food
             )
         )
+    }
+
+    private fun showEmptyListMessage() {
+        fragmentBinding?.let {
+            it.foodListProgressBar.visibility = GONE
+            it.emptyListMessage.visibility = VISIBLE
+            it.failedListMessage.visibility = GONE
+            it.foodGridList.visibility = GONE
+            it.textView.text = "Your food list is empty"
+        }
+    }
+
+    private fun showFailedListMessage() {
+        fragmentBinding?.let {
+            it.foodListProgressBar.visibility = GONE
+            it.emptyListMessage.visibility = GONE
+            it.failedListMessage.visibility = VISIBLE
+            it.foodGridList.visibility = GONE
+            it.textView.text = "Whoops!"
+        }
+    }
+
+    private fun showProgressBar() {
+        fragmentBinding?.let {
+            it.foodListProgressBar.visibility = VISIBLE
+            it.emptyListMessage.visibility = GONE
+            it.failedListMessage.visibility = GONE
+            it.textView.text = "Choose your meal"
+        }
     }
 }

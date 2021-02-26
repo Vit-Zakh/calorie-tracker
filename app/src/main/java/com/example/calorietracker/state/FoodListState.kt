@@ -5,7 +5,6 @@ import com.example.calorietracker.models.network.FoodResponse
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.models.ui.mapToDomainModel
 import com.example.calorietracker.network.NetworkResponse
-import com.example.calorietracker.utils.ListStates
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Error
@@ -14,38 +13,39 @@ import javax.inject.Singleton
 
 @Singleton
 class FoodListState @Inject constructor() {
-    private val _cashedFoodList = MutableStateFlow(listOf<FoodResponse>())
 
-    val listState = MutableStateFlow<ListStates>(ListStates.LOADING)
+    data class ListState(
+        val foodList: List<FoodResponse> = listOf(),
+        val isLoading: Boolean = false,
+        val isFailed: Boolean = false
+    )
 
-    val cashedFoodList: StateFlow<List<FoodResponse>> = _cashedFoodList
+    private val _cashedFoodList = MutableStateFlow(ListState())
+
+    val cashedFoodList: StateFlow<ListState> = _cashedFoodList
+
+    fun startFetching() {
+        _cashedFoodList.value = _cashedFoodList.value.copy(isLoading = true)
+    }
 
     fun refreshFoodList(food: NetworkResponse<FoodListResponse, Error>) {
-
-        listState.value = ListStates.LOADING
-
         when (food) {
-            is NetworkResponse.Success -> {
-                if (food.body.food.isNotEmpty()) {
-                    listState.value = ListStates.SUCCESS
-                    _cashedFoodList.value = food.body.food
-                } else listState.value = ListStates.SUCCESS_EMPTY_LIST
-            }
+            is NetworkResponse.Success -> _cashedFoodList.value = _cashedFoodList.value.copy(foodList = food.body.food, isLoading = false)
             else -> {
-                listState.value = ListStates.ERROR
+                _cashedFoodList.value = _cashedFoodList.value.copy(isFailed = true)
             }
         }
     }
 
     fun addFood(food: FoodProps) {
-        val updatedList = _cashedFoodList.value.toMutableList()
+        val updatedList = _cashedFoodList.value.foodList.toMutableList()
         updatedList.add(0, food.mapToDomainModel())
-        _cashedFoodList.value = updatedList
+        _cashedFoodList.value = _cashedFoodList.value.copy(foodList = updatedList, isLoading = false, isFailed = false)
     }
 
     fun deleteFood(index: Int) {
-        val updatedList = _cashedFoodList.value.toMutableList()
+        val updatedList = _cashedFoodList.value.foodList.toMutableList()
         updatedList.removeAt(index)
-        _cashedFoodList.value = updatedList
+        _cashedFoodList.value = _cashedFoodList.value.copy(foodList = updatedList, isLoading = false, isFailed = false)
     }
 }

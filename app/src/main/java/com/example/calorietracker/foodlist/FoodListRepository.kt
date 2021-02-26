@@ -1,17 +1,15 @@
 package com.example.calorietracker.foodlist
 
-import com.example.calorietracker.models.network.FoodResponse
 import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodProps
-import com.example.calorietracker.utils.ListStates
+import com.example.calorietracker.state.FoodListState
 import kotlinx.coroutines.flow.StateFlow
 
 interface FoodListRepository {
 
     val user: StateFlow<UserResponse>
-    val food: StateFlow<List<FoodResponse>>
-    val listState: StateFlow<ListStates>
+    val food: StateFlow<FoodListState.ListState>
 
     fun addFood(food: FoodProps)
 

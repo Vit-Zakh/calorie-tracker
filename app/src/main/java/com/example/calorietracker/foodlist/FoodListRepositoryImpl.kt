@@ -1,7 +1,6 @@
 package com.example.calorietracker.foodlist
 
 import android.util.Log
-import com.example.calorietracker.models.network.FoodResponse
 import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodProps
@@ -10,7 +9,6 @@ import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.state.FoodListState
 import com.example.calorietracker.state.MealsState
 import com.example.calorietracker.state.UserState
-import com.example.calorietracker.utils.ListStates
 import com.example.calorietracker.utils.Operations
 import kotlinx.coroutines.flow.StateFlow
 
@@ -22,9 +20,7 @@ class FoodListRepositoryImpl(
 ) : FoodListRepository {
 
     override val user: StateFlow<UserResponse> = userState.cashedUser
-    override val food: StateFlow<List<FoodResponse>> = foodListState.cashedFoodList
-
-    override val listState: StateFlow<ListStates> = foodListState.listState
+    override val food: StateFlow<FoodListState.ListState> = foodListState.cashedFoodList
 
     override fun addFood(food: FoodProps) {
         foodListState.addFood(food)
@@ -40,6 +36,7 @@ class FoodListRepositoryImpl(
     }
 
     override suspend fun refreshFood() {
+        foodListState.startFetching()
         foodListState.refreshFoodList(apiService.getFoodList())
     }
 
