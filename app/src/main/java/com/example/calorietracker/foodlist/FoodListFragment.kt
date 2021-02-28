@@ -8,10 +8,13 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodListProps
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
@@ -37,7 +40,6 @@ class FoodListFragment : Fragment() {
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
         fragmentBinding = binding
 
         initRecyclerView()
@@ -85,7 +87,11 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.currentUserData.observe(viewLifecycleOwner) {
+        viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
+            when (userData) {
+                is DailyIntakeProps.LoadedUser -> updateUserProgress(userData.user)
+                else -> updateUserProgress(DailyIntakeProps.UserProps())
+            }
         }
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
@@ -101,6 +107,26 @@ class FoodListFragment : Fragment() {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
+    }
+
+    private fun updateUserProgress(user: DailyIntakeProps.UserProps) {
+        fragmentBinding?.let {
+            val userProgress = user.userIntake / user.plannedIntake
+            it.progressBar.progress = if (userProgress <= 1) {
+                ((userProgress) * 70f).toInt()
+            } else {
+                70
+            }
+            it.progressText.text = resources.getString(
+                R.string.user_calories_progress_text,
+                user.userIntake,
+                user.plannedIntake
+            )
+            it.progressPercentText.text = resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
+            if (userProgress > 1.0) {
+                it.progressPercentText.setTextColor(resources.getColor(R.color.design_default_color_error))
+            }
+        }
     }
 
     private fun refreshFoodList(list: List<FoodProps>) {

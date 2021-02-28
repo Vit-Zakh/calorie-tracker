@@ -4,35 +4,51 @@ import com.example.calorietracker.models.network.MealResponse
 import com.example.calorietracker.models.network.MealsListResponse
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.mapToDomainModel
+import com.example.calorietracker.network.NetworkResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.Error
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MealsState @Inject constructor() {
-    private val _cashedMealsList = MutableStateFlow(
-        listOf<MealResponse>()
+
+    data class FetchedMealsState(
+        val mealsList: List<MealResponse> = listOf(),
+        val isLoading: Boolean = false,
+        val isFailed: Boolean = false
     )
 
-    val cashedMealsList: StateFlow<List<MealResponse>> = _cashedMealsList
+    private val _cashedMealsList = MutableStateFlow(
+        FetchedMealsState()
+    )
 
-    fun refreshMealsList(meals: MealsListResponse) {
-        // state -> Loading
-        // if response success -> state success -> new value
-        _cashedMealsList.value = meals.meals
-        // if response error -> logd error
+    val cashedMealsList: StateFlow<FetchedMealsState> = _cashedMealsList
+
+    fun startFetching() {
+        _cashedMealsList.value = _cashedMealsList.value.copy(isLoading = true)
     }
 
-    fun addMeal(mealProps: DailyIntakeProps.MealProps) {
-        val updatedList = _cashedMealsList.value.toMutableList()
-        updatedList.add(0, mealProps.mapToDomainModel())
-        _cashedMealsList.value = updatedList
+    fun refreshMealsList(meals: NetworkResponse<MealsListResponse, Error>) {
+
+        when (meals) {
+            is NetworkResponse.Success -> _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = meals.body.meals, isLoading = false)
+            else -> {
+                _cashedMealsList.value = _cashedMealsList.value.copy(isFailed = true)
+            }
+        }
+    }
+
+    fun addMeal(meal: DailyIntakeProps.MealProps) {
+        val updatedList = _cashedMealsList.value.mealsList.toMutableList()
+        updatedList.add(0, meal.mapToDomainModel())
+        _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
     }
 
     fun deleteMeal(index: Int) {
-        val updatedList = _cashedMealsList.value.toMutableList()
+        val updatedList = _cashedMealsList.value.mealsList.toMutableList()
         updatedList.removeAt(index)
-        _cashedMealsList.value = updatedList
+        _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
     }
 }

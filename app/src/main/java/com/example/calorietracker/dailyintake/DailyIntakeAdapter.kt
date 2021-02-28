@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
+import com.example.calorietracker.databinding.LayoutEmptyMealItemBinding
 import com.example.calorietracker.databinding.LayoutMealItemBinding
 import com.example.calorietracker.databinding.LayoutTextItemBinding
 import com.example.calorietracker.databinding.LayoutUserItemBinding
@@ -17,8 +18,11 @@ class DailyIntakeAdapter() :
     ListAdapter<DailyIntakeProps, RecyclerView.ViewHolder>(IntakeItemDiffCallback()) {
 
     private val VIEW_TYPE_MEAL = 1
-    private val VIEW_TYPE_USER = 2
-    private val VIEW_TYPE_TEXT = 3
+    private val VIEW_TYPE_MEAL_EMPTY = 2
+    private val VIEW_TYPE_MEAL_FAILED = 3
+    private val VIEW_TYPE_USER = 4
+    private val VIEW_TYPE_USER_FAILED = 5
+    private val VIEW_TYPE_TEXT = 6
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -66,6 +70,15 @@ class DailyIntakeAdapter() :
 
         fun bind(mealProps: MealProps) {
             mealBinding.meal = mealProps
+        }
+    }
+
+    class EmptyMealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val emptyMealBinding = LayoutEmptyMealItemBinding.bind(itemView)
+
+        fun bind(emptyMessage: String) {
+            emptyMealBinding.emptyMessage = emptyMessage
         }
     }
 

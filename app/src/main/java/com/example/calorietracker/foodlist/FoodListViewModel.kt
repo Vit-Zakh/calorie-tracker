@@ -22,7 +22,15 @@ class FoodListViewModel @Inject constructor(
         }
     }
 
-    val currentUserData = foodListRepository.user.map { it.mapToUiModel() }.asLiveData()
+    val currentUserData: LiveData<DailyIntakeProps> = foodListRepository.user.map { userState ->
+        when {
+            userState.isLoading -> DailyIntakeProps.LoadingUser
+            userState.isFailed -> DailyIntakeProps.FailedUser
+            (userState.fetchedUSer.id != "-1") -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel())
+            else -> DailyIntakeProps.FailedUser
+        }
+    }.asLiveData()
+
     val foodListData: LiveData<FoodListProps> =
         foodListRepository.food.map { listState ->
             when {

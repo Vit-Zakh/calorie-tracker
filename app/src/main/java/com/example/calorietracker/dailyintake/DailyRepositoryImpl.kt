@@ -1,7 +1,5 @@
 package com.example.calorietracker.dailyintake
 
-import com.example.calorietracker.models.network.MealResponse
-import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.network.NetworkResponse.*
@@ -17,32 +15,15 @@ class DailyRepositoryImpl(
     private val apiService: TrackerApiService
 ) : DailyIntakeRepository {
 
-    override val user: StateFlow<UserResponse> = userState.cashedUser
-    override val meals: StateFlow<List<MealResponse>> = mealsState.cashedMealsList
+    override val user: StateFlow<UserState.FetchedUserState> = userState.cashedUser
+    override val meals: StateFlow<MealsState.FetchedMealsState> = mealsState.cashedMealsList
 
     override suspend fun refreshState() {
-//        userState.refreshUser(apiService.getUser())
-//        mealsState.refreshMealsList(apiService.getMeals())
+        userState.startFetching()
+        mealsState.startFetching()
 
-//        when (val fetchedUser = apiService.getUser()) {
-//            is Success -> {
-//                userState.refreshUser(fetchedUser.body)
-//                Log.d("TAG", "refreshState: SUCCESS")
-//            }
-//            is ApiError -> throw RuntimeException(fetchedUser.code.toString())
-//            is NetworkError -> throw RuntimeException(fetchedUser.error)
-//            is UnknownError -> throw RuntimeException(fetchedUser.error)
-//        }
-//
-//        when (val fetchedMeals = apiService.getMeals()) {
-//            is Success -> {
-//                mealsState.refreshMealsList(fetchedMeals.body)
-//                Log.d("TAG", "refreshState: SUCCESS")
-//            }
-//            is ApiError -> throw RuntimeException(fetchedMeals.body)
-//            is NetworkError -> throw RuntimeException(fetchedMeals.error)
-//            is UnknownError -> throw RuntimeException(fetchedMeals.error)
-//        }
+        userState.refreshUser(apiService.getUser())
+        mealsState.refreshMealsList(apiService.getMeals())
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {
@@ -51,7 +32,7 @@ class DailyRepositoryImpl(
     }
 
     override fun deleteMeal(index: Int) {
-        userState.changeProgress(meals.value[index].mapToUiModel(), Operations.SUBTRACTION)
+        userState.changeProgress(meals.value.mealsList[index].mapToUiModel(), Operations.SUBTRACTION)
         mealsState.deleteMeal(index)
     }
 }

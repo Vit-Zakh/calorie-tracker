@@ -26,6 +26,11 @@ sealed class DailyIntakeProps {
         var carbs: Float? = null
     ) : DailyIntakeProps(), Parcelable
 
+    class LoadedMealsList(val mealsList: List<MealProps>) : DailyIntakeProps()
+    object LoadingMealsItem : DailyIntakeProps()
+    object EmptyMealsItem : DailyIntakeProps()
+    object FailedMealsItem : DailyIntakeProps()
+
     @Parcelize
     data class UserProps(
         var id: String = "-1",
@@ -40,6 +45,10 @@ sealed class DailyIntakeProps {
         @SerializedName("maxIntake")
         var plannedIntake: Float = 0f
     ) : DailyIntakeProps(), Parcelable
+
+    class LoadedUser(val user: UserProps) : DailyIntakeProps()
+    object LoadingUser : DailyIntakeProps()
+    object FailedUser : DailyIntakeProps()
 
     object TextLine : DailyIntakeProps()
 }

@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
@@ -73,7 +74,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     private fun subscribeObservers() {
         viewModel.dailyLiveData.observe(viewLifecycleOwner) {
-            refreshIntakeList(it.toList())
+//            refreshIntakeList(it.toList())
         }
     }
 

@@ -1,10 +1,7 @@
 package com.example.calorietracker.foodlist
 
-import android.util.Log
-import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodProps
-import com.example.calorietracker.network.NetworkResponse
 import com.example.calorietracker.network.TrackerApiService
 import com.example.calorietracker.state.FoodListState
 import com.example.calorietracker.state.MealsState
@@ -19,8 +16,8 @@ class FoodListRepositoryImpl(
     private val apiService: TrackerApiService
 ) : FoodListRepository {
 
-    override val user: StateFlow<UserResponse> = userState.cashedUser
-    override val food: StateFlow<FoodListState.ListState> = foodListState.cashedFoodList
+    override val user: StateFlow<UserState.FetchedUserState> = userState.cashedUser
+    override val food: StateFlow<FoodListState.FetchedFoodState> = foodListState.cashedFoodFetchedFood
 
     override fun addFood(food: FoodProps) {
         foodListState.addFood(food)
@@ -41,15 +38,18 @@ class FoodListRepositoryImpl(
     }
 
     override suspend fun refreshUser() {
-        when (val fetchedUser = apiService.getUser()) {
-            is NetworkResponse.Success -> {
-                userState.refreshUser(fetchedUser.body)
-                Log.d("TAG", "refreshState: SUCCESS")
-            }
+        userState.startFetching()
+        userState.refreshUser(apiService.getUser())
+
+//        when (val fetchedUser = apiService.getUser()) {
+//            is NetworkResponse.Success -> {
+//                userState.refreshUser(fetchedUser.body)
+//                Log.d("TAG", "refreshState: SUCCESS")
+//            }
 
 //            is NetworkResponse.ApiError -> throw RuntimeException(fetchedUser.code.toString())
 //            is NetworkResponse.NetworkError -> throw RuntimeException(fetchedUser.error)
 //            is NetworkResponse.UnknownError -> throw RuntimeException(fetchedUser.error)
-        }
+//        }
     }
 }
