@@ -16,13 +16,6 @@
         tools:listitem="@layout/layout_meal_item">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <ProgressBar
-        android:id="@+id/dailyIntakeProgressBar"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
-        android:layout_gravity="center"
-        />
-
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"

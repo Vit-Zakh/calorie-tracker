@@ -19,6 +19,7 @@ import com.example.calorietracker.models.ui.FoodListProps
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_food_list.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -62,11 +63,11 @@ class FoodListFragment : Fragment() {
         }
 
         binding.empty.setOnClickListener {
-            showEmptyListMessage()
+//            showEmptyListMessage()
         }
 
         binding.error.setOnClickListener {
-            showFailedListMessage()
+//            showFailedListMessage()
         }
 
         /** End of test buttons block */
@@ -90,11 +91,24 @@ class FoodListFragment : Fragment() {
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
             when (userData) {
                 is DailyIntakeProps.LoadedUser -> updateUserProgress(userData.user)
+
+                //
                 else -> updateUserProgress(DailyIntakeProps.UserProps())
             }
         }
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
+//            fragmentBinding?.let {
+//                it.progressBar.showIf(listData is FoodListProps.LoadingFoodList)
+// //                        .also { textView.text = "Loading your food list" }
+//                it.emptyListMessage.showIf(listData is FoodListProps.EmptyFoodList)
+// //                        .also { textView.text = "Your food list is empty" }
+//                it.failedListMessage.showIf(listData is FoodListProps.FailedFoodList)
+// //                        .also { textView.text = "Whoops!" }
+//                if (listData is FoodListProps.LoadedFoodList) {
+//                    (it.foodGridList.adapter as FoodListAdapter).submitList(listData.foodList.toList())
+//                }
+//            }
             when (listData) {
                 is FoodListProps.LoadedFoodList -> refreshFoodList(listData.foodList)
                 is FoodListProps.LoadingFoodList -> showProgressBar()

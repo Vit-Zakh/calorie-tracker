@@ -27,7 +27,7 @@ class DailyIntakeViewModel @Inject constructor(
                 when {
                     userState.isLoading -> DailyIntakeProps.LoadingUser
                     userState.isFailed -> DailyIntakeProps.FailedUser
-                    (userState.fetchedUSer.id != "-1") -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel())
+                    (userState.fetchedUSer.id != "-1") -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel()).user
                     else -> DailyIntakeProps.FailedUser
                 }
             val meals =
