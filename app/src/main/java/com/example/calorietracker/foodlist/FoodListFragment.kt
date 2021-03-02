@@ -1,7 +1,6 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -92,12 +91,24 @@ class FoodListFragment : Fragment() {
 
     private fun subscribeObservers() {
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
+
+            fragmentBinding?.let {
+                it.progressPercentText.showIf(userData != FailedUser)
+                it.progressText.showIf(userData != FailedUser)
+                it.progressBar.showIf(userData != FailedUser)
+                it.progressBarContainer.showIf(userData != FailedUser)
+                it.textView.showIf(userData != FailedUser)
+                it.failedListMessage.showIf(userData is FailedUser)
+                it.failedListImage.showIf(userData is FailedUser)
+            }
+
             when (userData) {
                 is LoadedUser -> updateUserProgress(userData.user.copy())
                 is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
-                is FailedUser -> Toast.makeText(context, "Failed to update user data", Toast.LENGTH_LONG).show()
+                is FailedUser -> {
+                    Toast.makeText(context, "Failed to update user data", Toast.LENGTH_LONG).show()
+                }
             }
-            Log.d("observe_user_TAG", "subscribeObservers: ${userData.javaClass}")
         }
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
@@ -105,14 +116,11 @@ class FoodListFragment : Fragment() {
                 it.foodListProgressBar.showIf(listData is LoadingFoodList)
                 it.emptyListMessage.showIf(listData is EmptyFoodList)
                 it.failedListMessage.showIf(listData is FailedFoodList)
+                it.failedListMessage.showIf(listData is FailedFoodList)
             }
-//            fragmentBinding?.foodListProgressBar?.visibility = if (listData is LoadingFoodList) VISIBLE else GONE
-//            fragmentBinding?.emptyListMessage?.visibility = if (listData is EmptyFoodList) VISIBLE else GONE
-//            fragmentBinding?.failedListMessage?.visibility = if (listData is FailedFoodList) VISIBLE else GONE
             when (listData) {
                 is LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
             }
-            Log.d("observe_list_TAG", "subscribeObservers: ${listData.javaClass}")
         }
     }
 
@@ -134,17 +142,6 @@ class FoodListFragment : Fragment() {
             if (userProgress > 1.0) {
                 it.progressPercentText.setTextColor(resources.getColor(R.color.design_default_color_error))
             }
-        }
-    }
-
-    private fun refreshFoodList(list: List<FoodProps>) {
-        fragmentBinding?.let {
-            (it.foodGridList.adapter as FoodListAdapter).submitList(list)
-            it.foodGridList.visibility = VISIBLE
-            it.foodListProgressBar.visibility = GONE
-            it.emptyListMessage.visibility = GONE
-            it.failedListMessage.visibility = GONE
-            it.textView.text = "Choose your meal"
         }
     }
 
@@ -173,15 +170,6 @@ class FoodListFragment : Fragment() {
             it.failedListMessage.visibility = VISIBLE
             it.foodGridList.visibility = GONE
             it.textView.text = "Whoops!"
-        }
-    }
-
-    private fun showProgressBar() {
-        fragmentBinding?.let {
-            it.foodListProgressBar.visibility = VISIBLE
-            it.emptyListMessage.visibility = GONE
-            it.failedListMessage.visibility = GONE
-            it.textView.text = "Choose your meal"
         }
     }
 

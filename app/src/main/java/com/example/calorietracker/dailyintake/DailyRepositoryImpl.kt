@@ -26,11 +26,13 @@ class DailyRepositoryImpl(
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {
+        userState.startFetching()
         userState.changeProgress(mealProps, Operations.ADDITION)
         mealsState.addMeal(mealProps)
     }
 
     override fun deleteMeal(index: Int) {
+        userState.startFetching()
         userState.changeProgress(meals.value.mealsList[index].mapToUiModel(), Operations.SUBTRACTION)
         mealsState.deleteMeal(index)
     }

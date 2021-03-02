@@ -28,6 +28,9 @@ class FoodListRepositoryImpl(
     }
 
     override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
+
+        userState.startFetching()
+
         userState.changeProgress(mealProps, Operations.ADDITION)
         mealsState.addMeal(mealProps)
     }
