@@ -38,18 +38,7 @@ class FoodListRepositoryImpl(
     }
 
     override suspend fun refreshUser() {
-        userState.startFetching()
-        userState.refreshUser(apiService.getUser())
-
-//        when (val fetchedUser = apiService.getUser()) {
-//            is NetworkResponse.Success -> {
-//                userState.refreshUser(fetchedUser.body)
-//                Log.d("TAG", "refreshState: SUCCESS")
-//            }
-
-//            is NetworkResponse.ApiError -> throw RuntimeException(fetchedUser.code.toString())
-//            is NetworkResponse.NetworkError -> throw RuntimeException(fetchedUser.error)
-//            is NetworkResponse.UnknownError -> throw RuntimeException(fetchedUser.error)
-//        }
+//        userState.startFetching()
+//        userState.refreshUser(apiService.getUser())
     }
 }

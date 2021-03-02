@@ -18,7 +18,7 @@ class FoodListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             foodListRepository.refreshFood()
-            foodListRepository.refreshUser()
+//            foodListRepository.refreshUser()
         }
     }
 
@@ -27,7 +27,7 @@ class FoodListViewModel @Inject constructor(
             userState.isLoading -> DailyIntakeProps.LoadingUser
             userState.isFailed -> DailyIntakeProps.FailedUser
             (userState.fetchedUSer.id != "-1") -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel())
-            else -> DailyIntakeProps.FailedUser
+            else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()
 
@@ -38,7 +38,7 @@ class FoodListViewModel @Inject constructor(
                 listState.isFailed -> FoodListProps.FailedFoodList
                 listState.foodList.isEmpty() -> FoodListProps.EmptyFoodList
                 listState.foodList.isNotEmpty() -> FoodListProps.LoadedFoodList(listState.foodList.map { it.mapToUiModel() })
-                else -> FoodListProps.FailedFoodList
+                else -> FoodListProps.LoadingFoodList
             }
         }.asLiveData()
 

@@ -1,11 +1,13 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -14,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentFoodListBinding
-import com.example.calorietracker.models.ui.DailyIntakeProps
-import com.example.calorietracker.models.ui.FoodListProps
+import com.example.calorietracker.models.ui.DailyIntakeProps.*
+import com.example.calorietracker.models.ui.FoodListProps.*
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,11 +65,11 @@ class FoodListFragment : Fragment() {
         }
 
         binding.empty.setOnClickListener {
-//            showEmptyListMessage()
+            showEmptyListMessage()
         }
 
         binding.error.setOnClickListener {
-//            showFailedListMessage()
+            showFailedListMessage()
         }
 
         /** End of test buttons block */
@@ -90,31 +92,29 @@ class FoodListFragment : Fragment() {
     private fun subscribeObservers() {
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
             when (userData) {
-                is DailyIntakeProps.LoadedUser -> updateUserProgress(userData.user)
-
-                //
-                else -> updateUserProgress(DailyIntakeProps.UserProps())
+                is LoadedUser -> updateUserProgress(userData.user.copy())
+                is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
+                is FailedUser -> Toast.makeText(context, "Failed to update user data", Toast.LENGTH_LONG).show()
             }
+            Log.d("observe_user_TAG", "subscribeObservers: ${userData.javaClass}")
         }
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
-//            fragmentBinding?.let {
-//                it.progressBar.showIf(listData is FoodListProps.LoadingFoodList)
-// //                        .also { textView.text = "Loading your food list" }
-//                it.emptyListMessage.showIf(listData is FoodListProps.EmptyFoodList)
-// //                        .also { textView.text = "Your food list is empty" }
-//                it.failedListMessage.showIf(listData is FoodListProps.FailedFoodList)
-// //                        .also { textView.text = "Whoops!" }
-//                if (listData is FoodListProps.LoadedFoodList) {
-//                    (it.foodGridList.adapter as FoodListAdapter).submitList(listData.foodList.toList())
-//                }
+
+//            fragmentBinding?.progressBar?.visibility = if (listData is FoodListProps.LoadingFoodList) VISIBLE else GONE
+//            fragmentBinding?.emptyListMessage?.visibility = if (listData is FoodListProps.EmptyFoodList) VISIBLE else GONE
+//            fragmentBinding?.failedListMessage?.visibility = if (listData is FoodListProps.FailedFoodList) VISIBLE else GONE
+//            when (listData) {
+//                is FoodListProps.LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
 //            }
+
             when (listData) {
-                is FoodListProps.LoadedFoodList -> refreshFoodList(listData.foodList)
-                is FoodListProps.LoadingFoodList -> showProgressBar()
-                is FoodListProps.EmptyFoodList -> showEmptyListMessage()
-                is FoodListProps.FailedFoodList -> showFailedListMessage()
+                is LoadedFoodList -> refreshFoodList(listData.foodList)
+                is LoadingFoodList -> showProgressBar()
+                is EmptyFoodList -> showEmptyListMessage()
+                is FailedFoodList -> showFailedListMessage()
             }
+            Log.d("observe_list_TAG", "subscribeObservers: ${listData.javaClass}")
         }
     }
 
@@ -123,14 +123,10 @@ class FoodListFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun updateUserProgress(user: DailyIntakeProps.UserProps) {
+    private fun updateUserProgress(user: UserProps) {
         fragmentBinding?.let {
             val userProgress = user.userIntake / user.plannedIntake
-            it.progressBar.progress = if (userProgress <= 1) {
-                ((userProgress) * 70f).toInt()
-            } else {
-                70
-            }
+            it.progressBar.progress = progressOutOfValue(userProgress)
             it.progressText.text = resources.getString(
                 R.string.user_calories_progress_text,
                 user.userIntake,
@@ -188,6 +184,14 @@ class FoodListFragment : Fragment() {
             it.emptyListMessage.visibility = GONE
             it.failedListMessage.visibility = GONE
             it.textView.text = "Choose your meal"
+        }
+    }
+
+    private fun progressOutOfValue(value: Double): Int {
+        return if (value <= 1.0) {
+            ((value) * 70.0).toInt()
+        } else {
+            70
         }
     }
 }

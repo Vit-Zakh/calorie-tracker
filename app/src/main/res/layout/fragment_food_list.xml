@@ -150,12 +150,10 @@
 
         <ImageView
             android:id="@+id/emptyListMessage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
             android:src="@drawable/ic_empty_food_list_256"
             android:visibility="gone"
-            app:layout_constrainedHeight="true"
-            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,12 +162,10 @@
 
         <ImageView
             android:id="@+id/failedListMessage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
             android:src="@drawable/ic_failed_food_list_256"
             android:visibility="gone"
-            app:layout_constrainedHeight="true"
-            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

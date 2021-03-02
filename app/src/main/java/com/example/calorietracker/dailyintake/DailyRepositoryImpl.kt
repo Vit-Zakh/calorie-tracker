@@ -21,7 +21,6 @@ class DailyRepositoryImpl(
     override suspend fun refreshState() {
         userState.startFetching()
         mealsState.startFetching()
-
         userState.refreshUser(apiService.getUser())
         mealsState.refreshMealsList(apiService.getMeals())
     }
