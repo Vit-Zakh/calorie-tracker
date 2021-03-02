@@ -88,13 +88,13 @@ class DailyIntakeAdapter() :
                 holder.bind("Your meals list is empty")
             }
             is FailedMealViewHolder -> {
-                holder.bind("Whoops!")
+                holder.bind("Failed to load user's data!")
             }
             is UserViewHolder -> {
                 holder.bind(getItem(position) as UserProps)
             }
             is FailedUserViewHolder -> {
-                holder.bind("Whoops!")
+                holder.bind("No data available")
             }
             is LoadingUserViewHolder -> {
                 holder.bind("Fetching user data...")
