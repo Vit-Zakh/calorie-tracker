@@ -20,6 +20,7 @@ import com.example.calorietracker.models.ui.DailyIntakeProps.*
 import com.example.calorietracker.models.ui.FoodListProps.*
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
+import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_food_list.*
 import kotlin.random.Random
@@ -100,19 +101,16 @@ class FoodListFragment : Fragment() {
         }
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
-
-//            fragmentBinding?.progressBar?.visibility = if (listData is FoodListProps.LoadingFoodList) VISIBLE else GONE
-//            fragmentBinding?.emptyListMessage?.visibility = if (listData is FoodListProps.EmptyFoodList) VISIBLE else GONE
-//            fragmentBinding?.failedListMessage?.visibility = if (listData is FoodListProps.FailedFoodList) VISIBLE else GONE
-//            when (listData) {
-//                is FoodListProps.LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
-//            }
-
+            fragmentBinding?.let {
+                it.foodListProgressBar.showIf(listData is LoadingFoodList)
+                it.emptyListMessage.showIf(listData is EmptyFoodList)
+                it.failedListMessage.showIf(listData is FailedFoodList)
+            }
+//            fragmentBinding?.foodListProgressBar?.visibility = if (listData is LoadingFoodList) VISIBLE else GONE
+//            fragmentBinding?.emptyListMessage?.visibility = if (listData is EmptyFoodList) VISIBLE else GONE
+//            fragmentBinding?.failedListMessage?.visibility = if (listData is FailedFoodList) VISIBLE else GONE
             when (listData) {
-                is LoadedFoodList -> refreshFoodList(listData.foodList)
-                is LoadingFoodList -> showProgressBar()
-                is EmptyFoodList -> showEmptyListMessage()
-                is FailedFoodList -> showFailedListMessage()
+                is LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
             }
             Log.d("observe_list_TAG", "subscribeObservers: ${listData.javaClass}")
         }

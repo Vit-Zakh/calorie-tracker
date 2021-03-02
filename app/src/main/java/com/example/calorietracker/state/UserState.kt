@@ -31,7 +31,7 @@ class UserState @Inject constructor() {
         when (user) {
             is NetworkResponse.Success -> _cashedUser.value = _cashedUser.value.copy(fetchedUSer = user.body, isLoading = false)
             else -> {
-                _cashedUser.value = _cashedUser.value.copy(isFailed = true)
+                _cashedUser.value = _cashedUser.value.copy(isLoading = false, isFailed = true)
             }
         }
     }

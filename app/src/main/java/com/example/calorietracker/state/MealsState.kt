@@ -35,7 +35,7 @@ class MealsState @Inject constructor() {
         when (meals) {
             is NetworkResponse.Success -> _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = meals.body.meals, isLoading = false)
             else -> {
-                _cashedMealsList.value = _cashedMealsList.value.copy(isFailed = true)
+                _cashedMealsList.value = _cashedMealsList.value.copy(isLoading = false, isFailed = true)
             }
         }
     }

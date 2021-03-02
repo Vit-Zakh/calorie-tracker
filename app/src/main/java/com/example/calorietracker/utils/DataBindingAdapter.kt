@@ -16,7 +16,8 @@ fun ImageView.loadImageByUrl(url: String?) {
     Glide.with(this.context)
         .load(url)
         .centerCrop()
-        .placeholder(R.drawable.ic_launcher_background)
+//        .placeholder(R.drawable.ic_launcher_background)
+        .placeholder(R.color.primary_800)
         .error(R.drawable.ic_launcher_background)
         .into(this)
 }
