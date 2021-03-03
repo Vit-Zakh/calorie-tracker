@@ -7,14 +7,6 @@ import retrofit2.http.GET
 import java.lang.Error
 
 interface TrackerApiService {
-//    @GET("user")
-//    suspend fun getUser(): UserResponse
-//
-//    @GET("meals")
-//    suspend fun getMeals(): MealsListResponse
-//
-//    @GET("foodList")
-//    suspend fun getFoodList(): FoodListResponse
 
     @GET("user")
     suspend fun getUser(): NetworkResponse<UserResponse, Error>

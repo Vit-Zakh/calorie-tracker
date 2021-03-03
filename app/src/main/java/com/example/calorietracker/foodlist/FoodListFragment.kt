@@ -106,7 +106,10 @@ class FoodListFragment : Fragment() {
                 is LoadedUser -> updateUserProgress(userData.user.copy())
                 is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
                 is FailedUser -> {
-                    Toast.makeText(context, "Failed to update user data", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Failed to update user data", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -120,6 +123,7 @@ class FoodListFragment : Fragment() {
             }
             when (listData) {
                 is LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
+                else -> {}
             }
         }
     }
@@ -153,25 +157,40 @@ class FoodListFragment : Fragment() {
         )
     }
 
+    /** Test functions block */
+
     private fun showEmptyListMessage() {
         fragmentBinding?.let {
-            it.foodListProgressBar.visibility = GONE
+            it.progressBar.visibility = VISIBLE
+            it.progressBarContainer.visibility = VISIBLE
+            it.progressText.visibility = VISIBLE
+            it.progressPercentText.visibility = VISIBLE
             it.emptyListMessage.visibility = VISIBLE
+            it.emptyListImage.visibility = VISIBLE
             it.failedListMessage.visibility = GONE
+            it.failedListImage.visibility = GONE
             it.foodGridList.visibility = GONE
-            it.textView.text = "Your food list is empty"
+            it.textView.visibility = GONE
         }
     }
 
     private fun showFailedListMessage() {
         fragmentBinding?.let {
+            it.progressBar.visibility = GONE
+            it.progressBarContainer.visibility = GONE
+            it.progressText.visibility = GONE
+            it.progressPercentText.visibility = GONE
             it.foodListProgressBar.visibility = GONE
             it.emptyListMessage.visibility = GONE
+            it.emptyListImage.visibility = GONE
             it.failedListMessage.visibility = VISIBLE
+            it.failedListImage.visibility = VISIBLE
             it.foodGridList.visibility = GONE
-            it.textView.text = "Whoops!"
+            it.textView.visibility = GONE
         }
     }
+
+    /** End of test functions block */
 
     private fun progressOutOfValue(value: Double): Int {
         return if (value <= 1.0) {

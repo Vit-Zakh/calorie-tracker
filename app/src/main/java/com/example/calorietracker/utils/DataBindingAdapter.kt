@@ -3,7 +3,6 @@ package com.example.calorietracker.utils
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -16,7 +15,6 @@ fun ImageView.loadImageByUrl(url: String?) {
     Glide.with(this.context)
         .load(url)
         .centerCrop()
-//        .placeholder(R.drawable.ic_launcher_background)
         .placeholder(R.color.primary_800)
         .error(R.drawable.ic_launcher_background)
         .into(this)
@@ -33,24 +31,6 @@ fun formatCalories(textView: TextView, userProps: DailyIntakeProps.UserProps) {
         R.string.user_daily_calories_text,
         "%.${2}f".format(userProps.userIntake)
     )
-}
-
-@BindingAdapter("formattedProgress")
-fun formatProgress(textView: TextView, userProps: DailyIntakeProps.UserProps) {
-    textView.text = textView.resources.getString(
-        R.string.user_calories_progress_text,
-        userProps.userIntake,
-        userProps.plannedIntake
-    )
-}
-
-@BindingAdapter("formattedProgressPercent")
-fun formatProgressPercent(textView: TextView, userProps: DailyIntakeProps.UserProps) {
-    val userProgress = userProps.userIntake / userProps.plannedIntake
-    textView.text = textView.resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
-    if (userProgress> 1.0) {
-        textView.setTextColor(textView.resources.getColor(R.color.design_default_color_error))
-    }
 }
 
 @BindingAdapter("randomBackground")
@@ -75,14 +55,4 @@ fun randomBackground(view: View, random: Boolean) {
                 randomColor
             )
         )
-}
-
-@BindingAdapter("progress")
-fun calculateCalorieProgress(progressBar: ProgressBar, userProps: DailyIntakeProps.UserProps) {
-    val userProgress = userProps.userIntake / userProps.plannedIntake
-    progressBar.progress = if (userProgress <= 1) {
-        ((userProgress) * 70f).toInt()
-    } else {
-        70
-    }
 }
