@@ -1,7 +1,7 @@
 package com.example.calorietracker.di
 
+import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponseAdapterFactory
-import com.example.calorietracker.network.TrackerApiService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -17,12 +17,12 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTrackerApiService(): TrackerApiService {
+    fun provideTrackerApiService(): ApiService {
         return Retrofit.Builder()
             .baseUrl("https://calories-tracker.free.beeceptor.com/")
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
-            .create(TrackerApiService::class.java)
+            .create(ApiService::class.java)
     }
 }

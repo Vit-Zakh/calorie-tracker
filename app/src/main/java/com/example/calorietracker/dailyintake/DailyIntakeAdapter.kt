@@ -85,22 +85,22 @@ class DailyIntakeAdapter() :
                 holder.bind(getItem(position) as MealProps)
             }
             is EmptyMealViewHolder -> {
-                holder.bind("Your meals list is empty")
+                holder.bind()
             }
             is FailedMealViewHolder -> {
-                holder.bind("Failed to load user's data!")
+                holder.bind()
             }
             is UserViewHolder -> {
                 holder.bind(getItem(position) as UserProps)
             }
             is FailedUserViewHolder -> {
-                holder.bind("No data available")
+                holder.bind()
             }
             is LoadingUserViewHolder -> {
-                holder.bind("Fetching user data...")
+                holder.bind()
             }
             is TextViewHolder -> {
-                holder.bind("Your daily intake")
+                holder.bind()
             }
         }
     }
@@ -118,8 +118,8 @@ class DailyIntakeAdapter() :
 
         private val emptyMealBinding = LayoutEmptyMealItemBinding.bind(itemView)
 
-        fun bind(emptyMessage: String) {
-            emptyMealBinding.emptyMessage = emptyMessage
+        fun bind() {
+            emptyMealBinding.emptyMessage = itemView.resources.getString(R.string.empty_meals_message)
         }
     }
 
@@ -129,8 +129,8 @@ class DailyIntakeAdapter() :
 
         private val failedMealBinding = LayoutFailedMealItemBinding.bind(itemView)
 
-        fun bind(emptyMessage: String) {
-            failedMealBinding.failedMealMessage = emptyMessage
+        fun bind() {
+            failedMealBinding.failedMealMessage = itemView.resources.getString(R.string.failed_meals_message)
         }
     }
 
@@ -147,8 +147,8 @@ class DailyIntakeAdapter() :
 
         private val loadingUserBinding = LayoutLoadingUserItemBinding.bind(itemView)
 
-        fun bind(loadingMessage: String) {
-            loadingUserBinding.loadingUserMessage = loadingMessage
+        fun bind() {
+            loadingUserBinding.loadingUserMessage = itemView.resources.getString(R.string.loading_user_message)
         }
     }
 
@@ -156,8 +156,8 @@ class DailyIntakeAdapter() :
 
         private val failedUserBinding = LayoutFailedUserItemBinding.bind(itemView)
 
-        fun bind(failedMessage: String) {
-            failedUserBinding.failedUserMessage = failedMessage
+        fun bind() {
+            failedUserBinding.failedUserMessage = itemView.resources.getString(R.string.failed_user_message)
         }
     }
 
@@ -165,8 +165,8 @@ class DailyIntakeAdapter() :
 
         private val textBinding = LayoutTextItemBinding.bind(itemView)
 
-        fun bind(string: String) {
-            textBinding.categoryName = string
+        fun bind() {
+            textBinding.categoryName = itemView.resources.getString(R.string.category_text)
         }
     }
 

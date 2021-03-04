@@ -6,7 +6,7 @@ import com.example.calorietracker.models.network.UserResponse
 import retrofit2.http.GET
 import java.lang.Error
 
-interface TrackerApiService {
+interface ApiService {
 
     @GET("user")
     suspend fun getUser(): NetworkResponse<UserResponse, Error>

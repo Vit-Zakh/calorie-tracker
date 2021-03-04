@@ -2,42 +2,41 @@ package com.example.calorietracker.foodlist
 
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodProps
-import com.example.calorietracker.network.TrackerApiService
-import com.example.calorietracker.state.FoodListState
+import com.example.calorietracker.network.ApiService
+import com.example.calorietracker.state.FoodListDataSource
 import com.example.calorietracker.state.MealsState
-import com.example.calorietracker.state.UserState
-import com.example.calorietracker.utils.Operations
+import com.example.calorietracker.state.UserDataSource
 import kotlinx.coroutines.flow.StateFlow
 
 class FoodListRepositoryImpl(
-    private val userState: UserState,
-    private val foodListState: FoodListState,
+    private val userDataSource: UserDataSource,
+    private val foodListDataSource: FoodListDataSource,
     private val mealsState: MealsState,
-    private val apiService: TrackerApiService
+    private val apiService: ApiService
 ) : FoodListRepository {
 
-    override val user: StateFlow<UserState.FetchedUserState> = userState.cashedUser
-    override val food: StateFlow<FoodListState.FetchedFoodState> = foodListState.cashedFoodFetchedFood
+    override val user: StateFlow<UserDataSource.UserState> = userDataSource.cashedUser
+    override val food: StateFlow<FoodListDataSource.FoodState> = foodListDataSource.cashedFoodList
 
     override fun addFood(food: FoodProps) {
-        foodListState.addFood(food)
+        foodListDataSource.addFood(food)
     }
 
     override fun deleteFood(index: Int) {
-        foodListState.deleteFood(index)
+        foodListDataSource.deleteFood(index)
     }
 
     override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
 
-        userState.startFetching()
+        userDataSource.startFetching()
 
-        userState.changeProgress(mealProps, Operations.ADDITION)
+        userDataSource.increaseCalories(mealProps)
         mealsState.addMeal(mealProps)
     }
 
     override suspend fun refreshFood() {
-        foodListState.startFetching()
-        foodListState.refreshFoodList(apiService.getFoodList())
+        foodListDataSource.startFetching()
+        foodListDataSource.refreshFoodList(apiService.getFoodList())
     }
 
     override suspend fun refreshUser() {

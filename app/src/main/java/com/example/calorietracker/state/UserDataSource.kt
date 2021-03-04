@@ -3,7 +3,6 @@ package com.example.calorietracker.state
 import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.network.NetworkResponse
-import com.example.calorietracker.utils.Operations
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Error
@@ -11,17 +10,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserState @Inject constructor() {
+class UserDataSource @Inject constructor() {
 
-    data class FetchedUserState(
+    data class UserState(
         val fetchedUSer: UserResponse = UserResponse(),
         val isLoading: Boolean = false,
         val isFailed: Boolean = false
     )
 
-    private val _cashedUser = MutableStateFlow(FetchedUserState())
+    private val _cashedUser = MutableStateFlow(UserState())
 
-    val cashedUser: StateFlow<FetchedUserState> = _cashedUser
+    val cashedUser: StateFlow<UserState> = _cashedUser
 
     fun startFetching() {
         _cashedUser.value = _cashedUser.value.copy(isLoading = true)
@@ -36,16 +35,17 @@ class UserState @Inject constructor() {
         }
     }
 
-    fun changeProgress(meal: DailyIntakeProps.MealProps, operation: Operations) {
+    fun increaseCalories(meal: DailyIntakeProps.MealProps) {
         val progressedUser = _cashedUser.value.fetchedUSer
-        when (operation) {
-            Operations.ADDITION ->
-                progressedUser.currentIntake =
-                    _cashedUser.value.fetchedUSer.currentIntake.plus(meal.mealCalories * meal.mealWeight / 100)
-            Operations.SUBTRACTION ->
-                progressedUser.currentIntake =
-                    _cashedUser.value.fetchedUSer.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
-        }
+        progressedUser.currentIntake =
+            _cashedUser.value.fetchedUSer.currentIntake.plus(meal.mealCalories * meal.mealWeight / 100)
+        _cashedUser.value = _cashedUser.value.copy(fetchedUSer = progressedUser, isLoading = false, isFailed = false)
+    }
+
+    fun decreaseCalories(meal: DailyIntakeProps.MealProps) {
+        val progressedUser = _cashedUser.value.fetchedUSer
+        progressedUser.currentIntake =
+            _cashedUser.value.fetchedUSer.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
         _cashedUser.value = _cashedUser.value.copy(fetchedUSer = progressedUser, isLoading = false, isFailed = false)
     }
 }

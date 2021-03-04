@@ -4,10 +4,10 @@ import com.example.calorietracker.dailyintake.DailyIntakeRepository
 import com.example.calorietracker.dailyintake.DailyRepositoryImpl
 import com.example.calorietracker.foodlist.FoodListRepository
 import com.example.calorietracker.foodlist.FoodListRepositoryImpl
-import com.example.calorietracker.network.TrackerApiService
-import com.example.calorietracker.state.FoodListState
+import com.example.calorietracker.network.ApiService
+import com.example.calorietracker.state.FoodListDataSource
 import com.example.calorietracker.state.MealsState
-import com.example.calorietracker.state.UserState
+import com.example.calorietracker.state.UserDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,20 +22,20 @@ object RepositoryModule {
     @Provides
     fun provideDailyIntakeRepository(
         mealsState: MealsState,
-        userState: UserState,
-        apiService: TrackerApiService
+        userDataSource: UserDataSource,
+        apiService: ApiService
     ): DailyIntakeRepository {
-        return DailyRepositoryImpl(mealsState, userState, apiService)
+        return DailyRepositoryImpl(mealsState, userDataSource, apiService)
     }
 
     @Singleton
     @Provides
     fun provideFoodListRepository(
-        userState: UserState,
-        foodListState: FoodListState,
+        userDataSource: UserDataSource,
+        foodListDataSource: FoodListDataSource,
         mealsState: MealsState,
-        apiService: TrackerApiService
+        apiService: ApiService
     ): FoodListRepository {
-        return FoodListRepositoryImpl(userState, foodListState, mealsState, apiService)
+        return FoodListRepositoryImpl(userDataSource, foodListDataSource, mealsState, apiService)
     }
 }

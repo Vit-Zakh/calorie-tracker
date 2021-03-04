@@ -12,17 +12,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FoodListState @Inject constructor() {
+class FoodListDataSource @Inject constructor() {
 
-    data class FetchedFoodState(
+    data class FoodState(
         val foodList: List<FoodResponse> = listOf(),
         val isLoading: Boolean = false,
         val isFailed: Boolean = false
     )
 
-    private val _cashedFoodList = MutableStateFlow(FetchedFoodState())
+    private val _cashedFoodList = MutableStateFlow(FoodState())
 
-    val cashedFoodFetchedFood: StateFlow<FetchedFoodState> = _cashedFoodList
+    val cashedFoodList: StateFlow<FoodState> = _cashedFoodList
 
     fun startFetching() {
         _cashedFoodList.value = _cashedFoodList.value.copy(isLoading = true)
