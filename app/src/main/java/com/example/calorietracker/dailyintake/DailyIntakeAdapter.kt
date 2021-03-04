@@ -81,27 +81,13 @@ class DailyIntakeAdapter() :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is MealViewHolder -> {
-                holder.bind(getItem(position) as MealProps)
-            }
-            is EmptyMealViewHolder -> {
-                holder.bind()
-            }
-            is FailedMealViewHolder -> {
-                holder.bind()
-            }
-            is UserViewHolder -> {
-                holder.bind(getItem(position) as UserProps)
-            }
-            is FailedUserViewHolder -> {
-                holder.bind()
-            }
-            is LoadingUserViewHolder -> {
-                holder.bind()
-            }
-            is TextViewHolder -> {
-                holder.bind()
-            }
+            is MealViewHolder -> holder.bind(getItem(position) as MealProps)
+            is EmptyMealViewHolder -> holder.bind()
+            is FailedMealViewHolder -> holder.bind()
+            is UserViewHolder -> holder.bind(getItem(position) as UserProps)
+            is FailedUserViewHolder -> holder.bind()
+            is LoadingUserViewHolder -> holder.bind()
+            is TextViewHolder -> holder.bind()
         }
     }
 

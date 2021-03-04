@@ -103,7 +103,7 @@ class FoodListFragment : Fragment() {
             }
 
             when (userData) {
-                is LoadedUser -> updateUserProgress(userData.user.copy())
+                is LoadedUser -> updateUserProgress(userData.user)
                 is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
                 is FailedUser -> {
                     Toast.makeText(context, "Failed to update user data", Toast.LENGTH_SHORT).show()
@@ -121,9 +121,8 @@ class FoodListFragment : Fragment() {
                 it.failedListMessage.showIf(listData is FailedFoodList)
                 it.failedListMessage.showIf(listData is FailedFoodList)
             }
-            when (listData) {
-                is LoadedFoodList -> (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
-                else -> {}
+            if (listData is LoadedFoodList) {
+                (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
             }
         }
     }

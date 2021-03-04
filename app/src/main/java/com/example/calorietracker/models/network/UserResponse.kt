@@ -3,9 +3,9 @@ package com.example.calorietracker.models.network
 import com.example.calorietracker.models.ui.DailyIntakeProps
 
 data class UserResponse(
-    val id: String = "-1",
+    val id: String = "",
     val image: String = "",
-    val name: String = "Loading user",
+    val name: String = "",
     var currentIntake: Double = 0.0,
     val maxIntake: Float = 0f,
     val weight: Float = 0f

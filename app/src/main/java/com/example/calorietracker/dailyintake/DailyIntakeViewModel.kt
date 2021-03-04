@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DailyIntakeViewModel @Inject constructor(
-        private val dailyIntakeRepository: DailyIntakeRepository
+    private val dailyIntakeRepository: DailyIntakeRepository
 ) : ViewModel() {
 
     init {
@@ -21,40 +21,36 @@ class DailyIntakeViewModel @Inject constructor(
         }
     }
 
-    private val _dailyIntakeData = mutableListOf<DailyIntakeProps>(DailyIntakeProps.LoadingUser, DailyIntakeProps.TextLine, DailyIntakeProps.LoadingMealsItem)
-
     val dailyLiveData: LiveData<List<DailyIntakeProps>> =
-            dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { userDataSource: UserDataSource.UserState, mealsState: MealsState.FetchedMealsState ->
-                val user =
-                        when {
-                            userDataSource.isLoading ->
-//                    _dailyIntakeData[0] = DailyIntakeProps.LoadingUser
-                                DailyIntakeProps.LoadingUser
-                            userDataSource.isFailed ->
-//                    _dailyIntakeData[0] = DailyIntakeProps.FailedUser
-                                DailyIntakeProps.FailedUser
-                            (userDataSource.fetchedUSer.id != "-1") ->
-//                    _dailyIntakeData[0] = userDataSource.fetchedUSer.mapToUiModel()
-                                DailyIntakeProps.LoadedUser(userDataSource.fetchedUSer.mapToUiModel()).user
-                            else ->
-//                    _dailyIntakeData[0] = DailyIntakeProps.FailedUser
-                                DailyIntakeProps.FailedUser
-                        }
-                var meals = mutableListOf<DailyIntakeProps>(DailyIntakeProps.LoadingMealsItem)
+        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { userDataSource: UserDataSource.UserState, mealsState: MealsState.FetchedMealsState ->
+            val _dailyIntakeData = mutableListOf<DailyIntakeProps>()
+            val user =
                 when {
-                    mealsState.isLoading ->
-                        meals[0] = DailyIntakeProps.LoadingMealsItem
-                    mealsState.isFailed ->
-                        meals[0] = DailyIntakeProps.FailedMealsItem
-                    mealsState.mealsList.isEmpty() ->
-                        meals[0] = DailyIntakeProps.FailedMealsItem
-                    mealsState.mealsList.isNotEmpty() ->
-                        meals = mealsState.mealsList.map { it.mapToUiModel() }.toMutableList()
+                    userDataSource.isLoading ->
+                        DailyIntakeProps.LoadingUser
+                    userDataSource.isFailed ->
+                        DailyIntakeProps.FailedUser
+                    userDataSource.fetchedUSer.id.isNotBlank() ->
+                        DailyIntakeProps.LoadedUser(userDataSource.fetchedUSer.mapToUiModel()).user
                     else ->
-                        meals[0] = DailyIntakeProps.FailedMealsItem
+                        DailyIntakeProps.FailedUser
                 }
-                listOf(user, DailyIntakeProps.TextLine) + meals
-            }.asLiveData()
+            _dailyIntakeData.add(user)
+            _dailyIntakeData.add(DailyIntakeProps.TextLine)
+            when {
+                mealsState.isLoading ->
+                    _dailyIntakeData.add(DailyIntakeProps.LoadingMealsItem)
+                mealsState.isFailed ->
+                    _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
+                mealsState.mealsList.isEmpty() ->
+                    _dailyIntakeData.add(DailyIntakeProps.EmptyMealsItem)
+                mealsState.mealsList.isNotEmpty() ->
+                    _dailyIntakeData.addAll(mealsState.mealsList.map { it.mapToUiModel() }.toMutableList())
+                else ->
+                    _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
+            }
+            _dailyIntakeData
+        }.asLiveData()
 
     fun addMeal(mealProps: DailyIntakeProps.MealProps) {
         dailyIntakeRepository.addMeal(mealProps)
