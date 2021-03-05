@@ -12,19 +12,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MealsState @Inject constructor() {
+class MealsDataSource @Inject constructor() {
 
-    data class FetchedMealsState(
+    data class MealsState(
         val mealsList: List<MealResponse> = listOf(),
         val isLoading: Boolean = false,
         val isFailed: Boolean = false
     )
 
     private val _mealsListFlow = MutableStateFlow(
-        FetchedMealsState()
+        MealsState()
     )
 
-    val mealsListFlow: StateFlow<FetchedMealsState> = _mealsListFlow
+    val mealsListFlow: StateFlow<MealsState> = _mealsListFlow
 
     fun setLoadingState() {
         _mealsListFlow.value = _mealsListFlow.value.copy(isLoading = true)

@@ -20,4 +20,12 @@ interface FoodListRepository {
     suspend fun refreshFood()
 
     suspend fun refreshUser()
+
+    /** Test functions block */
+
+    fun showEmptyList()
+
+    fun showFailedList()
+
+    /** End of test functions block */
 }

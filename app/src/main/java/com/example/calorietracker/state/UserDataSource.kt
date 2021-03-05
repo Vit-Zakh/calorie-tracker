@@ -48,4 +48,16 @@ class UserDataSource @Inject constructor() {
             _userFlow.value.fetchedUSer.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
         _userFlow.value = _userFlow.value.copy(fetchedUSer = progressedUser, isLoading = false, isFailed = false)
     }
+
+    /** Test functions block */
+
+    fun showFailedUser() {
+        _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
+    }
+
+    fun showLoadedUser() {
+        _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = false)
+    }
+
+    /** End of test functions block */
 }

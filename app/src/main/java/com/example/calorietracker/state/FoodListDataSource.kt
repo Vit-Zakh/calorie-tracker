@@ -48,4 +48,16 @@ class FoodListDataSource @Inject constructor() {
         updatedList.removeAt(index)
         _foodListFlow.value = _foodListFlow.value.copy(foodList = updatedList, isLoading = false, isFailed = false)
     }
+
+    /** Test functions block */
+
+    fun showEmptyList() {
+        _foodListFlow.value = _foodListFlow.value.copy(foodList = listOf(), isLoading = false, isFailed = false)
+    }
+
+    fun showFailedList() {
+        _foodListFlow.value = _foodListFlow.value.copy(isLoading = false, isFailed = true)
+    }
+
+    /** End of test functions block */
 }

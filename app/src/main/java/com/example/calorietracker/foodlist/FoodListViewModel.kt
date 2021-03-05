@@ -30,7 +30,7 @@ class FoodListViewModel @Inject constructor(
         }
     }.asLiveData()
 
-    var foodListData: LiveData<FoodListProps> =
+    val foodListData: LiveData<FoodListProps> =
         foodListRepository.food.map { listState ->
             when {
                 listState.isLoading -> FoodListProps.LoadingFoodList
@@ -52,4 +52,16 @@ class FoodListViewModel @Inject constructor(
     fun deleteFood(index: Int) {
         foodListRepository.deleteFood(index)
     }
+
+    /** Test functions block */
+
+    fun showEmptyList() {
+        foodListRepository.showEmptyList()
+    }
+
+    fun showFailedList() {
+        foodListRepository.showFailedList()
+    }
+
+    /** End of test functions block */
 }
