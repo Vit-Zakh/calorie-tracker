@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.DialogAddMealBinding
-import com.example.calorietracker.extensions.mapToMeal
+import com.example.calorietracker.models.ui.FoodProps
+import com.example.calorietracker.models.ui.mapToMeal
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_meal.*
 
@@ -43,7 +43,7 @@ class AddMealDialog : DialogFragment() {
         }
     }
 
-    fun addMealToList(food: RecyclerData.Food) {
+    fun addMealToList(food: FoodProps) {
         viewModel.addMealToList(
             food.mapToMeal(weight = this.mealWeightDialog.text.toString().toFloat())
         )

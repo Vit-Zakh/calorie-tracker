@@ -2,46 +2,57 @@ package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.data.RecyclerData
+import com.example.calorietracker.models.ui.DailyIntakeProps
 
-class IntakeItemDiffCallback : DiffUtil.ItemCallback<RecyclerData>() {
+class IntakeItemDiffCallback : DiffUtil.ItemCallback<DailyIntakeProps>() {
 
-    override fun areItemsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areItemsTheSame(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Boolean {
         return when {
-            oldItem is RecyclerData.Meal && newItem is RecyclerData.Meal -> {
+            oldItem is DailyIntakeProps.MealProps && newItem is DailyIntakeProps.MealProps -> {
                 oldItem.id == newItem.id
             }
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
-                oldItem.id == newItem.id
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
+                true
             }
-            oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
+            oldItem is DailyIntakeProps.TextLine && newItem is DailyIntakeProps.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun areContentsTheSame(oldItem: RecyclerData, newItem: RecyclerData): Boolean {
+    override fun areContentsTheSame(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Boolean {
         return when {
-            oldItem is RecyclerData.Meal && newItem is RecyclerData.Meal -> {
+            oldItem is DailyIntakeProps.MealProps && newItem is DailyIntakeProps.MealProps -> {
                 oldItem == newItem
             }
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
                 oldItem == newItem
             }
-            oldItem is RecyclerData.TextLine && newItem is RecyclerData.TextLine -> {
+            oldItem is DailyIntakeProps.TextLine && newItem is DailyIntakeProps.TextLine -> {
                 oldItem == newItem
             }
             else -> false
         }
     }
 
-    override fun getChangePayload(oldItem: RecyclerData, newItem: RecyclerData): Any? {
+    override fun getChangePayload(oldItem: DailyIntakeProps, newItem: DailyIntakeProps): Any? {
         return when {
-            oldItem is RecyclerData.User && newItem is RecyclerData.User -> {
+            oldItem is DailyIntakeProps.UserProps && newItem is DailyIntakeProps.UserProps -> {
                 val diff = Bundle()
-                if (newItem.userIntake != oldItem.userIntake) {
-                    diff.putDouble("dailyIntake", newItem.userIntake)
+                when {
+                    newItem.userIntake != oldItem.userIntake -> {
+                        diff.putDouble("dailyIntake", newItem.userIntake)
+                    }
+                    newItem.userImage != oldItem.userImage -> {
+                        diff.putString("userImage", newItem.userImage)
+                    }
+                    newItem.userName != oldItem.userName -> {
+                        diff.putString("userName", newItem.userName)
+                    }
+                    newItem.userWeight != oldItem.userWeight -> {
+                        diff.putFloat("userName", newItem.userWeight)
+                    }
                 }
                 diff
             }

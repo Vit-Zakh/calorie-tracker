@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
-import com.example.calorietracker.data.RecyclerData
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
+import com.example.calorietracker.models.ui.DailyIntakeProps
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
@@ -22,9 +23,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.dailyIntakeData.observe(viewLifecycleOwner) {
-            refreshIntakeList(it.toList())
-        }
+        subscribeObservers()
     }
 
     override fun onCreateView(
@@ -41,8 +40,8 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.addMeal.setOnClickListener {
             viewModel.addMeal(
-                RecyclerData.Meal(
-                    Random.nextInt(20, 1998),
+                DailyIntakeProps.MealProps(
+                    Random.nextInt(20, 1998).toString(),
                     "Popcorn",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
                     490f,
@@ -70,7 +69,14 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         }
     }
 
-    private fun refreshIntakeList(list: List<RecyclerData>) {
+    private fun subscribeObservers() {
+        viewModel.dailyLiveData.observe(viewLifecycleOwner) {
+            refreshIntakeList(it.toList())
+        }
+    }
+
+    private fun refreshIntakeList(list: List<DailyIntakeProps>) {
+
         fragmentBinding?.let {
             (it.dailyIntakeList.adapter as DailyIntakeAdapter).submitList(list)
         }

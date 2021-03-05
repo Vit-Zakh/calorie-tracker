@@ -4,18 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.calorietracker.data.RecyclerData.*
+import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentFoodListBinding
+import com.example.calorietracker.models.ui.DailyIntakeProps.*
+import com.example.calorietracker.models.ui.FoodListProps.*
+import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
+import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_food_list.*
-import kotlinx.android.synthetic.main.fragment_food_list.view.*
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class FoodListFragment : Fragment() {
@@ -36,7 +40,6 @@ class FoodListFragment : Fragment() {
     ): View? {
         val binding = FragmentFoodListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
         fragmentBinding = binding
 
         initRecyclerView()
@@ -45,8 +48,8 @@ class FoodListFragment : Fragment() {
 
         binding.addFood.setOnClickListener {
             viewModel.addFood(
-                Food(
-                    7,
+                FoodProps(
+                    Random.nextInt(9, 2000).toString(),
                     "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
                     "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
                     17f
@@ -56,6 +59,14 @@ class FoodListFragment : Fragment() {
 
         binding.removeFood.setOnClickListener {
             viewModel.deleteFood(3)
+        }
+
+        binding.empty.setOnClickListener {
+            showEmptyList()
+        }
+
+        binding.error.setOnClickListener {
+            showFailedList()
         }
 
         /** End of test buttons block */
@@ -76,8 +87,41 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.foodList.observe(viewLifecycleOwner) {
-            refreshFoodList(it.toList())
+        viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
+
+            fragmentBinding?.let {
+                it.progressPercentText.showIf(userData != FailedUser)
+                it.progressText.showIf(userData != FailedUser)
+                it.progressBar.showIf(userData != FailedUser)
+                it.progressBarContainer.showIf(userData != FailedUser)
+                it.textView.showIf(userData != FailedUser)
+                it.failedListMessage.showIf(userData is FailedUser)
+                it.failedListImage.showIf(userData is FailedUser)
+            }
+
+            when (userData) {
+                is LoadedUser -> updateUserProgress(userData.user)
+                is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
+                is FailedUser -> {
+                    Toast.makeText(context, "Failed to update user data", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
+            fragmentBinding?.let {
+                it.foodGridList.showIf(listData is LoadedFoodList)
+                it.foodListProgressBar.showIf(listData is LoadingFoodList)
+                it.emptyListMessage.showIf(listData is EmptyFoodList)
+                it.failedListImage.showIf(listData is FailedFoodList)
+                it.failedListMessage.showIf(listData is FailedFoodList)
+            }
+            if (listData is LoadedFoodList) {
+                (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
+            }
         }
     }
 
@@ -86,17 +130,47 @@ class FoodListFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun refreshFoodList(list: List<Food>) {
+    private fun updateUserProgress(user: UserProps) {
         fragmentBinding?.let {
-            (it.foodGridList.adapter as FoodListAdapter).submitList(list)
+            val userProgress = user.userIntake / user.plannedIntake
+            it.progressBar.progress = progressOutOfValue(userProgress)
+            it.progressText.text = resources.getString(
+                R.string.user_calories_progress_text,
+                user.userIntake,
+                user.plannedIntake
+            )
+            it.progressPercentText.text = resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
+            if (userProgress > 1.0) {
+                it.progressPercentText.setTextColor(resources.getColor(R.color.design_default_color_error))
+            }
         }
     }
 
-    private fun openAddMealDialog(food: Food) {
+    private fun openAddMealDialog(food: FoodProps) {
         findNavController().navigate(
             FoodListFragmentDirections.actionFoodListFragmentToAddMealDialog(
                 food
             )
         )
+    }
+
+    /** Test functions block */
+
+    private fun showEmptyList() {
+        viewModel.showEmptyList()
+    }
+
+    private fun showFailedList() {
+        viewModel.showFailedList()
+    }
+
+    /** End of test functions block */
+
+    private fun progressOutOfValue(value: Double): Int {
+        return if (value <= 1.0) {
+            ((value) * 70.0).toInt()
+        } else {
+            70
+        }
     }
 }

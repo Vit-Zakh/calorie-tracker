@@ -11,4 +11,9 @@
     <string name="cancel_button">Cancel</string>
     <string name="unit_gram">g</string>
     <string name="set_dish_size_text">Set dish size</string>
+    <string name="empty_meals_message">Your meals list is empty</string>
+    <string name="failed_meals_message">Failed to load user\'s data!</string>
+    <string name="loading_user_message">Fetching user data...</string>
+    <string name="failed_user_message">No data available</string>
+    <string name="category_text">Your daily intake</string>
 </resources>
