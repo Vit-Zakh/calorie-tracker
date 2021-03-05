@@ -45,6 +45,13 @@ class UserProfileFragment : Fragment() {
             true
         }
 
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.editProfile) {
+                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToEditUserProfileFragment())
+            }
+            true
+        }
+
         return binding.root
     }
 }

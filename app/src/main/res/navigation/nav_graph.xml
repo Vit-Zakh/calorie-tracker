@@ -44,5 +44,12 @@
         <action
             android:id="@+id/action_userProfileFragment_to_dailyIntakeFragment"
             app:destination="@id/dailyIntakeFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_editUserProfileFragment"
+            app:destination="@id/editUserProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editUserProfileFragment"
+        android:name="com.example.calorietracker.userprofile.EditUserProfileFragment"
+        android:label="EditUserProfileFragment" />
 </navigation>
