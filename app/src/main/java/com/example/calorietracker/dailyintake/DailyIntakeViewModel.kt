@@ -3,7 +3,7 @@ package com.example.calorietracker.dailyintake
 import androidx.lifecycle.*
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
-import com.example.calorietracker.state.MealsState
+import com.example.calorietracker.state.MealsDataSource
 import com.example.calorietracker.state.UserDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
@@ -22,7 +22,7 @@ class DailyIntakeViewModel @Inject constructor(
     }
 
     val dailyLiveData: LiveData<List<DailyIntakeProps>> =
-        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { userDataSource: UserDataSource.UserState, mealsState: MealsState.FetchedMealsState ->
+        dailyIntakeRepository.user.combine(dailyIntakeRepository.meals) { userDataSource: UserDataSource.UserState, mealsDataSource: MealsDataSource.MealsState ->
             val _dailyIntakeData = mutableListOf<DailyIntakeProps>()
             val user =
                 when {
@@ -38,14 +38,14 @@ class DailyIntakeViewModel @Inject constructor(
             _dailyIntakeData.add(user)
             _dailyIntakeData.add(DailyIntakeProps.TextLine)
             when {
-                mealsState.isLoading ->
+                mealsDataSource.isLoading ->
                     _dailyIntakeData.add(DailyIntakeProps.LoadingMealsItem)
-                mealsState.isFailed ->
+                mealsDataSource.isFailed ->
                     _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
-                mealsState.mealsList.isEmpty() ->
+                mealsDataSource.mealsList.isEmpty() ->
                     _dailyIntakeData.add(DailyIntakeProps.EmptyMealsItem)
-                mealsState.mealsList.isNotEmpty() ->
-                    _dailyIntakeData.addAll(mealsState.mealsList.map { it.mapToUiModel() }.toMutableList())
+                mealsDataSource.mealsList.isNotEmpty() ->
+                    _dailyIntakeData.addAll(mealsDataSource.mealsList.map { it.mapToUiModel() }.toMutableList())
                 else ->
                     _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
             }

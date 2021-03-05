@@ -4,22 +4,23 @@ import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.state.FoodListDataSource
-import com.example.calorietracker.state.MealsState
+import com.example.calorietracker.state.MealsDataSource
 import com.example.calorietracker.state.UserDataSource
 import kotlinx.coroutines.flow.StateFlow
 
 class FoodListRepositoryImpl(
     private val userDataSource: UserDataSource,
     private val foodListDataSource: FoodListDataSource,
-    private val mealsState: MealsState,
+    private val mealsDataSource: MealsDataSource,
     private val apiService: ApiService
 ) : FoodListRepository {
 
-    override val user: StateFlow<UserDataSource.UserState> = userDataSource.cashedUser
-    override val food: StateFlow<FoodListDataSource.FoodState> = foodListDataSource.cashedFoodList
+    override val user: StateFlow<UserDataSource.UserState> = userDataSource.userFlow
+    override val food: StateFlow<FoodListDataSource.FoodState> = foodListDataSource.foodListFlow
 
     override fun addFood(food: FoodProps) {
         foodListDataSource.addFood(food)
+        userDataSource.showLoadedUser()
     }
 
     override fun deleteFood(index: Int) {
@@ -28,14 +29,14 @@ class FoodListRepositoryImpl(
 
     override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
 
-        userDataSource.startFetching()
+        userDataSource.setLoadingState()
 
         userDataSource.increaseCalories(mealProps)
-        mealsState.addMeal(mealProps)
+        mealsDataSource.addMeal(mealProps)
     }
 
     override suspend fun refreshFood() {
-        foodListDataSource.startFetching()
+        foodListDataSource.setLoadingState()
         foodListDataSource.refreshFoodList(apiService.getFoodList())
     }
 
@@ -43,4 +44,17 @@ class FoodListRepositoryImpl(
 //        userState.startFetching()
 //        userState.refreshUser(apiService.getUser())
     }
+
+    /** Test functions block */
+
+    override fun showEmptyList() {
+        foodListDataSource.showEmptyList()
+    }
+
+    override fun showFailedList() {
+        foodListDataSource.showFailedList()
+        userDataSource.showFailedUser()
+    }
+
+    /** End of test functions block */
 }

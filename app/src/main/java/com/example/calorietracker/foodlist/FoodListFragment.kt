@@ -3,8 +3,6 @@ package com.example.calorietracker.foodlist
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,7 +19,6 @@ import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
 import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_food_list.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -65,11 +62,11 @@ class FoodListFragment : Fragment() {
         }
 
         binding.empty.setOnClickListener {
-            showEmptyListMessage()
+            showEmptyList()
         }
 
         binding.error.setOnClickListener {
-            showFailedListMessage()
+            showFailedList()
         }
 
         /** End of test buttons block */
@@ -116,9 +113,10 @@ class FoodListFragment : Fragment() {
 
         viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
             fragmentBinding?.let {
+                it.foodGridList.showIf(listData is LoadedFoodList)
                 it.foodListProgressBar.showIf(listData is LoadingFoodList)
                 it.emptyListMessage.showIf(listData is EmptyFoodList)
-                it.failedListMessage.showIf(listData is FailedFoodList)
+                it.failedListImage.showIf(listData is FailedFoodList)
                 it.failedListMessage.showIf(listData is FailedFoodList)
             }
             if (listData is LoadedFoodList) {
@@ -158,35 +156,12 @@ class FoodListFragment : Fragment() {
 
     /** Test functions block */
 
-    private fun showEmptyListMessage() {
-        fragmentBinding?.let {
-            it.progressBar.visibility = VISIBLE
-            it.progressBarContainer.visibility = VISIBLE
-            it.progressText.visibility = VISIBLE
-            it.progressPercentText.visibility = VISIBLE
-            it.emptyListMessage.visibility = VISIBLE
-            it.emptyListImage.visibility = VISIBLE
-            it.failedListMessage.visibility = GONE
-            it.failedListImage.visibility = GONE
-            it.foodGridList.visibility = GONE
-            it.textView.visibility = GONE
-        }
+    private fun showEmptyList() {
+        viewModel.showEmptyList()
     }
 
-    private fun showFailedListMessage() {
-        fragmentBinding?.let {
-            it.progressBar.visibility = GONE
-            it.progressBarContainer.visibility = GONE
-            it.progressText.visibility = GONE
-            it.progressPercentText.visibility = GONE
-            it.foodListProgressBar.visibility = GONE
-            it.emptyListMessage.visibility = GONE
-            it.emptyListImage.visibility = GONE
-            it.failedListMessage.visibility = VISIBLE
-            it.failedListImage.visibility = VISIBLE
-            it.foodGridList.visibility = GONE
-            it.textView.visibility = GONE
-        }
+    private fun showFailedList() {
+        viewModel.showFailedList()
     }
 
     /** End of test functions block */
