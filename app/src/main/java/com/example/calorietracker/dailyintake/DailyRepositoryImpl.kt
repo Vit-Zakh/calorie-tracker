@@ -13,24 +13,24 @@ class DailyRepositoryImpl(
     private val apiService: ApiService
 ) : DailyIntakeRepository {
 
-    override val user: StateFlow<UserDataSource.UserState> = userDataSource.cashedUser
-    override val meals: StateFlow<MealsState.FetchedMealsState> = mealsState.cashedMealsList
+    override val user: StateFlow<UserDataSource.UserState> = userDataSource.userFlow
+    override val meals: StateFlow<MealsState.FetchedMealsState> = mealsState.mealsListFlow
 
     override suspend fun refreshState() {
-        userDataSource.startFetching()
-        mealsState.startFetching()
+        userDataSource.setLoadingState()
+        mealsState.setLoadingState()
         userDataSource.refreshUser(apiService.getUser())
         mealsState.refreshMealsList(apiService.getMeals())
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {
-        userDataSource.startFetching()
+        userDataSource.setLoadingState()
         userDataSource.increaseCalories(mealProps)
         mealsState.addMeal(mealProps)
     }
 
     override fun deleteMeal(index: Int) {
-        userDataSource.startFetching()
+        userDataSource.setLoadingState()
         userDataSource.decreaseCalories(meals.value.mealsList[index].mapToUiModel())
         mealsState.deleteMeal(index)
     }

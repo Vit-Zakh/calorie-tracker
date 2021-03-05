@@ -20,35 +20,35 @@ class MealsState @Inject constructor() {
         val isFailed: Boolean = false
     )
 
-    private val _cashedMealsList = MutableStateFlow(
+    private val _mealsListFlow = MutableStateFlow(
         FetchedMealsState()
     )
 
-    val cashedMealsList: StateFlow<FetchedMealsState> = _cashedMealsList
+    val mealsListFlow: StateFlow<FetchedMealsState> = _mealsListFlow
 
-    fun startFetching() {
-        _cashedMealsList.value = _cashedMealsList.value.copy(isLoading = true)
+    fun setLoadingState() {
+        _mealsListFlow.value = _mealsListFlow.value.copy(isLoading = true)
     }
 
     fun refreshMealsList(meals: NetworkResponse<MealsListResponse, Error>) {
 
         when (meals) {
-            is NetworkResponse.Success -> _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = meals.body.meals, isLoading = false)
+            is NetworkResponse.Success -> _mealsListFlow.value = _mealsListFlow.value.copy(mealsList = meals.body.meals, isLoading = false)
             else -> {
-                _cashedMealsList.value = _cashedMealsList.value.copy(isLoading = false, isFailed = true)
+                _mealsListFlow.value = _mealsListFlow.value.copy(isLoading = false, isFailed = true)
             }
         }
     }
 
     fun addMeal(meal: DailyIntakeProps.MealProps) {
-        val updatedList = _cashedMealsList.value.mealsList.toMutableList()
+        val updatedList = _mealsListFlow.value.mealsList.toMutableList()
         updatedList.add(0, meal.mapToDomainModel())
-        _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
+        _mealsListFlow.value = _mealsListFlow.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
     }
 
     fun deleteMeal(index: Int) {
-        val updatedList = _cashedMealsList.value.mealsList.toMutableList()
+        val updatedList = _mealsListFlow.value.mealsList.toMutableList()
         updatedList.removeAt(index)
-        _cashedMealsList.value = _cashedMealsList.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
+        _mealsListFlow.value = _mealsListFlow.value.copy(mealsList = updatedList, isLoading = false, isFailed = false)
     }
 }

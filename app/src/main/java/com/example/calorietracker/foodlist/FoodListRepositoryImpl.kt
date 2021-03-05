@@ -15,8 +15,8 @@ class FoodListRepositoryImpl(
     private val apiService: ApiService
 ) : FoodListRepository {
 
-    override val user: StateFlow<UserDataSource.UserState> = userDataSource.cashedUser
-    override val food: StateFlow<FoodListDataSource.FoodState> = foodListDataSource.cashedFoodList
+    override val user: StateFlow<UserDataSource.UserState> = userDataSource.userFlow
+    override val food: StateFlow<FoodListDataSource.FoodState> = foodListDataSource.foodListFlow
 
     override fun addFood(food: FoodProps) {
         foodListDataSource.addFood(food)
@@ -28,14 +28,14 @@ class FoodListRepositoryImpl(
 
     override fun addMealToList(mealProps: DailyIntakeProps.MealProps) {
 
-        userDataSource.startFetching()
+        userDataSource.setLoadingState()
 
         userDataSource.increaseCalories(mealProps)
         mealsState.addMeal(mealProps)
     }
 
     override suspend fun refreshFood() {
-        foodListDataSource.startFetching()
+        foodListDataSource.setLoadingState()
         foodListDataSource.refreshFoodList(apiService.getFoodList())
     }
 
