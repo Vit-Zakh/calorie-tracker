@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_dailyIntakeFragment_to_foodListFragment"
             app:destination="@id/foodListFragment" />
+        <action
+            android:id="@+id/action_dailyIntakeFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodListFragment"
@@ -33,4 +36,13 @@
             android:id="@+id/action_addMealDialog_to_foodListFragment"
             app:destination="@id/foodListFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.calorietracker.userprofile.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_dailyIntakeFragment"
+            app:destination="@id/dailyIntakeFragment" />
+    </fragment>
 </navigation>

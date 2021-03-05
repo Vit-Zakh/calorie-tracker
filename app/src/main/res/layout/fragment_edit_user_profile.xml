@@ -47,25 +47,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileBackgroundImage" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/progressBar2"
-            app:layout_constraintBottom_toTopOf="@id/nameField"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/cardview_dark_background"/>
-
-
 
         <TextView
             android:id="@+id/mealsTile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
-            android:textColor="@color/secondary_orange"
-            android:textStyle="bold"
-            android:textSize="24sp"
+            android:text="3 meals"
             android:paddingVertical="16dp"
             app:layout_constraintBottom_toTopOf="@+id/nameTextField"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,10 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="16dp"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:text="5"
-            android:textColor="@color/secondary_orange"
+            android:text="5kg"
             app:layout_constraintBottom_toTopOf="@+id/nameTextField"
             app:layout_constraintEnd_toStartOf="@+id/ageTile"
             app:layout_constraintHorizontal_bias="0.5"
@@ -93,71 +77,86 @@
             android:id="@+id/ageTile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="@color/secondary_orange"
+            android:text="1 year"
             android:paddingVertical="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar2"
+            app:layout_constraintBottom_toTopOf="@+id/nameTextField"
             app:layout_constraintEnd_toStartOf="@+id/mealsTile"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/weightTile" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nameField"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameTextField"
+            android:hint="name"
+            app:hintTextColor="@color/secondary_orange"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_user_profile_orange_24"
-            android:text="User name:"
-            android:drawablePadding="8dp"
-            android:textSize="24sp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ageTile"
-            android:paddingVertical="8dp"
-            android:layout_marginHorizontal="16dp"/>
+            tools:layout_editor_absoluteY="368dp"
+            android:clickable="false">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/weightField"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weightTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_weight_scales_orange_24"
-            android:text="User weight:"
-            android:drawablePadding="8dp"
-            android:textSize="24sp"
+            android:layout_marginHorizontal="16dp"
+            app:hintTextColor="@color/secondary_orange"
+            android:hint="weight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameField"
-            android:paddingVertical="8dp"
-            android:layout_marginHorizontal="16dp"/>
+            app:layout_constraintTop_toBottomOf="@id/nameTextField">
 
-        <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:id="@+id/ageField"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_cake_orange_24"
-            android:drawablePadding="8dp"
-            android:text="Age:"
-            android:textSize="24sp"
+            android:layout_marginHorizontal="16dp"
+            android:hint="age"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weightField"
-            android:paddingVertical="8dp"
-            android:layout_marginHorizontal="16dp"/>
+            app:layout_constraintTop_toBottomOf="@id/weightTextField">
 
-<com.google.android.material.textview.MaterialTextView
-    android:layout_width="match_parent"
-    android:id="@+id/intakeField"
-    android:layout_height="wrap_content"
-    android:drawableStart="@drawable/ic_daily_calories_orange_24"
-    android:drawablePadding="8dp"
-    android:text="Planned daily intake:"
-    android:textSize="24sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/ageField"
-    android:paddingVertical="8dp"
-    android:layout_marginHorizontal="16dp"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/incomeTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:hintTextColor="@color/secondary_orange"
+            android:hint="planned income"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ageTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

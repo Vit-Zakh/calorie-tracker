@@ -17,16 +17,18 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:id="@+id/intakeNavigationView"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="true"
         app:headerLayout="@layout/header_navigation_drawer"
+        app:layout_behavior="@string/bottom_sheet_behavior"
         app:menu="@menu/navigation_drawer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_behavior="@string/bottom_sheet_behavior"
-    app:behavior_hideable="true" />
+        tools:visibility="gone" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
