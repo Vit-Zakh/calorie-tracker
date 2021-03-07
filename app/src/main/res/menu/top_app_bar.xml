@@ -9,7 +9,8 @@
     <item
         android:id="@+id/editProfile"
         android:icon="@drawable/ic_user_profile_orange_24"
-        android:title="edit profile" />
+        android:title="edit profile"
+        android:checkable="false"/>
     </group>
 
 </menu>

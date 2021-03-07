@@ -6,10 +6,12 @@
         <item
             android:icon="@drawable/ic_user_profile_orange_24"
             android:id="@+id/toProfile"
-            android:title="User profile"/>
+            android:title="User profile"
+            android:checkable="false"/>
         <item
             android:icon="@drawable/ic_intake_orange_24"
             android:id="@+id/toDailtyIntake"
-            android:title="Daily intake" />
+            android:title="Daily intake"
+            android:checkable="false"/>
     </group>
 </menu>

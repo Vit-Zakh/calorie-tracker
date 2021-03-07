@@ -52,6 +52,8 @@ class UserProfileFragment : Fragment() {
             true
         }
 
+        binding.topAppBar.overflowIcon = resources.getDrawable(R.drawable.ic_settings_24)
+
         return binding.root
     }
 }
