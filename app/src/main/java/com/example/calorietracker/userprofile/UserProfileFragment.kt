@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,11 +35,11 @@ class UserProfileFragment : Fragment() {
         fragmentBinding = binding
 
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
-//            when (userData) {
-//                is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
-//                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
-//            }
-            renderUserProfile(userData)
+            when (userData) {
+                is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
+                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
+            }
+//            renderUserProfile(userData)
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.profileNavigationView)
@@ -74,11 +75,11 @@ class UserProfileFragment : Fragment() {
     private fun renderUserProfile(user: DailyIntakeProps.UserProps) {
         fragmentBinding?.let {
             it.profileUserName.text = user.userName
-            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake).toInt()
+            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake * 100).toInt()
             it.weightTile.text = user.userWeight.toString()
             it.userProfileImage.loadImageByUrl(user.userImage)
             it.profileProgressText.text = resources.getString(
-                R.string.user_calories_progress_text,
+                R.string.user_calories_progress_text_one_line,
                 user.userIntake,
                 user.plannedIntake
             )
