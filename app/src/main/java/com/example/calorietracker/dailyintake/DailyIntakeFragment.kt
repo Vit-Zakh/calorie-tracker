@@ -72,7 +72,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
                 )
                 R.id.toDailtyIntake -> bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
-//            menuItem.isChecked = true
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             true
         }
