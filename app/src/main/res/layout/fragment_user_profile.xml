@@ -16,12 +16,13 @@
             android:layout_height="0dp"
             android:background="@color/cardview_dark_background"
             app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@id/guideline45"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
+            android:src="@drawable/test_background_image"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -44,12 +45,12 @@
             android:id="@+id/profileUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
             android:text="Robusta"
             android:textColor="@color/secondary_orange"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="@id/profileBackgroundImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,8 +77,8 @@
             android:gravity="end"
             android:text="1700 / 3000 kcal"
             android:textColor="@color/secondary_orange"
-            android:textStyle="bold"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileProgressBar" />
@@ -103,11 +104,12 @@
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tilesContainer"
+            app:layout_constraintBottom_toTopOf="@+id/weightTileUnit"
             app:layout_constraintEnd_toStartOf="@+id/ageTile"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="@id/tilesContainer"
-            app:layout_constraintTop_toTopOf="@id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
 
         <TextView
             android:id="@+id/ageTile"
@@ -117,10 +119,11 @@
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tilesContainer"
+            app:layout_constraintBottom_toTopOf="@+id/ageTileUnit"
             app:layout_constraintEnd_toStartOf="@+id/mealsTile"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/weightTile"
-            app:layout_constraintTop_toTopOf="@id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
 
         <TextView
             android:id="@+id/mealsTile"
@@ -130,10 +133,11 @@
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tilesContainer"
+            app:layout_constraintBottom_toTopOf="@+id/mealsTileUnit"
             app:layout_constraintEnd_toEndOf="@id/tilesContainer"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ageTile"
-            app:layout_constraintTop_toTopOf="@id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
 
         <TextView
             android:id="@+id/mealsTileUnit"
@@ -144,10 +148,11 @@
             android:textColor="@color/secondary_orange"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/nameField"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
             app:layout_constraintEnd_toEndOf="@id/mealsTile"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/mealsTile"
-            app:layout_constraintTop_toBottomOf="@id/mealsTile" />
+            app:layout_constraintTop_toBottomOf="@+id/mealsTile" />
 
         <TextView
             android:id="@+id/weightTileUnit"
@@ -158,10 +163,11 @@
             android:textColor="@color/secondary_orange"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/nameField"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
             app:layout_constraintEnd_toEndOf="@+id/weightTile"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/weightTile"
-            app:layout_constraintTop_toBottomOf="@id/weightTile" />
+            app:layout_constraintTop_toBottomOf="@+id/weightTile" />
 
         <TextView
             android:id="@+id/ageTileUnit"
@@ -172,8 +178,9 @@
             android:textColor="@color/secondary_orange"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/nameField"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
             app:layout_constraintEnd_toEndOf="@id/ageTile"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/ageTile"
             app:layout_constraintTop_toBottomOf="@+id/ageTile" />
 

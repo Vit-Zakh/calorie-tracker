@@ -39,7 +39,6 @@ class UserProfileFragment : Fragment() {
                 is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
                 else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
             }
-//            renderUserProfile(userData)
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.profileNavigationView)
