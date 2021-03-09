@@ -23,5 +23,4 @@ class EditUserProfileViewModel @Inject constructor(
             else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()
-
 }
