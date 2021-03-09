@@ -11,6 +11,8 @@ import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.state.FoodListDataSource
 import com.example.calorietracker.state.MealsDataSource
 import com.example.calorietracker.state.UserDataSource
+import com.example.calorietracker.userprofile.UserProfileRepository
+import com.example.calorietracker.userprofile.UserProfileRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +44,15 @@ object RepositoryModule {
         apiService: ApiService
     ): FoodListRepository {
         return FoodListRepositoryImpl(userDataSource, foodListDataSource, mealsDataSource, apiService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserProfileRepository(
+        userDataSource: UserDataSource,
+        sharedPreferences: SharedPreferences
+    ): UserProfileRepository {
+        return UserProfileRepositoryImpl(userDataSource, sharedPreferences)
     }
 
     @Singleton

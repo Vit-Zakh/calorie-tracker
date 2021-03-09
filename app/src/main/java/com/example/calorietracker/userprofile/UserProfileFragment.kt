@@ -82,7 +82,6 @@ class UserProfileFragment : Fragment() {
                 user.userIntake,
                 user.plannedIntake
             )
-//            it.ageTile.text =
         }
     }
 }

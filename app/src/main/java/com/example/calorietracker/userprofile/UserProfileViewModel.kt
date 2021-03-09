@@ -3,7 +3,6 @@ package com.example.calorietracker.userprofile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.calorietracker.dailyintake.DailyIntakeRepository
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,10 +11,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    private val dailyIntakeRepository: DailyIntakeRepository
+    private val userProfileRepository: UserProfileRepository
 ) : ViewModel() {
 
-    val currentUserData: LiveData<DailyIntakeProps> = dailyIntakeRepository.user.map { userState ->
+    val currentUserData: LiveData<DailyIntakeProps> = userProfileRepository.user.map { userState ->
         when {
             userState.isLoading -> DailyIntakeProps.LoadingUser
             userState.isFailed -> DailyIntakeProps.FailedUser
@@ -25,6 +24,6 @@ class UserProfileViewModel @Inject constructor(
     }.asLiveData()
 
     fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String) {
-        dailyIntakeRepository.saveToSharedPreferences(userName, userWeight, userAge, userIncome, userImageUrl, userBackgroundUrl)
+        userProfileRepository.saveToSharedPreferences(userName, userWeight, userAge, userIncome, userImageUrl, userBackgroundUrl)
     }
 }
