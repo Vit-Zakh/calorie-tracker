@@ -12,12 +12,13 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileBackgroundImage"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/cardview_dark_background"
             android:src="@drawable/test_background_image"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
+android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/guideline45"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -225,7 +226,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
