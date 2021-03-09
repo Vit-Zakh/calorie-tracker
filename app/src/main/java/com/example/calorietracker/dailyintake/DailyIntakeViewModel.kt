@@ -1,6 +1,9 @@
 package com.example.calorietracker.dailyintake
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.state.MealsDataSource
@@ -19,6 +22,7 @@ class DailyIntakeViewModel @Inject constructor(
         viewModelScope.launch {
             dailyIntakeRepository.refreshState()
         }
+
     }
 
     val dailyLiveData: LiveData<List<DailyIntakeProps>> =

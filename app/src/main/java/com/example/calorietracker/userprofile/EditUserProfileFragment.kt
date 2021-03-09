@@ -1,7 +1,8 @@
 package com.example.calorietracker.userprofile
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -21,15 +22,17 @@ class EditUserProfileFragment : Fragment() {
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: UserProfileViewModel by viewModels()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentEditUserProfileBinding.inflate(inflater, container, false)
         fragmentBinding = binding
@@ -54,15 +57,29 @@ class EditUserProfileFragment : Fragment() {
 
             it.nameText.doOnTextChanged { text, start, before, count ->
                 it.saveButton.visibility = if (user.userName != text.toString()) VISIBLE else GONE
-                Log.d("Chacking_text_TAG", "renderUserProfile: ${user.userName != text.toString()}, ${user.userName}, $text")
             }
             it.incomeText.doOnTextChanged { text, start, before, count ->
                 it.saveButton.visibility = if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
             }
             it.weightText.doOnTextChanged { text, start, before, count ->
                 it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
-                Log.d("Chacking_text_TAG", "renderUserProfile: ${user.userName != text.toString()}, ${user.userName}, $text")
             }
+
+            it.saveButton.setOnClickListener {
+                saveUserProfile()
+            }
+        }
+    }
+
+    private fun saveUserProfile() {
+        fragmentBinding?.let {
+            sharedPreferences.edit()
+                    .putString("USER_NAME", it.nameText.text.toString())
+                    .putString("USER_WEIGHT", it.weightText.text.toString())
+                    .putString("USER_AGE", it.ageText.text.toString())
+                    .putString("USER_INCOME", it.incomeText.text.toString())
+                    .putString("USER_IMAGE_URL", "https://cataas.com/cat")
+                    .putString("USER_BACKGROUND_URL", "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg")
         }
     }
 }

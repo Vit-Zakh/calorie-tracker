@@ -24,5 +24,4 @@ class UserProfileViewModel @Inject constructor(
         }
     }.asLiveData()
 
-//    val currentUserData = MutableLiveData(UserProps())
 }
