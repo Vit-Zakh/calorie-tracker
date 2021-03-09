@@ -13,12 +13,18 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileBackgroundImage"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.45"
             android:background="@color/cardview_dark_background"
+            android:src="@drawable/test_background_image"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"  />
 
 
         <com.google.android.material.imageview.ShapeableImageView

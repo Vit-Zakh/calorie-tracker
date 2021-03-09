@@ -1,12 +1,14 @@
 package com.example.calorietracker.userprofile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.calorietracker.databinding.FragmentEditUserProfileBinding
@@ -39,8 +41,6 @@ class EditUserProfileFragment : Fragment() {
             }
         }
 
-//        binding.nameText.text =
-
         return binding.root
     }
 
@@ -52,10 +52,17 @@ class EditUserProfileFragment : Fragment() {
             it.weightText.setText(user.userWeight.toString())
             it.userProfileImage.loadImageByUrl(user.userImage)
 
-            if (it.nameText.text.toString() != user.userName) {
-                it.saveButton.visibility = VISIBLE
-            } else it.saveButton.visibility = GONE
-//            it.ageTile.text =
+            it.nameText.doOnTextChanged { text, start, before, count ->
+                it.saveButton.visibility = if (user.userName != text.toString()) VISIBLE else GONE
+                Log.d("Chacking_text_TAG", "renderUserProfile: ${user.userName != text.toString()}, ${user.userName}, $text")
+            }
+            it.incomeText.doOnTextChanged { text, start, before, count ->
+                it.saveButton.visibility = if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
+            }
+            it.weightText.doOnTextChanged { text, start, before, count ->
+                it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
+                Log.d("Chacking_text_TAG", "renderUserProfile: ${user.userName != text.toString()}, ${user.userName}, $text")
+            }
         }
     }
 }
