@@ -24,4 +24,7 @@ class UserProfileViewModel @Inject constructor(
         }
     }.asLiveData()
 
+    fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String) {
+        dailyIntakeRepository.saveToSharedPreferences(userName, userWeight, userAge, userIncome, userImageUrl, userBackgroundUrl)
+    }
 }

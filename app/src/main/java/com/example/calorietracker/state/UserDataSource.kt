@@ -5,7 +5,6 @@ import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.network.NetworkResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.lang.Error
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,6 +32,10 @@ class UserDataSource @Inject constructor() {
                 _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
             }
         }
+    }
+
+    fun getCachedUser(userName: String?, userWeight: String?, userAge: String?, userIncome: String?, userImageUrl: String?, userBackgroundUrl: String?) {
+        _userFlow.value = UserState(UserResponse("cached", userImageUrl, userName, 0.0, userIncome?.toFloat(), userWeight?.toFloat()), isLoading = false, isFailed = false)
     }
 
     fun increaseCalories(meal: DailyIntakeProps.MealProps) {

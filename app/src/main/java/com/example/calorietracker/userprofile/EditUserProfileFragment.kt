@@ -30,9 +30,9 @@ class EditUserProfileFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentEditUserProfileBinding.inflate(inflater, container, false)
         fragmentBinding = binding
@@ -51,7 +51,7 @@ class EditUserProfileFragment : Fragment() {
         fragmentBinding?.let {
             it.nameText.setText(user.userName)
             it.incomeText.setText(user.plannedIntake.toString())
-            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake * 100).toInt()
+            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
             it.weightText.setText(user.userWeight.toString())
             it.userProfileImage.loadImageByUrl(user.userImage)
 
@@ -73,13 +73,14 @@ class EditUserProfileFragment : Fragment() {
 
     private fun saveUserProfile() {
         fragmentBinding?.let {
-            sharedPreferences.edit()
-                    .putString("USER_NAME", it.nameText.text.toString())
-                    .putString("USER_WEIGHT", it.weightText.text.toString())
-                    .putString("USER_AGE", it.ageText.text.toString())
-                    .putString("USER_INCOME", it.incomeText.text.toString())
-                    .putString("USER_IMAGE_URL", "https://cataas.com/cat")
-                    .putString("USER_BACKGROUND_URL", "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg")
+            viewModel.saveToSharedPreferences(
+                userName = it.nameText.text.toString(),
+                userAge = it.ageText.text.toString(),
+                userWeight = it.weightText.text.toString(),
+                userIncome = it.incomeText.text.toString(),
+                userImageUrl = "https://cataas.com/cat",
+                userBackgroundUrl = "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg"
+            )
         }
     }
 }

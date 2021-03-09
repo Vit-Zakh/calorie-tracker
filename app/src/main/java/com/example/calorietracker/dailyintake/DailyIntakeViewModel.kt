@@ -22,7 +22,6 @@ class DailyIntakeViewModel @Inject constructor(
         viewModelScope.launch {
             dailyIntakeRepository.refreshState()
         }
-
     }
 
     val dailyLiveData: LiveData<List<DailyIntakeProps>> =

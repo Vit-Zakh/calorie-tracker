@@ -74,7 +74,7 @@ class UserProfileFragment : Fragment() {
     private fun renderUserProfile(user: DailyIntakeProps.UserProps) {
         fragmentBinding?.let {
             it.profileUserName.text = user.userName
-            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake * 100).toInt()
+            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
             it.weightTile.text = user.userWeight.toString()
             it.userProfileImage.loadImageByUrl(user.userImage)
             it.profileProgressText.text = resources.getString(

@@ -132,7 +132,7 @@ class FoodListFragment : Fragment() {
 
     private fun updateUserProgress(user: UserProps) {
         fragmentBinding?.let {
-            val userProgress = user.userIntake / user.plannedIntake
+            val userProgress = user.userIntake / user.plannedIntake!!
             it.progressBar.progress = progressOutOfValue(userProgress)
             it.progressText.text = resources.getString(
                 R.string.user_calories_progress_text,

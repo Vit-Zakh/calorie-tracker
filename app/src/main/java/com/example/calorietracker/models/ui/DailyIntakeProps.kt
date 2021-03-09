@@ -5,7 +5,6 @@ import android.os.Parcelable
 import com.example.calorietracker.models.network.MealResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.lang.RuntimeException
 import java.time.LocalDateTime
 
 sealed class DailyIntakeProps {
@@ -37,13 +36,13 @@ sealed class DailyIntakeProps {
         @SerializedName("name")
         var userName: String = "Loading name",
         @SerializedName("image")
-        var userImage: String = "",
+        var userImage: String? = "",
         @SerializedName("weight")
-        var userWeight: Float = 0f,
+        var userWeight: Float? = 0f,
         @SerializedName("currentIntake")
         var userIntake: Double = 0.0,
         @SerializedName("maxIntake")
-        var plannedIntake: Float = 0f
+        var plannedIntake: Float? = 0f
     ) : DailyIntakeProps(), Parcelable
 
     class LoadedUser(val user: UserProps) : DailyIntakeProps()
