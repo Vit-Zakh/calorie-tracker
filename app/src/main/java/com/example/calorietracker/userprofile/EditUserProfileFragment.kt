@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentEditUserProfileBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.loadImageByUrl
@@ -52,21 +54,27 @@ class EditUserProfileFragment : Fragment() {
             it.nameText.setText(user.userName)
             it.incomeText.setText(user.plannedIntake.toString())
             it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
+            it.profileProgressText.text = resources.getString(
+                R.string.user_calories_progress_text_one_line,
+                user.userIntake,
+                user.plannedIntake
+            )
             it.weightText.setText(user.userWeight.toString())
             it.userProfileImage.loadImageByUrl(user.userImage)
 
-            it.nameText.doOnTextChanged { text, start, before, count ->
+            it.nameText.doOnTextChanged { text, _, _, _ ->
                 it.saveButton.visibility = if (user.userName != text.toString()) VISIBLE else GONE
             }
-            it.incomeText.doOnTextChanged { text, start, before, count ->
+            it.incomeText.doOnTextChanged { text, _, _, _ ->
                 it.saveButton.visibility = if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
             }
-            it.weightText.doOnTextChanged { text, start, before, count ->
+            it.weightText.doOnTextChanged { text, _, _, _ ->
                 it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
             }
 
             it.saveButton.setOnClickListener {
                 saveUserProfile()
+                findNavController().navigate(EditUserProfileFragmentDirections.actionEditUserProfileFragmentToUserProfileFragment())
             }
         }
     }

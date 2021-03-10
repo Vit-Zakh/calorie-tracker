@@ -27,15 +27,11 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
     }
 
     fun refreshUser(user: NetworkResponse<UserResponse, Error>) {
-        if (!sharedPreferences.contains("USER_NAME")) {
-            when (user) {
-                is NetworkResponse.Success -> _userFlow.value = _userFlow.value.copy(fetchedUSer = user.body, isLoading = false)
-                else -> {
-                    _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
-                }
+        when (user) {
+            is NetworkResponse.Success -> _userFlow.value = _userFlow.value.copy(fetchedUSer = user.body, isLoading = false)
+            else -> {
+                _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
             }
-        } else {
-            loadCachedUser()
         }
     }
 

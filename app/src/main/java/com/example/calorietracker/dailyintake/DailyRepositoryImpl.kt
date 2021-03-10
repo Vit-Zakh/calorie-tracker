@@ -22,7 +22,9 @@ class DailyRepositoryImpl(
         mealsDataSource.setLoadingState()
         userDataSource.setLoadingState()
         mealsDataSource.refreshMealsList(apiService.getMeals())
-        userDataSource.refreshUser(apiService.getUser())
+        if (!sharedPreferences.contains("USER_NAME")) {
+            userDataSource.refreshUser(apiService.getUser())
+        } else userDataSource.loadCachedUser()
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {
@@ -36,5 +38,4 @@ class DailyRepositoryImpl(
         userDataSource.decreaseCalories(meals.value.mealsList[index].mapToUiModel())
         mealsDataSource.deleteMeal(index)
     }
-
 }

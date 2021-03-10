@@ -14,17 +14,17 @@
             android:id="@+id/profileBackgroundImage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.45"
             android:background="@color/cardview_dark_background"
+            android:scaleType="centerCrop"
             android:src="@drawable/test_background_image"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
-            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"  />
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -47,13 +47,13 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="Save"
             android:textColor="@color/secondary_orange"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/profileProgressBar"
@@ -74,12 +74,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:gravity="end"
-            android:text="1700 / 3000 kcal"
             android:textColor="@color/secondary_orange"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileProgressBar" />
+            app:layout_constraintTop_toBottomOf="@id/profileProgressBar"
+            tools:text="1700 / 3000 kcal" />
 
 
         <com.google.android.material.textfield.TextInputLayout
