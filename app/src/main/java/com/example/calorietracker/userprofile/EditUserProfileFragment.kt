@@ -1,8 +1,11 @@
 package com.example.calorietracker.userprofile
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -17,10 +20,13 @@ import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentEditUserProfileBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.loadImageByUrl
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EditUserProfileFragment : Fragment() {
+
+    private val GALLERY_REQUEST_CODE = 1234
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: UserProfileViewModel by viewModels()
@@ -44,6 +50,14 @@ class EditUserProfileFragment : Fragment() {
                 is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
                 else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.galleryNavigationView)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        binding.userProfileImage.setOnClickListener {
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            pickImageFromGallery()
         }
 
         return binding.root
@@ -89,6 +103,27 @@ class EditUserProfileFragment : Fragment() {
                 userImageUrl = "https://cataas.com/cat",
                 userBackgroundUrl = "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg"
             )
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        val mimeTypes = arrayOf("image/jpeg", "image/png", "image/jpg")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            GALLERY_REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    fragmentBinding?.userProfileImage?.loadImageByUrl(data?.data.toString())
+                } else Toast.makeText(context, "Whoops!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
