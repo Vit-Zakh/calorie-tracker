@@ -1,17 +1,17 @@
 package com.example.calorietracker.userprofile
 
-import android.app.Activity
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,8 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EditUserProfileFragment : Fragment() {
-
-    private val GALLERY_REQUEST_CODE = 1234
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: UserProfileViewModel by viewModels()
@@ -56,8 +54,11 @@ class EditUserProfileFragment : Fragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         binding.userProfileImage.setOnClickListener {
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            pickImageFromGallery()
+            galleryPermissionProfileImage.launch(READ_EXTERNAL_STORAGE)
+        }
+
+        binding.profileBackgroundImage.setOnClickListener {
+            galleryPermissionBackground.launch(READ_EXTERNAL_STORAGE)
         }
 
         return binding.root
@@ -106,23 +107,38 @@ class EditUserProfileFragment : Fragment() {
         }
     }
 
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        val mimeTypes = arrayOf("image/jpeg", "image/png", "image/jpg")
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+    private val backgroundSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+        if (imageUri == null) return@registerForActivityResult
+        else
+            fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private val profileImageSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+        if (imageUri == null) return@registerForActivityResult
+        else
+            fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
+    }
 
-        when (requestCode) {
-            GALLERY_REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    fragmentBinding?.userProfileImage?.loadImageByUrl(data?.data.toString())
-                } else Toast.makeText(context, "Whoops!", Toast.LENGTH_SHORT).show()
+    private val galleryPermissionBackground = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        when {
+            granted -> backgroundSwitch.launch("image/*")
+            !shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
+                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private val galleryPermissionProfileImage = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        when {
+            granted -> profileImageSwitch.launch("image/*")
+            !shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
+                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
             }
         }
     }
