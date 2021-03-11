@@ -78,6 +78,8 @@ class UserProfileFragment : Fragment() {
                 user.userIntake,
                 user.plannedIntake
             )
+            it.ageTile.text = user.userAge.toString()
+            it.profileBackgroundImage.loadImageByUrl(user.backgroundImage)
         }
     }
 }

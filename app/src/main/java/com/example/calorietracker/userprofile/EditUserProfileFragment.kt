@@ -1,7 +1,6 @@
 package com.example.calorietracker.userprofile
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -22,18 +21,18 @@ import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.loadImageByUrl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditUserProfileFragment : Fragment() {
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: UserProfileViewModel by viewModels()
-    private lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-    }
+    @Inject lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var userProfileUrl: String
+    private lateinit var backgroundUrl: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +48,9 @@ class EditUserProfileFragment : Fragment() {
                 else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
             }
         }
+
+        userProfileUrl = sharedPreferences.getString("USER_IMAGE_URL", null).toString()
+        backgroundUrl = "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg"
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.galleryNavigationView)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -101,22 +103,32 @@ class EditUserProfileFragment : Fragment() {
                 userAge = it.ageText.text.toString(),
                 userWeight = it.weightText.text.toString(),
                 userIncome = it.incomeText.text.toString(),
-                userImageUrl = "https://cataas.com/cat",
-                userBackgroundUrl = "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg"
+                userImageUrl = userProfileUrl,
+                userBackgroundUrl = backgroundUrl
             )
         }
     }
 
     private val backgroundSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
         if (imageUri == null) return@registerForActivityResult
-        else
+        else {
             fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
+            if (imageUri.toString() != backgroundUrl) {
+                backgroundUrl = imageUri.toString()
+                fragmentBinding?.saveButton?.visibility = VISIBLE
+            }
+            backgroundUrl = imageUri.toString()
+        }
     }
 
     private val profileImageSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
         if (imageUri == null) return@registerForActivityResult
         else
             fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
+        if (imageUri.toString() != userProfileUrl) {
+            userProfileUrl = imageUri.toString()
+            fragmentBinding?.saveButton?.visibility = VISIBLE
+        }
     }
 
     private val galleryPermissionBackground = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
