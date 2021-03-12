@@ -33,8 +33,8 @@ class DailyIntakeViewModel @Inject constructor(
                         DailyIntakeProps.LoadingUser
                     userDataSource.isFailed ->
                         DailyIntakeProps.FailedUser
-                    userDataSource.fetchedUSer.id.isNotBlank() ->
-                        DailyIntakeProps.LoadedUser(userDataSource.fetchedUSer.mapToUiModel()).user
+                    userDataSource.fetchedUser.id.isNotBlank() ->
+                        DailyIntakeProps.LoadedUser(userDataSource.fetchedUser.mapToUiModel()).user
                     else ->
                         DailyIntakeProps.FailedUser
                 }

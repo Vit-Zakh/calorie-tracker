@@ -1,9 +1,12 @@
 package com.example.calorietracker.userprofile
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,6 +29,7 @@ class UserProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        makeToolBarTransparent()
 
         val binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         fragmentBinding = binding
@@ -47,9 +51,12 @@ class UserProfileFragment : Fragment() {
         binding.profileNavigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.toProfile -> bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                R.id.toDailtyIntake -> findNavController().navigate(
-                    UserProfileFragmentDirections.actionUserProfileFragmentToDailyIntakeFragment()
-                )
+                R.id.toDailtyIntake -> {
+                    makeToolBarVisible()
+                    findNavController().navigate(
+                        UserProfileFragmentDirections.actionUserProfileFragmentToDailyIntakeFragment()
+                    )
+                }
             }
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             true
@@ -63,6 +70,7 @@ class UserProfileFragment : Fragment() {
         }
 
         binding.topAppBar.overflowIcon = resources.getDrawable(R.drawable.ic_settings_24)
+//        binding.topAppBar.
 
         return binding.root
     }
@@ -81,5 +89,38 @@ class UserProfileFragment : Fragment() {
             it.ageTile.text = user.userAge.toString()
             it.profileBackgroundImage.loadImageByUrl(user.backgroundImage)
         }
+    }
+
+    private fun makeToolBarTransparent() {
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true)
+        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+            requireActivity().window.statusBarColor = Color.TRANSPARENT
+        }
+    }
+    private fun makeToolBarVisible() {
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        requireActivity().window.decorView.systemUiVisibility = View.VISIBLE
+        requireActivity().window.statusBarColor = resources.getColor(R.color.primary_back)
+    }
+    private fun setWindowFlag(bits: Int, on: Boolean) {
+        val win = requireActivity().window
+        val winParams = win.attributes
+        if (on) {
+            winParams.flags = winParams.flags or bits
+        } else {
+            winParams.flags = winParams.flags and bits.inv()
+        }
+        win.attributes = winParams
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        makeToolBarVisible()
     }
 }

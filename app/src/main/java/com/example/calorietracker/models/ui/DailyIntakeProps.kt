@@ -25,7 +25,7 @@ sealed class DailyIntakeProps {
         var carbs: Float? = null
     ) : DailyIntakeProps(), Parcelable
 
-    class LoadedMealsList(val mealsList: List<MealProps>) : DailyIntakeProps()
+//    class LoadedMealsList(val mealsList: List<MealProps>) : DailyIntakeProps()
     object LoadingMealsItem : DailyIntakeProps()
     object EmptyMealsItem : DailyIntakeProps()
     object FailedMealsItem : DailyIntakeProps()

@@ -52,7 +52,7 @@ class EditUserProfileFragment : Fragment() {
         }
 
         userProfileUrl = sharedPreferences.getString("USER_IMAGE_URL", null).toString()
-        backgroundUrl = "https://i.picsum.photos/id/1018/3914/2935.jpg?hmac=3N43cQcvTE8NItexePvXvYBrAoGbRssNMpuvuWlwMKg"
+        backgroundUrl = sharedPreferences.getString("USER_BACKGROUND_URL", null).toString()
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.galleryNavigationView)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -79,6 +79,8 @@ class EditUserProfileFragment : Fragment() {
                 user.plannedIntake
             )
             it.weightText.setText(user.userWeight.toString())
+            it.ageText.setText(user.userAge)
+            it.profileBackgroundImage.loadImageByUrl(user.backgroundImage)
             it.userProfileImage.loadImageByUrl(user.userImage)
 
             it.nameText.doOnTextChanged { text, _, _, _ ->
@@ -88,6 +90,9 @@ class EditUserProfileFragment : Fragment() {
                 it.saveButton.visibility = if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
             }
             it.weightText.doOnTextChanged { text, _, _, _ ->
+                it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
+            }
+            it.ageText.doOnTextChanged { text, _, _, _ ->
                 it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
             }
 
@@ -116,13 +121,13 @@ class EditUserProfileFragment : Fragment() {
         else grantedImage(imageUri)
     }
 
-    val userProfileImageRequest = getStorageContent { imageUri ->
+    private val userProfileImageRequest = getStorageContent { imageUri ->
         fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
         fragmentBinding?.saveButton?.showIf(imageUri.toString() != userProfileUrl)
         userProfileUrl = imageUri.toString()
     }
 
-    val backgroundImageRequest = getStorageContent { imageUri ->
+    private val backgroundImageRequest = getStorageContent { imageUri ->
         fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
         fragmentBinding?.saveButton?.showIf(imageUri.toString() != backgroundUrl)
         backgroundUrl = imageUri.toString()
@@ -141,6 +146,6 @@ class EditUserProfileFragment : Fragment() {
             }
         }
 
-    val launchUserImageIntent = askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("images/*") }
-    val launchBackgroundIntent = askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("images/*") }
+    private val launchUserImageIntent = askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("image/*") }
+    private val launchBackgroundIntent = askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("image/*") }
 }

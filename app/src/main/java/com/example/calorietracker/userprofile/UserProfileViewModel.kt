@@ -18,7 +18,7 @@ class UserProfileViewModel @Inject constructor(
         when {
             userState.isLoading -> DailyIntakeProps.LoadingUser
             userState.isFailed -> DailyIntakeProps.FailedUser
-            userState.fetchedUSer.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel())
+            userState.fetchedUser.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.fetchedUser.mapToUiModel())
             else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()

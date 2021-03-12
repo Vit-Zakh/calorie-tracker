@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class UserDataSource @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
     data class UserState(
-        val fetchedUSer: UserResponse = UserResponse(),
+        val fetchedUser: UserResponse = UserResponse(),
         val isLoading: Boolean = false,
         val isFailed: Boolean = false
     )
@@ -28,7 +28,7 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
 
     fun refreshUser(user: NetworkResponse<UserResponse, Error>) {
         when (user) {
-            is NetworkResponse.Success -> _userFlow.value = _userFlow.value.copy(fetchedUSer = user.body, isLoading = false)
+            is NetworkResponse.Success -> _userFlow.value = _userFlow.value.copy(fetchedUser = user.body, isLoading = false)
             else -> {
                 _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
             }
@@ -42,7 +42,9 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
                 name = sharedPreferences.getString("USER_NAME", ""),
                 weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloat(),
                 maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloat(),
-                image = sharedPreferences.getString("USER_IMAGE_URL", "")
+                image = sharedPreferences.getString("USER_IMAGE_URL", ""),
+                backgroundImage = sharedPreferences.getString("USER_BACKGROUND_URL", ""),
+                age = sharedPreferences.getString("USER_AGE", null)?.toInt(),
             ),
             isLoading = false,
             isFailed = false
@@ -50,17 +52,17 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
     }
 
     fun increaseCalories(meal: DailyIntakeProps.MealProps) {
-        val progressedUser = _userFlow.value.fetchedUSer
+        val progressedUser = _userFlow.value.fetchedUser
         progressedUser.currentIntake =
-            _userFlow.value.fetchedUSer.currentIntake.plus(meal.mealCalories * meal.mealWeight / 100)
-        _userFlow.value = _userFlow.value.copy(fetchedUSer = progressedUser, isLoading = false, isFailed = false)
+            _userFlow.value.fetchedUser.currentIntake.plus(meal.mealCalories * meal.mealWeight / 100)
+        _userFlow.value = _userFlow.value.copy(fetchedUser = progressedUser, isLoading = false, isFailed = false)
     }
 
     fun decreaseCalories(meal: DailyIntakeProps.MealProps) {
-        val progressedUser = _userFlow.value.fetchedUSer
+        val progressedUser = _userFlow.value.fetchedUser
         progressedUser.currentIntake =
-            _userFlow.value.fetchedUSer.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
-        _userFlow.value = _userFlow.value.copy(fetchedUSer = progressedUser, isLoading = false, isFailed = false)
+            _userFlow.value.fetchedUser.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
+        _userFlow.value = _userFlow.value.copy(fetchedUser = progressedUser, isLoading = false, isFailed = false)
     }
 
     /** Test functions block */
