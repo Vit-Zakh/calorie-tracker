@@ -19,6 +19,7 @@ import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentEditUserProfileBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.loadImageByUrl
+import com.example.calorietracker.utils.showIf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +30,8 @@ class EditUserProfileFragment : Fragment() {
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: UserProfileViewModel by viewModels()
 
-    @Inject lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var userProfileUrl: String
     private lateinit var backgroundUrl: String
@@ -56,11 +58,11 @@ class EditUserProfileFragment : Fragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         binding.userProfileImage.setOnClickListener {
-            galleryPermissionProfileImage.launch(READ_EXTERNAL_STORAGE)
+            launchUserImageIntent.launch(READ_EXTERNAL_STORAGE)
         }
 
         binding.profileBackgroundImage.setOnClickListener {
-            galleryPermissionBackground.launch(READ_EXTERNAL_STORAGE)
+            launchBackgroundIntent.launch(READ_EXTERNAL_STORAGE)
         }
 
         return binding.root
@@ -109,49 +111,36 @@ class EditUserProfileFragment : Fragment() {
         }
     }
 
-    private val backgroundSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+    private fun getStorageContent(grantedImage: (Uri) -> Unit) = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
         if (imageUri == null) return@registerForActivityResult
-        else {
-            fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
-            if (imageUri.toString() != backgroundUrl) {
-                backgroundUrl = imageUri.toString()
-                fragmentBinding?.saveButton?.visibility = VISIBLE
-            }
-            backgroundUrl = imageUri.toString()
-        }
+        else grantedImage(imageUri)
     }
 
-    private val profileImageSwitch = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
-        if (imageUri == null) return@registerForActivityResult
-        else
-            fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
-        if (imageUri.toString() != userProfileUrl) {
-            userProfileUrl = imageUri.toString()
-            fragmentBinding?.saveButton?.visibility = VISIBLE
-        }
+    val userProfileImageRequest = getStorageContent { imageUri ->
+        fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
+        fragmentBinding?.saveButton?.showIf(imageUri.toString() != userProfileUrl)
+        userProfileUrl = imageUri.toString()
     }
 
-    private val galleryPermissionBackground = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        when {
-            granted -> backgroundSwitch.launch("image/*")
-            !shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
-                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
-            }
-        }
+    val backgroundImageRequest = getStorageContent { imageUri ->
+        fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
+        fragmentBinding?.saveButton?.showIf(imageUri.toString() != backgroundUrl)
+        backgroundUrl = imageUri.toString()
     }
 
-    private val galleryPermissionProfileImage = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        when {
-            granted -> profileImageSwitch.launch("image/*")
-            !shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
-                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+    private fun askPermission(permission: String, whenGranted: () -> Unit) =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            when {
+                granted -> whenGranted()
+                !shouldShowRequestPermissionRationale(permission) -> {
+                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
+
+    val launchUserImageIntent = askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("images/*") }
+    val launchBackgroundIntent = askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("images/*") }
 }
