@@ -21,14 +21,4 @@ class ImagePicker(
     }
 
     private val getGalleryImage = activityResultRegistry.register(REGISTRY_KEY_GALLERY, ActivityResultContracts.GetContent(), loadCallback)
-//    private val getCameraImage = activityResultRegistry.register(REGISTRY_KEY_CAMERA, ActivityResultContracts.TakePicturePreview(), loadCallback)
-
-//       private val cameraPermission = activityResultRegistry.register(REGISTRY_KEY_GALLERY_PERMISSION, ActivityResultContracts.RequestPermission()) { granted ->
-//        when {
-//            granted -> camera.launch()
-//            !shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA) -> {
-//                Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
-//            }
-//            else -> {}
-//        }
 }
