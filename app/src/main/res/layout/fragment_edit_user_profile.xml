@@ -26,6 +26,16 @@
             app:layout_constraintVertical_bias="1.0"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+        <ImageView
+            android:id="@+id/cameraOnBackground"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:src="@drawable/ic_camera_128"
+            app:layout_constraintBottom_toBottomOf="@+id/profileBackgroundImage"
+            app:layout_constraintEnd_toEndOf="@+id/profileBackgroundImage"
+            app:layout_constraintStart_toStartOf="@+id/profileBackgroundImage"
+            app:layout_constraintTop_toTopOf="@+id/profileBackgroundImage" />
+
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/userProfileImage"
@@ -42,6 +52,16 @@
             app:strokeColor="@color/secondary_orange"
             app:strokeWidth="3dp"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/cameraOnProfile"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_camera_128"
+            app:layout_constraintBottom_toBottomOf="@+id/userProfileImage"
+            app:layout_constraintEnd_toEndOf="@+id/userProfileImage"
+            app:layout_constraintStart_toStartOf="@+id/userProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/userProfileImage" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"

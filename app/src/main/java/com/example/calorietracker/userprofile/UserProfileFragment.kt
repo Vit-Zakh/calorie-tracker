@@ -25,9 +25,9 @@ class UserProfileFragment : Fragment() {
     private val viewModel: UserProfileViewModel by viewModels()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         makeToolBarTransparent()
 
@@ -54,7 +54,7 @@ class UserProfileFragment : Fragment() {
                 R.id.toDailtyIntake -> {
                     makeToolBarVisible()
                     findNavController().navigate(
-                            UserProfileFragmentDirections.actionUserProfileFragmentToDailyIntakeFragment()
+                        UserProfileFragmentDirections.actionUserProfileFragmentToDailyIntakeFragment()
                     )
                 }
             }
@@ -82,9 +82,9 @@ class UserProfileFragment : Fragment() {
             it.weightTile.text = user.userWeight.toString()
             it.userProfileImage.loadImageByUrl(user.userImage)
             it.profileProgressText.text = resources.getString(
-                    R.string.user_calories_progress_text_one_line,
-                    user.userIntake,
-                    user.plannedIntake
+                R.string.user_calories_progress_text_one_line,
+                user.userIntake,
+                user.plannedIntake
             )
             it.ageTile.text = user.userAge.toString()
             it.profileBackgroundImage.loadImageByUrl(user.backgroundImage)

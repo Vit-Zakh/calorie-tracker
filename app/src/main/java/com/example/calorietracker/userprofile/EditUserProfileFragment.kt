@@ -37,9 +37,9 @@ class EditUserProfileFragment : Fragment() {
     private lateinit var backgroundUrl: String
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentEditUserProfileBinding.inflate(inflater, container, false)
         fragmentBinding = binding
@@ -74,9 +74,9 @@ class EditUserProfileFragment : Fragment() {
             it.incomeText.setText(user.plannedIntake.toString())
             it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
             it.profileProgressText.text = resources.getString(
-                R.string.user_calories_progress_text_one_line,
-                user.userIntake,
-                user.plannedIntake
+                    R.string.user_calories_progress_text_one_line,
+                    user.userIntake,
+                    user.plannedIntake
             )
             it.weightText.setText(user.userWeight.toString())
             it.ageText.setText(user.userAge)
@@ -106,12 +106,12 @@ class EditUserProfileFragment : Fragment() {
     private fun saveUserProfile() {
         fragmentBinding?.let {
             viewModel.saveToSharedPreferences(
-                userName = it.nameText.text.toString(),
-                userAge = it.ageText.text.toString(),
-                userWeight = it.weightText.text.toString(),
-                userIncome = it.incomeText.text.toString(),
-                userImageUrl = userProfileUrl,
-                userBackgroundUrl = backgroundUrl
+                    userName = it.nameText.text.toString(),
+                    userAge = it.ageText.text.toString(),
+                    userWeight = it.weightText.text.toString(),
+                    userIncome = it.incomeText.text.toString(),
+                    userImageUrl = userProfileUrl,
+                    userBackgroundUrl = backgroundUrl
             )
         }
     }
@@ -134,17 +134,17 @@ class EditUserProfileFragment : Fragment() {
     }
 
     private fun askPermission(permission: String, whenGranted: () -> Unit) =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            when {
-                granted -> whenGranted()
-                !shouldShowRequestPermissionRationale(permission) -> {
-                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+                when {
+                    granted -> whenGranted()
+                    !shouldShowRequestPermissionRationale(permission) -> {
+                        Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-        }
 
     private val launchUserImageIntent = askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("image/*") }
     private val launchBackgroundIntent = askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("image/*") }
