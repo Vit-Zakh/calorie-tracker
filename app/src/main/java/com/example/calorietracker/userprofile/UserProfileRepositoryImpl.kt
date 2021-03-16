@@ -10,7 +10,14 @@ class UserProfileRepositoryImpl(
 ) : UserProfileRepository {
     override val user: StateFlow<UserDataSource.UserState> = userDataSource.userFlow
 
-    override fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String) {
+    override fun saveToSharedPreferences(
+        userName: String,
+        userWeight: String,
+        userAge: String,
+        userIncome: String,
+        userImageUrl: String,
+        userBackgroundUrl: String
+    ) {
         sharedPreferences.edit()
             .putString("USER_NAME", userName)
             .putString("USER_WEIGHT", userWeight)
@@ -21,5 +28,15 @@ class UserProfileRepositoryImpl(
             .apply()
         userDataSource.setLoadingState()
         userDataSource.loadCachedUser()
+    }
+
+    override fun changeProfilePreview(uri: String) {
+        userDataSource.setLoadingState()
+        userDataSource.changeProfilePreview(uri)
+    }
+
+    override fun changeBackgroundPreview(uri: String) {
+        userDataSource.setLoadingState()
+        userDataSource.changeBackgroundPreview(uri)
     }
 }

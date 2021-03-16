@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentEditUserProfileBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.utils.calculateProgressPercent
 import com.example.calorietracker.utils.loadImageByUrl
 import com.example.calorietracker.utils.showIf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -45,10 +46,13 @@ class EditUserProfileFragment : Fragment() {
         fragmentBinding = binding
 
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
-            when (userData) {
-                is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
-                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
-            }
+//            when (userData) {
+//                is DailyIntakeProps.LoadedUser -> {
+//                    renderUserProfile(userData.user)
+//                }
+//                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
+//            }
+            if (userData is DailyIntakeProps.LoadedUser) renderUserProfile(userData.user)
         }
 
         userProfileUrl = sharedPreferences.getString("USER_IMAGE_URL", null).toString()
@@ -72,7 +76,7 @@ class EditUserProfileFragment : Fragment() {
         fragmentBinding?.let {
             it.nameText.setText(user.userName)
             it.incomeText.setText(user.plannedIntake.toString())
-            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
+            it.profileProgressBar.progress.calculateProgressPercent(user.userIntake, user.plannedIntake)
             it.profileProgressText.text = resources.getString(
                 R.string.user_calories_progress_text_one_line,
                 user.userIntake,
@@ -122,13 +126,13 @@ class EditUserProfileFragment : Fragment() {
     }
 
     private val userProfileImageRequest = getStorageContent { imageUri ->
-        fragmentBinding?.userProfileImage?.loadImageByUrl(imageUri.toString())
+        viewModel.changeProfilePreview(imageUri.toString())
         fragmentBinding?.saveButton?.showIf(imageUri.toString() != userProfileUrl)
         userProfileUrl = imageUri.toString()
     }
 
     private val backgroundImageRequest = getStorageContent { imageUri ->
-        fragmentBinding?.profileBackgroundImage?.loadImageByUrl(imageUri.toString())
+        viewModel.changeBackgroundPreview(imageUri.toString())
         fragmentBinding?.saveButton?.showIf(imageUri.toString() != backgroundUrl)
         backgroundUrl = imageUri.toString()
     }

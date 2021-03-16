@@ -34,7 +34,7 @@ sealed class DailyIntakeProps {
     data class UserProps(
         var id: String = "-1",
         @SerializedName("name")
-        var userName: String = "Loading name",
+        var userName: String? = "Loading name",
         @SerializedName("image")
         var userImage: String? = "",
         @SerializedName("weight")
@@ -42,7 +42,7 @@ sealed class DailyIntakeProps {
         @SerializedName("currentIntake")
         var userIntake: Double = 0.0,
         @SerializedName("maxIntake")
-        var plannedIntake: Float? = 0f,
+        var plannedIntake: Float = 0f,
         var userAge: String? = "",
         var backgroundImage: String? = ""
     ) : DailyIntakeProps(), Parcelable

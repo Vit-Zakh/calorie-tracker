@@ -18,12 +18,19 @@ class UserProfileViewModel @Inject constructor(
         when {
             userState.isLoading -> DailyIntakeProps.LoadingUser
             userState.isFailed -> DailyIntakeProps.FailedUser
-            userState.fetchedUser.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.fetchedUser.mapToUiModel())
+            userState.userData.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.userData.mapToUiModel())
             else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()
 
     fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String) {
         userProfileRepository.saveToSharedPreferences(userName, userWeight, userAge, userIncome, userImageUrl, userBackgroundUrl)
+    }
+
+    fun changeProfilePreview(uri: String) {
+        userProfileRepository.changeProfilePreview(uri)
+    }
+    fun changeBackgroundPreview(uri: String) {
+        userProfileRepository.changeBackgroundPreview(uri)
     }
 }

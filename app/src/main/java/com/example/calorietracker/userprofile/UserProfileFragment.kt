@@ -12,6 +12,7 @@ import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentUserProfileBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.ToolBarManager
+import com.example.calorietracker.utils.calculateProgressPercent
 import com.example.calorietracker.utils.loadImageByUrl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,7 +78,7 @@ class UserProfileFragment : Fragment() {
     private fun renderUserProfile(user: DailyIntakeProps.UserProps) {
         fragmentBinding?.let {
             it.profileUserName.text = user.userName
-            it.profileProgressBar.progress = (user.userIntake / user.plannedIntake!! * 100).toInt()
+            it.profileProgressBar.progress.calculateProgressPercent(user.userIntake, user.plannedIntake)
             it.weightTile.text = user.userWeight.toString()
             it.userProfileImage.loadImageByUrl(user.userImage)
             it.profileProgressText.text = resources.getString(
