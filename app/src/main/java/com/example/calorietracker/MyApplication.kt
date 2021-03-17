@@ -15,6 +15,8 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         userDataSource.loadCachedUser()
-        Log.d("App_TAG", "onCreate: loaded in app class")
+        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.name}")
+        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.age}")
+        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.weight}")
     }
 }

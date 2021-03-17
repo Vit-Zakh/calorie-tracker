@@ -42,11 +42,11 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
             UserResponse(
                 id = "cachedUser",
                 name = sharedPreferences.getString("USER_NAME", ""),
-                weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloat(),
-                maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloat(),
+                weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloatOrNull(),
+                maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloatOrNull(),
                 image = sharedPreferences.getString("USER_IMAGE_URL", ""),
                 backgroundImage = sharedPreferences.getString("USER_BACKGROUND_URL", ""),
-                age = sharedPreferences.getString("USER_AGE", null)?.toInt(),
+                age = sharedPreferences.getString("USER_AGE", null)?.toIntOrNull(),
             ),
             isLoading = false,
             isFailed = false
