@@ -2,7 +2,6 @@ package com.example.calorietracker
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.calorietracker.state.UserDataSource
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -15,8 +14,5 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         userDataSource.loadCachedUser()
-        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.name}")
-        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.age}")
-        Log.d("Check_TAG", "onCreate: ${userDataSource.userFlow.value.userData.weight}")
     }
 }

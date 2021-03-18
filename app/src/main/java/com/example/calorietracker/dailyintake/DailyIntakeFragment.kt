@@ -1,6 +1,7 @@
 package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_daily_intake.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -42,6 +42,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.addMeal.setOnClickListener {
             viewModel.addMeal(
+
                 DailyIntakeProps.MealProps(
                     Random.nextInt(20, 1998).toString(),
                     "Popcorn",
@@ -79,6 +80,28 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         binding.floatingActionButton.setOnClickListener {
             openFoodList()
         }
+
+        binding.hideButton.setOnClickListener {
+            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
+
+        binding.intakeLayout.setOnClickListener {
+            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
+
+        binding.dailyIntakeList.setOnClickListener {
+            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
+
         return binding.root
     }
 

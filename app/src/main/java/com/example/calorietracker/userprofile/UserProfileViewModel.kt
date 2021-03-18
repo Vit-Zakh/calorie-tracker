@@ -22,15 +22,4 @@ class UserProfileViewModel @Inject constructor(
             else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()
-
-    fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String) {
-        userProfileRepository.saveToSharedPreferences(userName, userWeight, userAge, userIncome, userImageUrl, userBackgroundUrl)
-    }
-
-    fun changeProfilePreview(uri: String) {
-        userProfileRepository.changeProfilePreview(uri)
-    }
-    fun changeBackgroundPreview(uri: String) {
-        userProfileRepository.changeBackgroundPreview(uri)
-    }
 }

@@ -8,9 +8,12 @@ import com.example.calorietracker.dailyintake.DailyRepositoryImpl
 import com.example.calorietracker.foodlist.FoodListRepository
 import com.example.calorietracker.foodlist.FoodListRepositoryImpl
 import com.example.calorietracker.network.ApiService
+import com.example.calorietracker.state.EditedUserDataSource
 import com.example.calorietracker.state.FoodListDataSource
 import com.example.calorietracker.state.MealsDataSource
 import com.example.calorietracker.state.UserDataSource
+import com.example.calorietracker.userprofile.EditedUserProfileRepository
+import com.example.calorietracker.userprofile.EditedUserProfileRepositoryImpl
 import com.example.calorietracker.userprofile.UserProfileRepository
 import com.example.calorietracker.userprofile.UserProfileRepositoryImpl
 import dagger.Module
@@ -50,9 +53,18 @@ object RepositoryModule {
     @Provides
     fun provideUserProfileRepository(
         userDataSource: UserDataSource,
-        sharedPreferences: SharedPreferences
     ): UserProfileRepository {
-        return UserProfileRepositoryImpl(userDataSource, sharedPreferences)
+        return UserProfileRepositoryImpl(userDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideEditedUserProfileRepository(
+        editedUserDataSource: EditedUserDataSource,
+        userDataSource: UserDataSource,
+        sharedPreferences: SharedPreferences
+    ): EditedUserProfileRepository {
+        return EditedUserProfileRepositoryImpl(editedUserDataSource, userDataSource, sharedPreferences)
     }
 
     @Singleton

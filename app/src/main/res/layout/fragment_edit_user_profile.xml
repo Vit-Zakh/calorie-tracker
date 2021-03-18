@@ -187,13 +187,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/galleryNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:behavior_hideable="true"
-        app:headerLayout="@layout/layout_gallery_item"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        tools:visibility="visible" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

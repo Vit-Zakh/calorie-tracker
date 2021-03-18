@@ -28,9 +28,19 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
 
     fun refreshUser(user: NetworkResponse<UserResponse, Error>) {
         when (user) {
-            is NetworkResponse.Success ->
+            is NetworkResponse.Success -> {
                 _userFlow.value =
                     _userFlow.value.copy(userData = user.body, isLoading = false)
+
+                sharedPreferences.edit()
+                    .putString("USER_NAME", user.body.name)
+                    .putString("USER_WEIGHT", user.body.weight.toString())
+                    .putString("USER_AGE", user.body.age.toString())
+                    .putString("USER_INCOME", user.body.maxIntake.toString())
+                    .putString("USER_IMAGE_URL", user.body.image)
+                    .putString("USER_BACKGROUND_URL", user.body.backgroundImage)
+                    .apply()
+            }
             else -> {
                 _userFlow.value = _userFlow.value.copy(isLoading = false, isFailed = true)
             }
@@ -53,6 +63,10 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
         )
     }
 
+    fun saveChanges(editedUser: UserResponse) {
+        _userFlow.value = _userFlow.value.copy(userData = editedUser, isLoading = false, isFailed = false)
+    }
+
     fun increaseCalories(meal: DailyIntakeProps.MealProps) {
         val progressedUser = _userFlow.value.userData
         progressedUser.currentIntake =
@@ -67,26 +81,6 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
             _userFlow.value.userData.currentIntake.minus(meal.mealCalories * meal.mealWeight / 100)
         _userFlow.value =
             _userFlow.value.copy(userData = progressedUser, isLoading = false, isFailed = false)
-    }
-
-    fun changeProfilePreview(uri: String) {
-        val userWithNewProfileImage = _userFlow.value.userData
-        userWithNewProfileImage.image = uri
-        _userFlow.value = _userFlow.value.copy(
-            userData = userWithNewProfileImage,
-            isLoading = false,
-            isFailed = false
-        )
-    }
-
-    fun changeBackgroundPreview(uri: String) {
-        val userWithNewBackgroundImage = _userFlow.value.userData
-        userWithNewBackgroundImage.backgroundImage = uri
-        _userFlow.value = _userFlow.value.copy(
-            userData = userWithNewBackgroundImage,
-            isLoading = false,
-            isFailed = false
-        )
     }
 
     /** Test functions block */

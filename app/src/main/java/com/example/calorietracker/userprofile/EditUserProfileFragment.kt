@@ -21,7 +21,6 @@ import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.utils.calculateProgressPercent
 import com.example.calorietracker.utils.loadImageByUrl
 import com.example.calorietracker.utils.showIf
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ import javax.inject.Inject
 class EditUserProfileFragment : Fragment() {
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
-    private val viewModel: UserProfileViewModel by viewModels()
+    private val viewModel: EditUserProfileViewModel by viewModels()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -46,20 +45,14 @@ class EditUserProfileFragment : Fragment() {
         fragmentBinding = binding
 
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
-//            when (userData) {
-//                is DailyIntakeProps.LoadedUser -> {
-//                    renderUserProfile(userData.user)
-//                }
-//                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
-//            }
             if (userData is DailyIntakeProps.LoadedUser) renderUserProfile(userData.user)
+        }
+        viewModel.canBeSaved.observe(viewLifecycleOwner) {
+            fragmentBinding?.saveButton?.showIf(it)
         }
 
         userProfileUrl = sharedPreferences.getString("USER_IMAGE_URL", null).toString()
         backgroundUrl = sharedPreferences.getString("USER_BACKGROUND_URL", null).toString()
-
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.galleryNavigationView)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         binding.userProfileImage.setOnClickListener {
             launchUserImageIntent.launch(READ_EXTERNAL_STORAGE)
@@ -76,7 +69,10 @@ class EditUserProfileFragment : Fragment() {
         fragmentBinding?.let {
             it.nameText.setText(user.userName)
             it.incomeText.setText(user.plannedIntake.toString())
-            it.profileProgressBar.progress.calculateProgressPercent(user.userIntake, user.plannedIntake)
+            it.profileProgressBar.progress.calculateProgressPercent(
+                user.userIntake,
+                user.plannedIntake
+            )
             it.profileProgressText.text = resources.getString(
                 R.string.user_calories_progress_text_one_line,
                 user.userIntake,
@@ -91,17 +87,21 @@ class EditUserProfileFragment : Fragment() {
                 it.saveButton.visibility = if (user.userName != text.toString()) VISIBLE else GONE
             }
             it.incomeText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility = if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
+                it.saveButton.visibility =
+                    if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
             }
             it.weightText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
+                it.saveButton.visibility =
+                    if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
             }
             it.ageText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility = if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
+                it.saveButton.visibility =
+                    if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
             }
 
             it.saveButton.setOnClickListener {
                 saveUserProfile()
+                viewModel.saveChanges()
                 findNavController().navigate(EditUserProfileFragmentDirections.actionEditUserProfileFragmentToUserProfileFragment())
             }
         }
@@ -120,20 +120,19 @@ class EditUserProfileFragment : Fragment() {
         }
     }
 
-    private fun getStorageContent(grantedImage: (Uri) -> Unit) = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
-        if (imageUri == null) return@registerForActivityResult
-        else grantedImage(imageUri)
-    }
+    private fun getStorageContent(grantedImage: (Uri) -> Unit) =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+            if (imageUri == null) return@registerForActivityResult
+            else grantedImage(imageUri)
+        }
 
     private val userProfileImageRequest = getStorageContent { imageUri ->
         viewModel.changeProfilePreview(imageUri.toString())
-        fragmentBinding?.saveButton?.showIf(imageUri.toString() != userProfileUrl)
         userProfileUrl = imageUri.toString()
     }
 
     private val backgroundImageRequest = getStorageContent { imageUri ->
         viewModel.changeBackgroundPreview(imageUri.toString())
-        fragmentBinding?.saveButton?.showIf(imageUri.toString() != backgroundUrl)
         backgroundUrl = imageUri.toString()
     }
 
@@ -142,14 +141,18 @@ class EditUserProfileFragment : Fragment() {
             when {
                 granted -> whenGranted()
                 !shouldShowRequestPermissionRationale(permission) -> {
-                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 else -> {
-                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "cannot proceed without permission", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
 
-    private val launchUserImageIntent = askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("image/*") }
-    private val launchBackgroundIntent = askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("image/*") }
+    private val launchUserImageIntent =
+        askPermission(READ_EXTERNAL_STORAGE) { userProfileImageRequest.launch("image/*") }
+    private val launchBackgroundIntent =
+        askPermission(READ_EXTERNAL_STORAGE) { backgroundImageRequest.launch("image/*") }
 }
