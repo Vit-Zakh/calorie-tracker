@@ -15,9 +15,6 @@ interface EditedUserProfileRepository {
 
     fun loadCachedUser()
 
-//    fun loadCurrentUser()
-
     fun saveChanges()
 
-//    fun setChangedState()
 }
