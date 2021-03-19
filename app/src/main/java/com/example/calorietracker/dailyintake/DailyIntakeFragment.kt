@@ -80,14 +80,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         binding.floatingActionButton.setOnClickListener {
             openFoodList()
         }
-
-        binding.hideButton.setOnClickListener {
-            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-        }
-
+        
         binding.intakeLayout.setOnClickListener {
             Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
