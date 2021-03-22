@@ -42,10 +42,11 @@ class EditedUserProfileRepositoryImpl(
     }
 
     override fun loadCachedUser() {
-        editedUserDataSource.loadCachedUser()
+        editedUserDataSource.loadUserToEdit(userDataSource.fetchUserInfo())
     }
 
     override fun saveChanges() {
-        editedUserDataSource.saveChanges()
+        userDataSource.setLoadingState()
+        userDataSource.saveChanges(editedUserDataSource.editedUser)
     }
 }

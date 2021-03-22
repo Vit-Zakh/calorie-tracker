@@ -1,7 +1,6 @@
 package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,20 +78,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.floatingActionButton.setOnClickListener {
             openFoodList()
-        }
-        
-        binding.intakeLayout.setOnClickListener {
-            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-        }
-
-        binding.dailyIntakeList.setOnClickListener {
-            Log.d("Test_TAG", "onCreateView: ${bottomSheetBehavior.state}")
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            }
         }
 
         return binding.root

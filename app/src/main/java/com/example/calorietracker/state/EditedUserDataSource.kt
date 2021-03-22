@@ -20,28 +20,29 @@ class EditedUserDataSource @Inject constructor(private val sharedPreferences: Sh
 
     val editedUserFlow: StateFlow<EditedUserState> = _editedUserFlow
 
+    val editedUser = _editedUserFlow.value.userData
+
     fun setChangingState() {
         _editedUserFlow.value = _editedUserFlow.value.copy(isChanging = true)
     }
 
-    fun loadCachedUser() {
-        _editedUserFlow.value = EditedUserState(
-            UserResponse(
-                id = "cachedUser",
-                name = sharedPreferences.getString("USER_NAME", ""),
-                weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloatOrNull(),
-                maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloatOrNull(),
-                image = sharedPreferences.getString("USER_IMAGE_URL", ""),
-                backgroundImage = sharedPreferences.getString("USER_BACKGROUND_URL", ""),
-                age = sharedPreferences.getString("USER_AGE", null)?.toIntOrNull(),
-            ),
-            isChanging = false,
-        )
-    }
+//    fun loadCachedUser() {
+//        _editedUserFlow.value = EditedUserState(
+//            UserResponse(
+//                id = "cachedUser",
+//                name = sharedPreferences.getString("USER_NAME", ""),
+//                weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloatOrNull(),
+//                maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloatOrNull(),
+//                image = sharedPreferences.getString("USER_IMAGE_URL", ""),
+//                backgroundImage = sharedPreferences.getString("USER_BACKGROUND_URL", ""),
+//                age = sharedPreferences.getString("USER_AGE", null)?.toIntOrNull(),
+//            ),
+//            isChanging = false,
+//        )
+//    }
 
-    fun saveChanges() {
-        userDataSource.setLoadingState()
-        userDataSource.saveChanges(_editedUserFlow.value.userData)
+    fun loadUserToEdit(userData: UserResponse) {
+        _editedUserFlow.value = EditedUserState(userData, isChanging = false)
     }
 
     fun changeProfilePreview(uri: String) {

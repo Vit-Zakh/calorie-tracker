@@ -16,5 +16,4 @@ interface EditedUserProfileRepository {
     fun loadCachedUser()
 
     fun saveChanges()
-
 }
