@@ -38,7 +38,7 @@ class UserProfileFragment : Fragment() {
         viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
             when (userData) {
                 is DailyIntakeProps.LoadedUser -> renderUserProfile(userData.user)
-                else -> Toast.makeText(context, "placeholder", Toast.LENGTH_SHORT).show()
+                else -> Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -53,7 +53,6 @@ class UserProfileFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.toProfile -> bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 R.id.toDailtyIntake -> {
-//                    makeToolBarVisible()
                     toolBarManager.makeToolBarVisible()
                     findNavController().navigate(
                         UserProfileFragmentDirections.actionUserProfileFragmentToDailyIntakeFragment()
@@ -78,7 +77,10 @@ class UserProfileFragment : Fragment() {
     private fun renderUserProfile(user: DailyIntakeProps.UserProps) {
         fragmentBinding?.let {
             it.profileUserName.text = user.userName
-            it.profileProgressBar.progress.calculateProgressPercent(user.userIntake, user.plannedIntake)
+            it.profileProgressBar.progress.calculateProgressPercent(
+                user.userIntake,
+                user.plannedIntake
+            )
             it.weightTile.text = user.userWeight.toString()
             it.userProfileImage.loadImageByUrl(user.userImage)
             it.profileProgressText.text = resources.getString(

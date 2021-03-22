@@ -6,12 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.doOnTextChanged
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -79,30 +77,32 @@ class EditUserProfileFragment : Fragment() {
                 user.plannedIntake
             )
             it.weightText.setText(user.userWeight.toString())
-            it.ageText.setText(user.userAge)
+            it.ageText.setText(user.userAge.toString())
             it.profileBackgroundImage.loadImageByUrl(user.backgroundImage)
             it.userProfileImage.loadImageByUrl(user.userImage)
-
-            it.nameText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility = if (user.userName != text.toString()) VISIBLE else GONE
-            }
-            it.incomeText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility =
-                    if (user.plannedIntake.toString() != text.toString()) VISIBLE else GONE
-            }
-            it.weightText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility =
-                    if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
-            }
-            it.ageText.doOnTextChanged { text, _, _, _ ->
-                it.saveButton.visibility =
-                    if (user.userWeight.toString() != text.toString()) VISIBLE else GONE
-            }
 
             it.saveButton.setOnClickListener {
                 saveUserProfile()
                 viewModel.saveChanges()
                 findNavController().navigate(EditUserProfileFragmentDirections.actionEditUserProfileFragmentToUserProfileFragment())
+            }
+
+            it.nameText.doAfterTextChanged { nameValue ->
+                viewModel.changeUserName(nameValue.toString())
+            }
+
+            it.weightText.doAfterTextChanged { weightValue ->
+                viewModel.changeUserWeight(weightValue.toString().toFloat())
+            }
+
+            it.ageText.doAfterTextChanged { ageValue ->
+                if (ageValue.toString() != "null") {
+                    viewModel.changeUserAge(ageValue.toString().toInt())
+                }
+            }
+
+            it.incomeText.doAfterTextChanged { intakeValue ->
+                viewModel.changeUserIntake(intakeValue.toString().toFloat())
             }
         }
     }

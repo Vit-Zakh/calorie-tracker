@@ -5,11 +5,11 @@ import com.example.calorietracker.models.ui.DailyIntakeProps
 data class UserResponse(
     val id: String = "",
     var image: String? = "",
-    val name: String? = "",
+    var name: String? = "",
     var currentIntake: Double = 0.0,
-    val maxIntake: Float? = 0f,
-    val weight: Float? = 0f,
-    val age: Int? = null,
+    var maxIntake: Float? = 0f,
+    var weight: Float? = 0f,
+    var age: Int? = null,
     var backgroundImage: String? = "",
 )
 

@@ -1,6 +1,5 @@
 package com.example.calorietracker.state
 
-import android.content.SharedPreferences
 import com.example.calorietracker.models.network.UserResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -8,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EditedUserDataSource @Inject constructor(private val sharedPreferences: SharedPreferences, private val userDataSource: UserDataSource) {
+class EditedUserDataSource @Inject constructor() {
 
     data class EditedUserState(
         val userData: UserResponse = UserResponse(),
@@ -20,29 +19,57 @@ class EditedUserDataSource @Inject constructor(private val sharedPreferences: Sh
 
     val editedUserFlow: StateFlow<EditedUserState> = _editedUserFlow
 
-    val editedUser = _editedUserFlow.value.userData
+    val editedUser: UserResponse
+        get() {
+            return _editedUserFlow.value.userData
+        }
 
     fun setChangingState() {
         _editedUserFlow.value = _editedUserFlow.value.copy(isChanging = true)
     }
 
-//    fun loadCachedUser() {
-//        _editedUserFlow.value = EditedUserState(
-//            UserResponse(
-//                id = "cachedUser",
-//                name = sharedPreferences.getString("USER_NAME", ""),
-//                weight = sharedPreferences.getString("USER_WEIGHT", "")?.toFloatOrNull(),
-//                maxIntake = sharedPreferences.getString("USER_INCOME", "")?.toFloatOrNull(),
-//                image = sharedPreferences.getString("USER_IMAGE_URL", ""),
-//                backgroundImage = sharedPreferences.getString("USER_BACKGROUND_URL", ""),
-//                age = sharedPreferences.getString("USER_AGE", null)?.toIntOrNull(),
-//            ),
-//            isChanging = false,
-//        )
-//    }
-
     fun loadUserToEdit(userData: UserResponse) {
         _editedUserFlow.value = EditedUserState(userData, isChanging = false)
+    }
+
+    fun changeUserName(editedName: String) {
+        val userWithNewName = _editedUserFlow.value.userData
+        userWithNewName.name = editedName
+        _editedUserFlow.value = _editedUserFlow.value.copy(
+            userData = userWithNewName,
+            isChanging = false,
+            canBeSaved = true
+        )
+    }
+
+    fun changeUserWeight(editedWeight: Float) {
+        val userWithNewWeight = _editedUserFlow.value.userData
+        userWithNewWeight.weight = editedWeight
+        _editedUserFlow.value = _editedUserFlow.value.copy(
+            userData = userWithNewWeight,
+            isChanging = false,
+            canBeSaved = true
+        )
+    }
+
+    fun changeUserAge(editedAge: Int?) {
+        val userWithNewAge = _editedUserFlow.value.userData
+        userWithNewAge.age = editedAge
+        _editedUserFlow.value = _editedUserFlow.value.copy(
+            userData = userWithNewAge,
+            isChanging = false,
+            canBeSaved = true
+        )
+    }
+
+    fun changeUserIntake(editedIntake: Float) {
+        val userWithNewIntake = _editedUserFlow.value.userData
+        userWithNewIntake.maxIntake = editedIntake
+        _editedUserFlow.value = _editedUserFlow.value.copy(
+            userData = userWithNewIntake,
+            isChanging = false,
+            canBeSaved = true
+        )
     }
 
     fun changeProfilePreview(uri: String) {

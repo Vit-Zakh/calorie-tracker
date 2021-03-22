@@ -10,7 +10,8 @@ class EditedUserProfileRepositoryImpl(
     private val userDataSource: UserDataSource,
     private val sharedPreferences: SharedPreferences
 ) : EditedUserProfileRepository {
-    override val editedUser: StateFlow<EditedUserDataSource.EditedUserState> = editedUserDataSource.editedUserFlow
+    override val editedUser: StateFlow<EditedUserDataSource.EditedUserState> =
+        editedUserDataSource.editedUserFlow
 
     override fun saveToSharedPreferences(
         userName: String,
@@ -48,5 +49,25 @@ class EditedUserProfileRepositoryImpl(
     override fun saveChanges() {
         userDataSource.setLoadingState()
         userDataSource.saveChanges(editedUserDataSource.editedUser)
+    }
+
+    override fun changeUserWeight(weight: Float) {
+        userDataSource.setLoadingState()
+        editedUserDataSource.changeUserWeight(weight)
+    }
+
+    override fun changeUserName(name: String) {
+        userDataSource.setLoadingState()
+        editedUserDataSource.changeUserName(name)
+    }
+
+    override fun changeUserAge(age: Int?) {
+        userDataSource.setLoadingState()
+        editedUserDataSource.changeUserAge(age)
+    }
+
+    override fun changeUserIntake(intake: Float) {
+        userDataSource.setLoadingState()
+        editedUserDataSource.changeUserIntake(intake)
     }
 }
