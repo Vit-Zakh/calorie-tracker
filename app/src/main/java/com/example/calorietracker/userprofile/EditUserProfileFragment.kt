@@ -1,7 +1,6 @@
 package com.example.calorietracker.userprofile
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,16 +19,12 @@ import com.example.calorietracker.utils.calculateProgressPercent
 import com.example.calorietracker.utils.loadImageByUrl
 import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditUserProfileFragment : Fragment() {
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: EditUserProfileViewModel by viewModels()
-
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var userProfileUrl: String
     private lateinit var backgroundUrl: String
@@ -48,9 +43,6 @@ class EditUserProfileFragment : Fragment() {
         viewModel.canBeSaved.observe(viewLifecycleOwner) {
             fragmentBinding?.saveButton?.showIf(it)
         }
-
-        userProfileUrl = sharedPreferences.getString("USER_IMAGE_URL", null).toString()
-        backgroundUrl = sharedPreferences.getString("USER_BACKGROUND_URL", null).toString()
 
         binding.userProfileImage.setOnClickListener {
             launchUserImageIntent.launch(READ_EXTERNAL_STORAGE)
