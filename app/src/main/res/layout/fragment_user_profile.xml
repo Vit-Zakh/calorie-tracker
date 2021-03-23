@@ -15,10 +15,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/cardview_dark_background"
+            android:scaleType="centerCrop"
             android:src="@drawable/test_background_image"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
-android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/guideline45"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,14 +48,14 @@ android:scaleType="centerCrop"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
-            tools:text="Robusta"
             android:textColor="@color/secondary_orange"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/profileBackgroundImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userProfileImage" />
+            app:layout_constraintTop_toBottomOf="@id/userProfileImage"
+            tools:text="Robusta" />
 
         <ProgressBar
             android:id="@+id/profileProgressBar"
@@ -101,7 +101,6 @@ android:scaleType="centerCrop"
             android:id="@+id/weightTile"
             android:layout_width="102dp"
             android:layout_height="wrap_content"
-            tools:text="5.95"
             android:gravity="center_horizontal"
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
@@ -111,13 +110,13 @@ android:scaleType="centerCrop"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="@id/tilesContainer"
-            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="5.95" />
 
         <TextView
             android:id="@+id/ageTile"
             android:layout_width="103dp"
             android:layout_height="wrap_content"
-            tools:text="1"
             android:gravity="center_horizontal"
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
@@ -126,14 +125,15 @@ android:scaleType="centerCrop"
             app:layout_constraintEnd_toStartOf="@+id/mealsTile"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/weightTile"
-            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="1" />
 
         <TextView
             android:id="@+id/mealsTile"
             android:layout_width="103dp"
             android:layout_height="wrap_content"
-            tools:text="3"
             android:gravity="center_horizontal"
+            android:text="3"
             android:textColor="@color/secondary_orange"
             android:textSize="36sp"
             android:textStyle="bold"
@@ -141,7 +141,8 @@ android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="@id/tilesContainer"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ageTile"
-            app:layout_constraintTop_toBottomOf="@+id/tilesContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="3" />
 
         <TextView
             android:id="@+id/mealsTileUnit"
@@ -215,10 +216,10 @@ android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/transparent"
-            app:menu="@menu/top_app_bar"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline3" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline3"
+            app:menu="@menu/top_app_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

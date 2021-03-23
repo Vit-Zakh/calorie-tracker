@@ -22,12 +22,6 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
 
     val userFlow: StateFlow<UserState> = _userFlow
 
-//    private var _userToEdit = UserResponse()
-//
-//    val userToEdit: UserResponse get() {
-//        return _userToEdit
-//    }
-
     fun fetchUserInfo(): UserResponse {
         return _userFlow.value.userData
     }
@@ -41,8 +35,6 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
             is NetworkResponse.Success -> {
                 _userFlow.value =
                     _userFlow.value.copy(userData = user.body, isLoading = false)
-
-//                _userToEdit = _userFlow.value.userData
 
                 sharedPreferences.edit()
                     .putString("USER_NAME", user.body.name)
@@ -73,11 +65,11 @@ class UserDataSource @Inject constructor(private val sharedPreferences: SharedPr
             isLoading = false,
             isFailed = false
         )
-//        _userToEdit = _userFlow.value.userData
     }
 
     fun saveChanges(editedUser: UserResponse) {
-        _userFlow.value = _userFlow.value.copy(userData = editedUser, isLoading = false, isFailed = false)
+        _userFlow.value =
+            _userFlow.value.copy(userData = editedUser, isLoading = false, isFailed = false)
     }
 
     fun increaseCalories(meal: DailyIntakeProps.MealProps) {

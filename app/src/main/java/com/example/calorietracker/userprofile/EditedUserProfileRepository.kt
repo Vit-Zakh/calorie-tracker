@@ -7,15 +7,6 @@ interface EditedUserProfileRepository {
 
     val editedUser: StateFlow<EditedUserDataSource.EditedUserState>
 
-    fun saveToSharedPreferences(
-        userName: String,
-        userWeight: String,
-        userAge: String,
-        userIncome: String,
-        userImageUrl: String,
-        userBackgroundUrl: String
-    )
-
     fun changeProfilePreview(uri: String)
 
     fun changeBackgroundPreview(uri: String)
@@ -24,11 +15,11 @@ interface EditedUserProfileRepository {
 
     fun saveChanges()
 
-    fun changeUserWeight(weight: Float)
+    fun changeUserWeight(weight: Float?)
 
     fun changeUserName(name: String)
 
     fun changeUserAge(age: Int?)
 
-    fun changeUserIntake(intake: Float)
+    fun changeUserIntake(intake: Float?)
 }

@@ -38,7 +38,7 @@ class EditedUserDataSource @Inject constructor() {
         )
     }
 
-    fun changeUserWeight(editedWeight: Float) {
+    fun changeUserWeight(editedWeight: Float?) {
         val userWithNewWeight = _editedUserFlow.value.userData
         userWithNewWeight.weight = editedWeight
         _editedUserFlow.value = _editedUserFlow.value.copy(
@@ -56,7 +56,7 @@ class EditedUserDataSource @Inject constructor() {
         )
     }
 
-    fun changeUserIntake(editedIntake: Float) {
+    fun changeUserIntake(editedIntake: Float?) {
         val userWithNewIntake = _editedUserFlow.value.userData
         userWithNewIntake.maxIntake = editedIntake
         _editedUserFlow.value = _editedUserFlow.value.copy(

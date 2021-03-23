@@ -31,7 +31,7 @@ class EditUserProfileViewModel @Inject constructor(
         editedUserProfileRepository.changeUserName(name)
     }
 
-    fun changeUserWeight(weight: Float) {
+    fun changeUserWeight(weight: Float?) {
         editedUserProfileRepository.changeUserWeight(weight)
     }
 
@@ -39,26 +39,8 @@ class EditUserProfileViewModel @Inject constructor(
         editedUserProfileRepository.changeUserAge(age)
     }
 
-    fun changeUserIntake(intake: Float) {
+    fun changeUserIntake(intake: Float?) {
         editedUserProfileRepository.changeUserIntake(intake)
-    }
-
-    fun saveToSharedPreferences(
-        userName: String,
-        userWeight: String,
-        userAge: String,
-        userIncome: String,
-        userImageUrl: String,
-        userBackgroundUrl: String
-    ) {
-        editedUserProfileRepository.saveToSharedPreferences(
-            userName,
-            userWeight,
-            userAge,
-            userIncome,
-            userImageUrl,
-            userBackgroundUrl
-        )
     }
 
     fun changeProfilePreview(uri: String) {

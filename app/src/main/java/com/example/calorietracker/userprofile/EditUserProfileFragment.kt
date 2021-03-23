@@ -3,6 +3,7 @@ package com.example.calorietracker.userprofile
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +26,6 @@ class EditUserProfileFragment : Fragment() {
 
     private var fragmentBinding: FragmentEditUserProfileBinding? = null
     private val viewModel: EditUserProfileViewModel by viewModels()
-
-    private lateinit var userProfileUrl: String
-    private lateinit var backgroundUrl: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,36 +78,32 @@ class EditUserProfileFragment : Fragment() {
             }
 
             it.nameText.doAfterTextChanged { nameValue ->
-                viewModel.changeUserName(nameValue.toString())
+                if (!TextUtils.isEmpty(nameValue))
+                    viewModel.changeUserName(nameValue.toString())
             }
 
             it.weightText.doAfterTextChanged { weightValue ->
-                viewModel.changeUserWeight(weightValue.toString().toFloat())
+                if (!TextUtils.isEmpty(weightValue) && TextUtils.isDigitsOnly(weightValue))
+                    viewModel.changeUserWeight(weightValue.toString().toFloat())
+                else viewModel.changeUserWeight(null)
             }
 
             it.ageText.doAfterTextChanged { ageValue ->
-                if (ageValue.toString() != "null") {
+                if (!TextUtils.isEmpty(ageValue) && TextUtils.isDigitsOnly(ageValue))
                     viewModel.changeUserAge(ageValue.toString().toInt())
-                }
+                else viewModel.changeUserAge(null)
             }
 
             it.incomeText.doAfterTextChanged { intakeValue ->
-                viewModel.changeUserIntake(intakeValue.toString().toFloat())
+                if (!TextUtils.isEmpty(intakeValue) && TextUtils.isDigitsOnly(intakeValue))
+                    viewModel.changeUserIntake(intakeValue.toString().toFloat())
+                else viewModel.changeUserIntake(null)
             }
         }
     }
 
     private fun saveUserProfile() {
-        fragmentBinding?.let {
-            viewModel.saveToSharedPreferences(
-                userName = it.nameText.text.toString(),
-                userAge = it.ageText.text.toString(),
-                userWeight = it.weightText.text.toString(),
-                userIncome = it.incomeText.text.toString(),
-                userImageUrl = userProfileUrl,
-                userBackgroundUrl = backgroundUrl
-            )
-        }
+        viewModel.saveChanges()
     }
 
     private fun getStorageContent(grantedImage: (Uri) -> Unit) =
@@ -120,12 +114,10 @@ class EditUserProfileFragment : Fragment() {
 
     private val userProfileImageRequest = getStorageContent { imageUri ->
         viewModel.changeProfilePreview(imageUri.toString())
-        userProfileUrl = imageUri.toString()
     }
 
     private val backgroundImageRequest = getStorageContent { imageUri ->
         viewModel.changeBackgroundPreview(imageUri.toString())
-        backgroundUrl = imageUri.toString()
     }
 
     private fun askPermission(permission: String, whenGranted: () -> Unit) =

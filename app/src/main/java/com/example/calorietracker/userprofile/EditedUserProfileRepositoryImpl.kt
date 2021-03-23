@@ -13,24 +13,6 @@ class EditedUserProfileRepositoryImpl(
     override val editedUser: StateFlow<EditedUserDataSource.EditedUserState> =
         editedUserDataSource.editedUserFlow
 
-    override fun saveToSharedPreferences(
-        userName: String,
-        userWeight: String,
-        userAge: String,
-        userIncome: String,
-        userImageUrl: String,
-        userBackgroundUrl: String
-    ) {
-        sharedPreferences.edit()
-            .putString("USER_NAME", userName)
-            .putString("USER_WEIGHT", userWeight)
-            .putString("USER_AGE", userAge)
-            .putString("USER_INCOME", userIncome)
-            .putString("USER_IMAGE_URL", userImageUrl)
-            .putString("USER_BACKGROUND_URL", userBackgroundUrl)
-            .apply()
-    }
-
     override fun changeProfilePreview(uri: String) {
         editedUserDataSource.changeProfilePreview(uri)
     }
@@ -46,9 +28,18 @@ class EditedUserProfileRepositoryImpl(
     override fun saveChanges() {
         userDataSource.setLoadingState()
         userDataSource.saveChanges(editedUserDataSource.editedUser)
+
+        sharedPreferences.edit()
+            .putString("USER_NAME", editedUserDataSource.editedUser.name)
+            .putString("USER_WEIGHT", editedUserDataSource.editedUser.weight.toString())
+            .putString("USER_AGE", editedUserDataSource.editedUser.age.toString())
+            .putString("USER_INCOME", editedUserDataSource.editedUser.maxIntake.toString())
+            .putString("USER_IMAGE_URL", editedUserDataSource.editedUser.image)
+            .putString("USER_BACKGROUND_URL", editedUserDataSource.editedUser.backgroundImage)
+            .apply()
     }
 
-    override fun changeUserWeight(weight: Float) {
+    override fun changeUserWeight(weight: Float?) {
         userDataSource.setLoadingState()
         editedUserDataSource.changeUserWeight(weight)
     }
@@ -63,7 +54,7 @@ class EditedUserProfileRepositoryImpl(
         editedUserDataSource.changeUserAge(age)
     }
 
-    override fun changeUserIntake(intake: Float) {
+    override fun changeUserIntake(intake: Float?) {
         userDataSource.setLoadingState()
         editedUserDataSource.changeUserIntake(intake)
     }
