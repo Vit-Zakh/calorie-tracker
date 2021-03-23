@@ -29,16 +29,13 @@ class EditedUserProfileRepositoryImpl(
             .putString("USER_IMAGE_URL", userImageUrl)
             .putString("USER_BACKGROUND_URL", userBackgroundUrl)
             .apply()
-        editedUserDataSource.setChangingState()
     }
 
     override fun changeProfilePreview(uri: String) {
-        editedUserDataSource.setChangingState()
         editedUserDataSource.changeProfilePreview(uri)
     }
 
     override fun changeBackgroundPreview(uri: String) {
-        editedUserDataSource.setChangingState()
         editedUserDataSource.changeBackgroundPreview(uri)
     }
 

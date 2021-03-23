@@ -11,7 +11,6 @@ class EditedUserDataSource @Inject constructor() {
 
     data class EditedUserState(
         val userData: UserResponse = UserResponse(),
-        val isChanging: Boolean = false,
         val canBeSaved: Boolean = false,
     )
 
@@ -24,12 +23,10 @@ class EditedUserDataSource @Inject constructor() {
             return _editedUserFlow.value.userData
         }
 
-    fun setChangingState() {
-        _editedUserFlow.value = _editedUserFlow.value.copy(isChanging = true)
-    }
-
     fun loadUserToEdit(userData: UserResponse) {
-        _editedUserFlow.value = EditedUserState(userData, isChanging = false)
+        _editedUserFlow.value = EditedUserState(
+            userData
+        )
     }
 
     fun changeUserName(editedName: String) {
@@ -37,7 +34,6 @@ class EditedUserDataSource @Inject constructor() {
         userWithNewName.name = editedName
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewName,
-            isChanging = false,
             canBeSaved = true
         )
     }
@@ -47,7 +43,6 @@ class EditedUserDataSource @Inject constructor() {
         userWithNewWeight.weight = editedWeight
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewWeight,
-            isChanging = false,
             canBeSaved = true
         )
     }
@@ -57,7 +52,6 @@ class EditedUserDataSource @Inject constructor() {
         userWithNewAge.age = editedAge
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewAge,
-            isChanging = false,
             canBeSaved = true
         )
     }
@@ -67,27 +61,22 @@ class EditedUserDataSource @Inject constructor() {
         userWithNewIntake.maxIntake = editedIntake
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewIntake,
-            isChanging = false,
             canBeSaved = true
         )
     }
 
     fun changeProfilePreview(uri: String) {
-        val userWithNewProfileImage = _editedUserFlow.value.userData
-        userWithNewProfileImage.image = uri
+        val userWithNewProfileImage = _editedUserFlow.value.userData.copy(image = uri)
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewProfileImage,
-            isChanging = false,
             canBeSaved = true
         )
     }
 
     fun changeBackgroundPreview(uri: String) {
-        val userWithNewBackgroundImage = _editedUserFlow.value.userData
-        userWithNewBackgroundImage.backgroundImage = uri
+        val userWithNewBackgroundImage = _editedUserFlow.value.userData.copy(backgroundImage = uri)
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewBackgroundImage,
-            isChanging = false,
             canBeSaved = true
         )
     }
