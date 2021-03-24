@@ -40,22 +40,22 @@ class EditedUserProfileRepositoryImpl(
     }
 
     override fun changeUserWeight(weight: Float?) {
-        userDataSource.setLoadingState()
+//        userDataSource.setLoadingState()
         editedUserDataSource.changeUserWeight(weight)
     }
 
     override fun changeUserName(name: String) {
-        userDataSource.setLoadingState()
+//        userDataSource.setLoadingState()
         editedUserDataSource.changeUserName(name)
     }
 
     override fun changeUserAge(age: Int?) {
-        userDataSource.setLoadingState()
+//        userDataSource.setLoadingState()
         editedUserDataSource.changeUserAge(age)
     }
 
     override fun changeUserIntake(intake: Float?) {
-        userDataSource.setLoadingState()
+//        userDataSource.setLoadingState()
         editedUserDataSource.changeUserIntake(intake)
     }
 }

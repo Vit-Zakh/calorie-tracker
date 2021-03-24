@@ -85,19 +85,19 @@ class EditUserProfileFragment : Fragment() {
             it.weightText.doAfterTextChanged { weightValue ->
                 if (!TextUtils.isEmpty(weightValue) && TextUtils.isDigitsOnly(weightValue))
                     viewModel.changeUserWeight(weightValue.toString().toFloat())
-                else viewModel.changeUserWeight(null)
+//                else viewModel.changeUserWeight(null)
             }
 
             it.ageText.doAfterTextChanged { ageValue ->
                 if (!TextUtils.isEmpty(ageValue) && TextUtils.isDigitsOnly(ageValue))
                     viewModel.changeUserAge(ageValue.toString().toInt())
-                else viewModel.changeUserAge(null)
+//                else viewModel.changeUserAge(null)
             }
 
             it.incomeText.doAfterTextChanged { intakeValue ->
                 if (!TextUtils.isEmpty(intakeValue) && TextUtils.isDigitsOnly(intakeValue))
                     viewModel.changeUserIntake(intakeValue.toString().toFloat())
-                else viewModel.changeUserIntake(null)
+//                else viewModel.changeUserIntake(null)
             }
         }
     }
