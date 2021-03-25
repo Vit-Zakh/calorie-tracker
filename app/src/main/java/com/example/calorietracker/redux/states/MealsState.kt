@@ -3,7 +3,6 @@ package com.example.calorietracker.redux.states
 import com.example.calorietracker.models.network.MealResponse
 import com.example.calorietracker.redux.actions.*
 
-
 data class MealsState(
     val mealsList: List<MealResponse> = listOf(),
     val isLoading: Boolean = false,
@@ -17,7 +16,8 @@ data class MealsState(
             is SucceedFetchingMeals -> this.copy(mealsList = action.meals)
             is AddMeal -> this.copy(mealsList = mealsList + action.meal)
             is RemoveMeal -> this.copy(
-                mealsList = mealsList.toMutableList().apply { removeAt(action.index) })
+                mealsList = mealsList.toMutableList().apply { removeAt(action.index) }
+            )
             else -> this
         }
     }

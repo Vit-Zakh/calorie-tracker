@@ -12,6 +12,5 @@ data class AppState(
             mealsListState = mealsListState.reduce(action),
             userState = userState.reduce(action)
         )
-
     }
 }

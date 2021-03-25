@@ -1,4 +1,3 @@
 package com.example.calorietracker.redux.actions
 
-class StartFetchingMeals : ReduxAction {
-}
+class StartFetchingMeals : ReduxAction
