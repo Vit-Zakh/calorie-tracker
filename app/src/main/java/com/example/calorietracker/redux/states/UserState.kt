@@ -16,7 +16,11 @@ data class UserState(
         return when (action) {
             is StartFetchingUser -> this.copy(isLoading = true)
             is FailFetchingUser -> this.copy(isFailed = true, isLoading = false)
-            is SucceedFetchingUser -> this.copy(userData = action.user)
+            is SucceedFetchingUser -> this.copy(
+                userData = action.user,
+                isLoading = false,
+                isFailed = false
+            )
             else -> this
         }
     }

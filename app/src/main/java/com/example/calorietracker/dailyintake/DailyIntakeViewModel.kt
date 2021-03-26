@@ -37,12 +37,12 @@ class DailyIntakeViewModel @Inject constructor(
         )
     )
     val dailyFragmentProps: LiveData<DailyFragmentProps> = _dailyFragmentProps
-
     override fun onCleared() {
         store.unsubscribe(this)
     }
 
     private fun addMeal(mealProps: DailyIntakeProps.MealProps) {
+//        store.dispatch(StartFetchingUser())
         store.dispatch(AddMeal(meal = mealProps.mapToDomainModel()))
     }
 
