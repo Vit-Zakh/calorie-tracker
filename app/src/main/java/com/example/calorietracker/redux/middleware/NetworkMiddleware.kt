@@ -73,7 +73,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is NetworkResponse.Success ->
                 store.dispatch(SucceedFetchingFood(foodList = foods.body.food))
             else -> {
-                store.dispatch(FailFetchingFood(error = Error("Cannot fetch meals data")))
+                store.dispatch(FailFetchingFood(error = Error("Cannot fetch food data")))
             }
         }
     }

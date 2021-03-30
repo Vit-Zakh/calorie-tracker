@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.calorietracker"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -99,7 +99,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     /** Multidex */
-    def multidex_version
+    def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
 
     /** Hilt */
@@ -120,6 +120,14 @@ dependencies {
     /** Result API */
     implementation 'androidx.activity:activity-ktx:1.3.0-alpha02'
     implementation 'androidx.fragment:fragment-ktx:1.3.0'
+
+
+        //...
+        //modo core
+        implementation("com.github.terrakok:modo:0.6.1")
+        //for navigation based on FragmentManager
+        implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
+
 
 }
 

@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.calorietracker.MyApplication
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.example.calorietracker.modo.Screens
+import com.github.terrakok.modo.replace
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_daily_intake.*
@@ -105,8 +108,9 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     private fun openFoodList() {
-        findNavController().navigate(
-            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
-        )
+//        findNavController().navigate(
+//            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
+//        )
+        MyApplication.modo.replace(Screens.FoodListScreen())
     }
 }
