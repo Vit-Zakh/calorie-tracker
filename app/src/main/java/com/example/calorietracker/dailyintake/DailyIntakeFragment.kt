@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
@@ -40,6 +41,7 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         binding.addMeal.setOnClickListener {
             viewModel.addMeal(
+
                 DailyIntakeProps.MealProps(
                     Random.nextInt(20, 1998).toString(),
                     "Popcorn",
@@ -56,9 +58,28 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
 
         /** End of test buttons block */
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.intakeNavigationView)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        binding.bottomAppBar.setNavigationOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        binding.intakeNavigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.toProfile -> findNavController().navigate(
+                    DailyIntakeFragmentDirections.actionDailyIntakeFragmentToUserProfileFragment()
+                )
+                R.id.toDailtyIntake -> bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            true
+        }
+
         binding.floatingActionButton.setOnClickListener {
             openFoodList()
         }
+
         return binding.root
     }
 

@@ -25,7 +25,7 @@ class FoodListViewModel @Inject constructor(
         when {
             userState.isLoading -> DailyIntakeProps.LoadingUser
             userState.isFailed -> DailyIntakeProps.FailedUser
-            userState.fetchedUSer.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.fetchedUSer.mapToUiModel())
+            userState.userData.id.isNotBlank() -> DailyIntakeProps.LoadedUser(userState.userData.mapToUiModel())
             else -> DailyIntakeProps.LoadingUser
         }
     }.asLiveData()

@@ -16,7 +16,7 @@ fun ImageView.loadImageByUrl(url: String?) {
         .load(url)
         .centerCrop()
         .placeholder(R.color.primary_800)
-        .error(R.drawable.ic_launcher_background)
+        .error(R.color.primary_800)
         .into(this)
 }
 

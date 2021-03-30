@@ -15,4 +15,6 @@ interface DailyIntakeRepository {
     fun deleteMeal(index: Int)
 
     suspend fun refreshState()
+
+//    fun saveToSharedPreferences(userName: String, userWeight: String, userAge: String, userIncome: String, userImageUrl: String, userBackgroundUrl: String)
 }

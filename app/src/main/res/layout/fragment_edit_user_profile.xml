@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userprofile.EditUserProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileBackgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/cardview_dark_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_background_image"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:id="@+id/cameraOnBackground"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:src="@drawable/ic_camera_128"
+            app:layout_constraintBottom_toBottomOf="@+id/profileBackgroundImage"
+            app:layout_constraintEnd_toEndOf="@+id/profileBackgroundImage"
+            app:layout_constraintStart_toStartOf="@+id/profileBackgroundImage"
+            app:layout_constraintTop_toTopOf="@+id/profileBackgroundImage" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userProfileImage"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:padding="5dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@+id/profileBackgroundImage"
+            app:layout_constraintEnd_toEndOf="@+id/profileBackgroundImage"
+            app:layout_constraintStart_toStartOf="@+id/profileBackgroundImage"
+            app:layout_constraintTop_toTopOf="@+id/profileBackgroundImage"
+            app:layout_constraintVertical_bias="0.85"
+            app:shapeAppearanceOverlay="@style/CircularImage"
+            app:strokeColor="@color/secondary_orange"
+            app:strokeWidth="3dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/cameraOnProfile"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_camera_128"
+            app:layout_constraintBottom_toBottomOf="@+id/userProfileImage"
+            app:layout_constraintEnd_toEndOf="@+id/userProfileImage"
+            app:layout_constraintStart_toStartOf="@+id/userProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/userProfileImage" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Save"
+            android:textColor="@color/secondary_orange"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/profileProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:progress="70"
+            android:progressDrawable="@drawable/thick_horizontal_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileBackgroundImage" />
+
+        <TextView
+            android:id="@+id/profileProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
+            android:textColor="@color/secondary_orange"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileProgressBar"
+            tools:text="1700 / 3000 kcal" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="false"
+            android:hint="Name"
+            app:hintTextColor="@color/secondary_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileProgressText"
+            tools:layout_editor_absoluteY="368dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weightTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Weight"
+            app:hintTextColor="@color/secondary_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weightText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Age"
+            app:hintTextColor="@color/secondary_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weightTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/incomeTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Planned income"
+            app:hintTextColor="@color/secondary_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ageTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/incomeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

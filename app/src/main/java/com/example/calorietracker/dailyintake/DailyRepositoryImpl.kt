@@ -1,5 +1,6 @@
 package com.example.calorietracker.dailyintake
 
+import android.content.SharedPreferences
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.network.ApiService
@@ -10,17 +11,20 @@ import kotlinx.coroutines.flow.StateFlow
 class DailyRepositoryImpl(
     private val mealsDataSource: MealsDataSource,
     private val userDataSource: UserDataSource,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val sharedPreferences: SharedPreferences
 ) : DailyIntakeRepository {
 
     override val user: StateFlow<UserDataSource.UserState> = userDataSource.userFlow
     override val meals: StateFlow<MealsDataSource.MealsState> = mealsDataSource.mealsListFlow
 
     override suspend fun refreshState() {
-        userDataSource.setLoadingState()
         mealsDataSource.setLoadingState()
-        userDataSource.refreshUser(apiService.getUser())
+        userDataSource.setLoadingState()
         mealsDataSource.refreshMealsList(apiService.getMeals())
+        if (!sharedPreferences.contains("USER_NAME")) {
+            userDataSource.refreshUser(apiService.getUser())
+        } else userDataSource.loadCachedUser()
     }
 
     override fun addMeal(mealProps: DailyIntakeProps.MealProps) {

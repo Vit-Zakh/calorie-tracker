@@ -51,7 +51,7 @@ class IntakeItemDiffCallback : DiffUtil.ItemCallback<DailyIntakeProps>() {
                         diff.putString("userName", newItem.userName)
                     }
                     newItem.userWeight != oldItem.userWeight -> {
-                        diff.putFloat("userName", newItem.userWeight)
+                        newItem.userWeight?.let { diff.putFloat("userName", it) }
                     }
                 }
                 diff

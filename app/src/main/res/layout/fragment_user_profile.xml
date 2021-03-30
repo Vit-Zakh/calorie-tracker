@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userprofile.UserProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileBackgroundImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/cardview_dark_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_background_image"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@id/guideline45"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userProfileImage"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:padding="5dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@+id/profileBackgroundImage"
+            app:layout_constraintEnd_toEndOf="@+id/profileBackgroundImage"
+            app:layout_constraintStart_toStartOf="@+id/profileBackgroundImage"
+            app:layout_constraintTop_toTopOf="@+id/profileBackgroundImage"
+            app:layout_constraintVertical_bias="0.85"
+            app:shapeAppearanceOverlay="@style/CircularImage"
+            app:strokeColor="@color/secondary_orange"
+            app:strokeWidth="3dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/profileUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/secondary_orange"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/profileBackgroundImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userProfileImage"
+            tools:text="Robusta" />
+
+        <ProgressBar
+            android:id="@+id/profileProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:progress="70"
+            android:progressDrawable="@drawable/thick_horizontal_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileBackgroundImage" />
+
+        <TextView
+            android:id="@+id/profileProgressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
+            android:text="1700 / 3000 kcal"
+            android:textColor="@color/secondary_orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileProgressBar" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tilesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/primary_700"
+            app:layout_constraintBottom_toBottomOf="@id/guideline75"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileProgressText"
+            app:shapeAppearanceOverlay="@style/RoundedCorners" />
+
+        <TextView
+            android:id="@+id/weightTile"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/secondary_orange"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/weightTileUnit"
+            app:layout_constraintEnd_toStartOf="@+id/ageTile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@id/tilesContainer"
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="5.95" />
+
+        <TextView
+            android:id="@+id/ageTile"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/secondary_orange"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/ageTileUnit"
+            app:layout_constraintEnd_toStartOf="@+id/mealsTile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/weightTile"
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/mealsTile"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="3"
+            android:textColor="@color/secondary_orange"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/mealsTileUnit"
+            app:layout_constraintEnd_toEndOf="@id/tilesContainer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ageTile"
+            app:layout_constraintTop_toBottomOf="@+id/tilesContainer"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/mealsTileUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="meals"
+            android:textColor="@color/secondary_orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
+            app:layout_constraintEnd_toEndOf="@id/mealsTile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/mealsTile"
+            app:layout_constraintTop_toBottomOf="@+id/mealsTile" />
+
+        <TextView
+            android:id="@+id/weightTileUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="kg"
+            android:textColor="@color/secondary_orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
+            app:layout_constraintEnd_toEndOf="@+id/weightTile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/weightTile"
+            app:layout_constraintTop_toBottomOf="@+id/weightTile" />
+
+        <TextView
+            android:id="@+id/ageTileUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="year"
+            android:textColor="@color/secondary_orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tilesContainer"
+            app:layout_constraintEnd_toEndOf="@id/ageTile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/ageTile"
+            app:layout_constraintTop_toBottomOf="@+id/ageTile" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline75"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline3"
+            app:menu="@menu/top_app_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/profileBottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:hideOnScroll="true"
+        app:menu="@menu/bottom_app_bar"
+        app:navigationIcon="@drawable/ic_menu_24dp" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/profileNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="true"
+        app:headerLayout="@layout/header_navigation_drawer"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:menu="@menu/navigation_drawer"
+        tools:visibility="gone" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

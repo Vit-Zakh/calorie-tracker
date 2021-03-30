@@ -1,6 +1,9 @@
 package com.example.calorietracker.dailyintake
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.state.MealsDataSource
@@ -30,8 +33,8 @@ class DailyIntakeViewModel @Inject constructor(
                         DailyIntakeProps.LoadingUser
                     userDataSource.isFailed ->
                         DailyIntakeProps.FailedUser
-                    userDataSource.fetchedUSer.id.isNotBlank() ->
-                        DailyIntakeProps.LoadedUser(userDataSource.fetchedUSer.mapToUiModel()).user
+                    userDataSource.userData.id.isNotBlank() ->
+                        DailyIntakeProps.LoadedUser(userDataSource.userData.mapToUiModel()).user
                     else ->
                         DailyIntakeProps.FailedUser
                 }
