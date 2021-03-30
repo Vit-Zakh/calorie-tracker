@@ -3,9 +3,7 @@ package com.example.calorietracker
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calorietracker.databinding.ActivityMainBinding
-import com.example.calorietracker.modo.Screens
 import com.github.terrakok.modo.android.ModoRender
-import com.github.terrakok.modo.android.init
 import com.github.terrakok.modo.android.saveState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        modo.init(savedInstanceState, Screens.DailyIntakeScreen())
     }
     override fun onResume() {
         super.onResume()
@@ -41,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // add this if you want to restore app after process death
         modo.saveState(outState)
     }
 }

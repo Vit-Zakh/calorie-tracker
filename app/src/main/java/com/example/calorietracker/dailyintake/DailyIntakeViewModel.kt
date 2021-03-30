@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.calorietracker.models.network.mapToUiModel
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.example.calorietracker.models.ui.mapToDomainModel
+import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.AddMeal
+import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.actions.RemoveMeal
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
@@ -26,14 +28,16 @@ class DailyIntakeViewModel @Inject constructor(
     class DailyFragmentProps(
         val list: List<DailyIntakeProps>,
         val addAction: (DailyIntakeProps.MealProps) -> Unit,
-        val removeAction: () -> Unit
+        val removeAction: () -> Unit,
+        val navigationAction: () -> Unit
     )
 
     private val _dailyFragmentProps: MutableLiveData<DailyFragmentProps> = MutableLiveData(
         DailyFragmentProps(
             list = mutableListOf(DailyIntakeProps.LoadingUser, DailyIntakeProps.TextLine, DailyIntakeProps.LoadingMealsItem),
             addAction = ::addMeal,
-            removeAction = ::removeMeal
+            removeAction = ::removeMeal,
+            navigationAction = ::moveToFoodList
         )
     )
     val dailyFragmentProps: LiveData<DailyFragmentProps> = _dailyFragmentProps
@@ -47,6 +51,10 @@ class DailyIntakeViewModel @Inject constructor(
 
     private fun removeMeal() {
         store.dispatch(RemoveMeal(2))
+    }
+
+    private fun moveToFoodList() {
+        store.dispatch(ChangeScreen(Screens.FoodListScreen()))
     }
 
     override fun onUpdate(state: AppState) {
@@ -79,6 +87,6 @@ class DailyIntakeViewModel @Inject constructor(
             else ->
                 _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
         }
-        _dailyFragmentProps.postValue(DailyFragmentProps(_dailyIntakeData, ::addMeal, ::removeMeal))
+        _dailyFragmentProps.postValue(DailyFragmentProps(_dailyIntakeData, ::addMeal, ::removeMeal, ::moveToFoodList))
     }
 }

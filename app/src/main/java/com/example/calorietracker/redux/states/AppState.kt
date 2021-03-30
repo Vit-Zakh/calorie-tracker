@@ -1,12 +1,14 @@
 package com.example.calorietracker.redux.states
 
 import android.util.Log
+import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class AppState(
     val mealsListState: MealsState = MealsState(),
     val userState: UserState = UserState(),
     val foodsState: FoodsState = FoodsState(),
+    val containerState: ContainerState = ContainerState(Screens.DailyIntakeScreen())
 ) {
 
     fun reduce(action: ReduxAction): AppState {
@@ -14,7 +16,8 @@ data class AppState(
         return this.copy(
             mealsListState = mealsListState.reduce(action),
             userState = userState.reduce(action),
-            foodsState = foodsState.reduce(action)
+            foodsState = foodsState.reduce(action),
+            containerState = containerState.reduce(action)
         )
     }
 }
