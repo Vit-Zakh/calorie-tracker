@@ -1,5 +1,6 @@
 package com.example.calorietracker.redux.middleware
 
+import com.example.calorietracker.models.network.FoodListResponse
 import com.example.calorietracker.models.network.MealsListResponse
 import com.example.calorietracker.models.network.UserResponse
 import com.example.calorietracker.network.ApiService
@@ -16,9 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
 
-//    @Inject
-//    lateinit var apiService: ApiService
-
     private val apiService = Retrofit.Builder()
         .baseUrl("https://calories-tracker.free.beeceptor.com/")
         .addCallAdapterFactory(NetworkResponseAdapterFactory())
@@ -26,22 +24,19 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
         .build()
         .create(ApiService::class.java)
 
-    override fun apply(
-        action: ReduxAction
-    ): ReduxAction {
-        return when (action) {
-            is StartFetchingUser -> {
-                StartFetchingUser().also {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        refreshUser(apiService.getUser())
-                    }
+    override fun apply(action: ReduxAction) {
+        when (action) {
+            is FetchInitialData -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    refreshMealsList(apiService.getMeals())
                 }
-            }
-            is StartFetchingMeals -> {
-                StartFetchingMeals().also {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        refreshMealsList(apiService.getMeals())
-                    }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    refreshUser(apiService.getUser())
+                }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    refreshFoodList(apiService.getFoodList())
                 }
             }
             else -> {
@@ -69,6 +64,16 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(SucceedFetchingMeals(meals = meals.body.meals))
             else -> {
                 store.dispatch(FailFetchingMeals(error = Error("Cannot fetch meals data")))
+            }
+        }
+    }
+
+    private fun refreshFoodList(foods: NetworkResponse<FoodListResponse, java.lang.Error>) {
+        when (foods) {
+            is NetworkResponse.Success ->
+                store.dispatch(SucceedFetchingFood(foodList = foods.body.food))
+            else -> {
+                store.dispatch(FailFetchingFood(error = Error("Cannot fetch meals data")))
             }
         }
     }

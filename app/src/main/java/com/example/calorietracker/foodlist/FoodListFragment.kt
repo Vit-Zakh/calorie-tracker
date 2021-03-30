@@ -1,10 +1,10 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentFoodListBinding
-import com.example.calorietracker.models.ui.DailyIntakeProps.*
+import com.example.calorietracker.models.ui.DailyIntakeProps.FailedUser
+import com.example.calorietracker.models.ui.DailyIntakeProps.UserProps
 import com.example.calorietracker.models.ui.FoodListProps.*
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.utils.RightSpacingItemDecoration
@@ -46,27 +47,12 @@ class FoodListFragment : Fragment() {
 
         /** Test buttons block */
 
-        binding.addFood.setOnClickListener {
-            viewModel.addFood(
-                FoodProps(
-                    Random.nextInt(9, 2000).toString(),
-                    "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
-                    "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-                    17f
-                )
-            )
-        }
-
-        binding.removeFood.setOnClickListener {
-            viewModel.deleteFood(3)
-        }
-
         binding.empty.setOnClickListener {
-            showEmptyList()
+//            showEmptyList()
         }
 
         binding.error.setOnClickListener {
-            showFailedList()
+//            showFailedList()
         }
 
         /** End of test buttons block */
@@ -87,40 +73,45 @@ class FoodListFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.currentUserData.observe(viewLifecycleOwner) { userData ->
-
+        viewModel.foodListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
-                it.progressPercentText.showIf(userData != FailedUser)
-                it.progressText.showIf(userData != FailedUser)
-                it.progressBar.showIf(userData != FailedUser)
-                it.progressBarContainer.showIf(userData != FailedUser)
-                it.textView.showIf(userData != FailedUser)
-                it.failedListMessage.showIf(userData is FailedUser)
-                it.failedListImage.showIf(userData is FailedUser)
-            }
+                it.progressPercentText.showIf(fragmentProps.userData != FailedUser)
+                it.progressText.showIf(fragmentProps.userData != FailedUser)
+                it.progressBar.showIf(fragmentProps.userData != FailedUser)
+                it.progressBarContainer.showIf(fragmentProps.userData != FailedUser)
+                it.textView.showIf(fragmentProps.userData != FailedUser)
+                it.failedListMessage.showIf(fragmentProps.userData is FailedUser)
+                it.failedListImage.showIf(fragmentProps.userData is FailedUser)
 
-            when (userData) {
-                is LoadedUser -> updateUserProgress(userData.user)
-                is LoadingUser -> fragmentBinding?.progressPercentText?.text = "Refreshing..."
-                is FailedUser -> {
-                    Toast.makeText(context, "Failed to update user data", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+                it.foodGridList.showIf(fragmentProps.foodData is LoadedFoodList)
+                it.foodListProgressBar.showIf(fragmentProps.foodData is LoadingFoodList)
+                it.emptyListMessage.showIf(fragmentProps.foodData is EmptyFoodList)
+                it.failedListImage.showIf(fragmentProps.foodData is FailedFoodList)
+                it.failedListMessage.showIf(fragmentProps.foodData is FailedFoodList)
 
-        viewModel.foodListData.observe(viewLifecycleOwner) { listData ->
-            fragmentBinding?.let {
-                it.foodGridList.showIf(listData is LoadedFoodList)
-                it.foodListProgressBar.showIf(listData is LoadingFoodList)
-                it.emptyListMessage.showIf(listData is EmptyFoodList)
-                it.failedListImage.showIf(listData is FailedFoodList)
-                it.failedListMessage.showIf(listData is FailedFoodList)
-            }
-            if (listData is LoadedFoodList) {
-                (fragmentBinding?.foodGridList?.adapter as FoodListAdapter).submitList(listData.foodList.toList())
+                if (fragmentProps.foodData is LoadedFoodList) {
+                    (it.foodGridList?.adapter as FoodListAdapter).submitList(fragmentProps.foodData.foodList.toList())
+                }
+
+                if (fragmentProps.userData is UserProps) {
+                    Log.d("TAG", "subscribeObservers: LOADED!")
+                    updateUserProgress(fragmentProps.userData)
+                }
+
+                it.addFood.setOnClickListener {
+                    fragmentProps.addAction(
+                        FoodProps(
+                            Random.nextInt(9, 2000).toString(),
+                            "Teriyaki Meat Loaf with something else, and salt and sauce, just to have a really long name here",
+                            "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+                            17f
+                        )
+                    )
+                }
+
+                it.removeFood.setOnClickListener {
+                    fragmentProps.removeAction()
+                }
             }
         }
     }
@@ -139,7 +130,8 @@ class FoodListFragment : Fragment() {
                 user.userIntake,
                 user.plannedIntake
             )
-            it.progressPercentText.text = resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
+            it.progressPercentText.text =
+                resources.getString(R.string.user_calories_progress_percent, userProgress * 100)
             if (userProgress > 1.0) {
                 it.progressPercentText.setTextColor(resources.getColor(R.color.design_default_color_error))
             }
@@ -156,13 +148,13 @@ class FoodListFragment : Fragment() {
 
     /** Test functions block */
 
-    private fun showEmptyList() {
-        viewModel.showEmptyList()
-    }
-
-    private fun showFailedList() {
-        viewModel.showFailedList()
-    }
+//    private fun showEmptyList() {
+//        viewModel.showEmptyList()
+//    }
+//
+//    private fun showFailedList() {
+//        viewModel.showFailedList()
+//    }
 
     /** End of test functions block */
 

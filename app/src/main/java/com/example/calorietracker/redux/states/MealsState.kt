@@ -18,6 +18,7 @@ data class MealsState(
                 isLoading = false,
                 isFailed = false
             )
+            is FetchInitialData -> this.copy(isLoading = true, isFailed = false)
             is AddMeal -> this.copy(mealsList = mealsList + action.meal)
             is RemoveMeal -> this.copy(
                 mealsList = mealsList.toMutableList().apply { removeAt(action.index) }

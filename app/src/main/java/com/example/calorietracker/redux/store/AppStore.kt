@@ -5,19 +5,19 @@ import com.example.calorietracker.redux.middleware.NetworkMiddleware
 import com.example.calorietracker.redux.middleware.ReduxMiddleware
 import com.example.calorietracker.redux.states.AppState
 
-class AppStore(var initialState: AppState) : Store {
+class AppStore(var appState: AppState) : Store {
 
     private val middlewares = listOf<ReduxMiddleware>(NetworkMiddleware(this))
     private val listeners = mutableListOf<StateChangeListener>()
 
     override fun dispatch(action: ReduxAction) {
-        initialState = initialState.reduce(action)
+        appState = appState.reduce(action)
         middlewares.forEach {
             it.apply(
                 action = action
             )
         }
-        listeners.forEach { it.onUpdate(state = initialState) }
+        listeners.forEach { it.onUpdate(state = appState) }
     }
 
     override fun subscribe(listener: StateChangeListener) {

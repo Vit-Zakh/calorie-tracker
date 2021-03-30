@@ -31,7 +31,7 @@ class DailyIntakeViewModel @Inject constructor(
 
     private val _dailyFragmentProps: MutableLiveData<DailyFragmentProps> = MutableLiveData(
         DailyFragmentProps(
-            list = mutableListOf(),
+            list = mutableListOf(DailyIntakeProps.LoadingUser, DailyIntakeProps.TextLine, DailyIntakeProps.LoadingMealsItem),
             addAction = ::addMeal,
             removeAction = ::removeMeal
         )
@@ -42,7 +42,6 @@ class DailyIntakeViewModel @Inject constructor(
     }
 
     private fun addMeal(mealProps: DailyIntakeProps.MealProps) {
-//        store.dispatch(StartFetchingUser())
         store.dispatch(AddMeal(meal = mealProps.mapToDomainModel()))
     }
 

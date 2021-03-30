@@ -31,7 +31,6 @@ class EditedUserDataSource @Inject constructor() {
 
     fun changeUserName(editedName: String) {
         val userWithNewName = _editedUserFlow.value.userData.copy(name = editedName)
-//        userWithNewName.name = editedName
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewName,
             canBeSaved = true
@@ -40,7 +39,6 @@ class EditedUserDataSource @Inject constructor() {
 
     fun changeUserWeight(editedWeight: Float?) {
         val userWithNewWeight = _editedUserFlow.value.userData.copy(weight = editedWeight)
-//        userWithNewWeight.weight = editedWeight
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewWeight,
             canBeSaved = true
@@ -49,7 +47,6 @@ class EditedUserDataSource @Inject constructor() {
 
     fun changeUserAge(editedAge: Int?) {
         val userWithNewAge = _editedUserFlow.value.userData.copy(age = editedAge)
-//        userWithNewAge.age = editedAge
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewAge,
             canBeSaved = true
@@ -58,7 +55,6 @@ class EditedUserDataSource @Inject constructor() {
 
     fun changeUserIntake(editedIntake: Float?) {
         val userWithNewIntake = _editedUserFlow.value.userData.copy(maxIntake = editedIntake)
-//        userWithNewIntake.maxIntake = editedIntake
         _editedUserFlow.value = _editedUserFlow.value.copy(
             userData = userWithNewIntake,
             canBeSaved = true
