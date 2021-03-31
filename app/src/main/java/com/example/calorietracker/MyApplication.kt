@@ -1,9 +1,7 @@
 package com.example.calorietracker
 
 import android.app.Application
-import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.FetchInitialData
-import com.example.calorietracker.redux.actions.InitScreen
 import com.example.calorietracker.redux.store.AppStore
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.AppReducer
@@ -20,7 +18,6 @@ class MyApplication : Application() {
         modo = Modo(LogReducer(AppReducer(this)))
         super.onCreate()
         store.dispatch(FetchInitialData())
-        store.dispatch(InitScreen(Screens.DailyIntakeScreen()))
     }
 
     companion object {

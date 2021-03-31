@@ -21,8 +21,16 @@ class FoodListViewModel @Inject constructor(
     private val store: AppStore
 ) : ViewModel(), StateChangeListener {
 
-    init {
+    private val _foodListFragmentProps: MutableLiveData<FoodListFragmentProps> = MutableLiveData(
+        FoodListFragmentProps(
+            userData = DailyIntakeProps.LoadingUser,
+            foodData = FoodListProps.LoadingFoodList,
+            addAction = ::addFood,
+            removeAction = ::removeFood
+        )
+    )
 
+    init {
         store.subscribe(this)
     }
 
@@ -31,15 +39,6 @@ class FoodListViewModel @Inject constructor(
         val foodData: FoodListProps,
         val addAction: (FoodProps) -> Unit,
         val removeAction: () -> Unit
-    )
-
-    private val _foodListFragmentProps: MutableLiveData<FoodListFragmentProps> = MutableLiveData(
-        FoodListFragmentProps(
-            userData = DailyIntakeProps.LoadingUser,
-            foodData = FoodListProps.LoadingFoodList,
-            addAction = ::addFood,
-            removeAction = ::removeFood
-        )
     )
 
     val foodListFragmentProps: LiveData<FoodListFragmentProps> = _foodListFragmentProps
@@ -79,7 +78,14 @@ class FoodListViewModel @Inject constructor(
             else ->
                 DailyIntakeProps.FailedUser
         }
-        _foodListFragmentProps.postValue(FoodListFragmentProps(userData = _user, foodData = _foodList, removeAction = ::removeFood, addAction = ::addFood))
+        _foodListFragmentProps.postValue(
+            FoodListFragmentProps(
+                userData = _user,
+                foodData = _foodList,
+                removeAction = ::removeFood,
+                addAction = ::addFood
+            )
+        )
     }
 
     /** Test functions block */

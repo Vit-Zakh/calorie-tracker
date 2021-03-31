@@ -1,8 +1,6 @@
 package com.example.calorietracker.redux.middleware
 
-import com.example.calorietracker.models.network.FoodListResponse
-import com.example.calorietracker.models.network.MealsListResponse
-import com.example.calorietracker.models.network.UserResponse
+import com.example.calorietracker.models.network.*
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponse
 import com.example.calorietracker.network.NetworkResponseAdapterFactory
@@ -11,6 +9,7 @@ import com.example.calorietracker.redux.store.AppStore
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,19 +27,101 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
         when (action) {
             is FetchInitialData -> {
                 CoroutineScope(Dispatchers.IO).launch {
-                    refreshMealsList(apiService.getMeals())
+//                    refreshMealsList(apiService.getMeals())
+                    delay(2000)
+                    store.dispatch(
+                        SucceedFetchingMeals(
+                            meals = listOf(
+                                MealResponse(
+                                    calories = "700",
+                                    date = "22/10",
+                                    id = "1",
+                                    name = "Ginger Pork",
+                                    url = "https://images.unsplash.com/photo-1601748361140-03605c34e843?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                                    weight = "600"
+                                ),
+                                MealResponse(
+                                    calories = "700",
+                                    date = "22/10",
+                                    id = "1",
+                                    name = "Ginger Pork",
+                                    url = "https://images.unsplash.com/photo-1601748361140-03605c34e843?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                                    weight = "600"
+                                ),
+                                MealResponse(
+                                    calories = "700",
+                                    date = "22/10",
+                                    id = "1",
+                                    name = "Ginger Pork",
+                                    url = "https://images.unsplash.com/photo-1601748361140-03605c34e843?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                                    weight = "600"
+                                ),
+                                MealResponse(
+                                    calories = "700",
+                                    date = "22/10",
+                                    id = "1",
+                                    name = "Ginger Pork",
+                                    url = "https://images.unsplash.com/photo-1601748361140-03605c34e843?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                                    weight = "600"
+                                ),
+                            )
+                        )
+                    )
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    refreshUser(apiService.getUser())
+//                    refreshUser(apiService.getUser())
+                    delay(1000)
+                    store.dispatch(
+                        SucceedFetchingUser(
+                            user = UserResponse(
+                                id = "0",
+                                image = "https://cataas.com/cat/cute",
+                                name = "Кошка Машка",
+                                currentIntake = 1500.0,
+                                maxIntake = 20000f,
+                                weight = 5f,
+                                age = 2,
+                                backgroundImage = "https://images.unsplash.com/photo-1611068120738-e3801fcaa00a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                            )
+                        )
+                    )
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    refreshFoodList(apiService.getFoodList())
+//                    refreshFoodList(apiService.getFoodList())
+                    delay(3000)
+                    store.dispatch(
+                        SucceedFetchingFood(
+                            foodList = listOf(
+                                FoodResponse(
+                                    calories = "700",
+                                    id = "a",
+                                    name = "Pasta",
+                                    url = "https://images.unsplash.com/photo-1611068120738-e3801fcaa00a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                                ),
+                                FoodResponse(
+                                    calories = "700",
+                                    id = "b",
+                                    name = "Broccoli",
+                                    url = "https://images.unsplash.com/photo-1611095758464-6ff38fe3ca65?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                                ),
+                                FoodResponse(
+                                    calories = "700",
+                                    id = "c",
+                                    name = "Stew",
+                                    url = "https://images.unsplash.com/photo-1528344476859-60b256f33f6f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=680&q=80"
+                                ),
+                                FoodResponse(
+                                    calories = "700",
+                                    id = "z",
+                                    name = "Pizza",
+                                    url = "https://images.unsplash.com/photo-1601748361140-03605c34e843?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                                ),
+                            )
+                        )
+                    )
                 }
-            }
-            else -> {
-                action
             }
         }
     }

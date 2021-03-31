@@ -6,5 +6,4 @@ interface ReduxMiddleware {
     fun apply(
         action: ReduxAction
     )
-//    : ReduxAction
 }

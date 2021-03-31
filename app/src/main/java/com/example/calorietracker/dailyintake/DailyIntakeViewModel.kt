@@ -21,6 +21,19 @@ class DailyIntakeViewModel @Inject constructor(
     private val store: AppStore
 ) : ViewModel(), StateChangeListener {
 
+    private val _dailyFragmentProps: MutableLiveData<DailyFragmentProps> = MutableLiveData(
+        DailyFragmentProps(
+            list = mutableListOf(
+                DailyIntakeProps.LoadingUser,
+                DailyIntakeProps.TextLine,
+                DailyIntakeProps.LoadingMealsItem
+            ),
+            addAction = ::addMeal,
+            removeAction = ::removeMeal,
+            navigationAction = ::moveToFoodList
+        )
+    )
+
     init {
         store.subscribe(this)
     }
@@ -32,14 +45,6 @@ class DailyIntakeViewModel @Inject constructor(
         val navigationAction: () -> Unit
     )
 
-    private val _dailyFragmentProps: MutableLiveData<DailyFragmentProps> = MutableLiveData(
-        DailyFragmentProps(
-            list = mutableListOf(DailyIntakeProps.LoadingUser, DailyIntakeProps.TextLine, DailyIntakeProps.LoadingMealsItem),
-            addAction = ::addMeal,
-            removeAction = ::removeMeal,
-            navigationAction = ::moveToFoodList
-        )
-    )
     val dailyFragmentProps: LiveData<DailyFragmentProps> = _dailyFragmentProps
     override fun onCleared() {
         store.unsubscribe(this)
@@ -87,6 +92,13 @@ class DailyIntakeViewModel @Inject constructor(
             else ->
                 _dailyIntakeData.add(DailyIntakeProps.FailedMealsItem)
         }
-        _dailyFragmentProps.postValue(DailyFragmentProps(_dailyIntakeData, ::addMeal, ::removeMeal, ::moveToFoodList))
+        _dailyFragmentProps.postValue(
+            DailyFragmentProps(
+                _dailyIntakeData,
+                ::addMeal,
+                ::removeMeal,
+                ::moveToFoodList
+            )
+        )
     }
 }
