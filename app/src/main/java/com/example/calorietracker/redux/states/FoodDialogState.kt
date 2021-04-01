@@ -5,12 +5,13 @@ import com.example.calorietracker.redux.actions.OpenFoodDialog
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class FoodDialogState(
-    val food: FoodProps = FoodProps("", "", "", 0f)
+    val food: FoodProps = FoodProps("", "", "", 0f),
 ) {
     fun reduce(action: ReduxAction): FoodDialogState {
         return when (action) {
-            is OpenFoodDialog -> this.copy(food = action.food)
-//            is CloseDialogAction -> this.copy()
+            is OpenFoodDialog -> this.copy(
+                food = action.food,
+            )
             else -> this
         }
     }
