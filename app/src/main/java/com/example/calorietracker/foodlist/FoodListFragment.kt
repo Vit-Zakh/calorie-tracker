@@ -1,14 +1,12 @@
 package com.example.calorietracker.foodlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.calorietracker.R
@@ -65,7 +63,7 @@ class FoodListFragment : Fragment() {
             it.foodGridList.layoutManager =
                 StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
             foodListAdapter = FoodListAdapter { food ->
-                openAddMealDialog(food)
+                viewModel.foodListFragmentProps.value?.openDialogAction?.invoke(food)
             }
             it.foodGridList.adapter = foodListAdapter
             it.foodGridList.addItemDecoration(RightSpacingItemDecoration())
@@ -75,6 +73,7 @@ class FoodListFragment : Fragment() {
     private fun subscribeObservers() {
         viewModel.foodListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
+
                 it.progressPercentText.showIf(fragmentProps.userData != FailedUser)
                 it.progressText.showIf(fragmentProps.userData != FailedUser)
                 it.progressBar.showIf(fragmentProps.userData != FailedUser)
@@ -94,7 +93,6 @@ class FoodListFragment : Fragment() {
                 }
 
                 if (fragmentProps.userData is UserProps) {
-                    Log.d("TAG", "subscribeObservers: LOADED!")
                     updateUserProgress(fragmentProps.userData)
                 }
 
@@ -137,16 +135,9 @@ class FoodListFragment : Fragment() {
             }
         }
     }
+}
 
-    private fun openAddMealDialog(food: FoodProps) {
-        findNavController().navigate(
-            FoodListFragmentDirections.actionFoodListFragmentToAddMealDialog(
-                food
-            )
-        )
-    }
-
-    /** Test functions block */
+/** Test functions block */
 
 //    private fun showEmptyList() {
 //        viewModel.showEmptyList()
@@ -156,13 +147,12 @@ class FoodListFragment : Fragment() {
 //        viewModel.showFailedList()
 //    }
 
-    /** End of test functions block */
+/** End of test functions block */
 
-    private fun progressOutOfValue(value: Double): Int {
-        return if (value <= 1.0) {
-            ((value) * 70.0).toInt()
-        } else {
-            70
-        }
+private fun progressOutOfValue(value: Double): Int {
+    return if (value <= 1.0) {
+        ((value) * 70.0).toInt()
+    } else {
+        70
     }
 }

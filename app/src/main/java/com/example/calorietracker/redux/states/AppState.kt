@@ -6,6 +6,7 @@ data class AppState(
     val mealsListState: MealsState = MealsState(),
     val userState: UserState = UserState(),
     val foodsState: FoodsState = FoodsState(),
+    val foodDialogState: FoodDialogState = FoodDialogState()
 ) {
 
     fun reduce(action: ReduxAction): AppState {
@@ -13,6 +14,7 @@ data class AppState(
             mealsListState = mealsListState.reduce(action),
             userState = userState.reduce(action),
             foodsState = foodsState.reduce(action),
+            foodDialogState = foodDialogState.reduce(action)
         )
     }
 }

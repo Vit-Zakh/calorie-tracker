@@ -2,6 +2,7 @@ package com.example.calorietracker
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.calorietracker.databinding.ActivityMainBinding
 import com.example.calorietracker.modo.Screens
 import com.github.terrakok.modo.android.ModoRender
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 
         setTheme(R.style.Theme_CalorieTracker)
 
+        myFragmentManager = supportFragmentManager
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,5 +44,10 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         modo.saveState(outState)
+    }
+
+    companion object {
+        lateinit var myFragmentManager: FragmentManager
+            private set
     }
 }

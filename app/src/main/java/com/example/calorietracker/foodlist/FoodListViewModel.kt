@@ -1,5 +1,6 @@
 package com.example.calorietracker.foodlist
 
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,8 @@ import com.example.calorietracker.models.ui.FoodListProps
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.models.ui.mapToDomainModel
 import com.example.calorietracker.redux.actions.AddFood
+import com.example.calorietracker.redux.actions.CloseDialogAction
+import com.example.calorietracker.redux.actions.OpenFoodDialog
 import com.example.calorietracker.redux.actions.RemoveFood
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
@@ -25,8 +28,11 @@ class FoodListViewModel @Inject constructor(
         FoodListFragmentProps(
             userData = DailyIntakeProps.LoadingUser,
             foodData = FoodListProps.LoadingFoodList,
+            foodInDialog = FoodProps("", "", "", 0f),
             addAction = ::addFood,
-            removeAction = ::removeFood
+            removeAction = ::removeFood,
+            openDialogAction = ::openDialog,
+//            dismissDialogAction = ::dismissDialog
         )
     )
 
@@ -37,8 +43,14 @@ class FoodListViewModel @Inject constructor(
     class FoodListFragmentProps(
         val userData: DailyIntakeProps,
         val foodData: FoodListProps,
+        val foodInDialog: FoodProps,
         val addAction: (FoodProps) -> Unit,
-        val removeAction: () -> Unit
+        val removeAction: () -> Unit,
+
+        var dialog: DialogFragment? = null,
+        val openDialogAction: (food: FoodProps) -> Unit,
+//        val addMealDialogAction: () -> Unit,
+//        val dismissDialogAction: (dialog: DialogFragment) -> Unit,
     )
 
     val foodListFragmentProps: LiveData<FoodListFragmentProps> = _foodListFragmentProps
@@ -57,6 +69,14 @@ class FoodListViewModel @Inject constructor(
 
     fun removeFood() {
         store.dispatch(RemoveFood(3))
+    }
+
+    fun openDialog(food: FoodProps) {
+        store.dispatch(OpenFoodDialog(food))
+    }
+
+    fun dismissDialog(dialog: DialogFragment?) {
+        dialog?.let { store.dispatch(CloseDialogAction(it)) }
     }
 
     override fun onUpdate(state: AppState) {
@@ -78,12 +98,21 @@ class FoodListViewModel @Inject constructor(
             else ->
                 DailyIntakeProps.FailedUser
         }
+
+        val _foodInDialog = state.foodDialogState.food
+
+//        val _dialog = state.foodDialogState.
+
         _foodListFragmentProps.postValue(
             FoodListFragmentProps(
                 userData = _user,
                 foodData = _foodList,
+                foodInDialog = _foodInDialog,
                 removeAction = ::removeFood,
-                addAction = ::addFood
+                addAction = ::addFood,
+                openDialogAction = ::openDialog,
+//                dialog =
+//                dismissDialogAction = ::dismissDialog
             )
         )
     }

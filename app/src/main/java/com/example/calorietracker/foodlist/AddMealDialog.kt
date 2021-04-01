@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.example.calorietracker.databinding.DialogAddMealBinding
 import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.models.ui.mapToMeal
@@ -21,7 +20,6 @@ import kotlinx.android.synthetic.main.dialog_add_meal.*
 class AddMealDialog : DialogFragment() {
 
     private var addMealBinding: DialogAddMealBinding? = null
-    private val args: AddMealDialogArgs by navArgs()
     private val viewModel: FoodListViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -29,9 +27,13 @@ class AddMealDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val binding = DialogAddMealBinding.inflate(inflater, container, false)
         addMealBinding = binding
-        binding.food = args.Food
+        viewModel.foodListFragmentProps.observe(viewLifecycleOwner) { props ->
+            binding.food = props.foodInDialog
+//            props.dialog = this
+        }
         binding.dialog = this
         return binding.root
     }
