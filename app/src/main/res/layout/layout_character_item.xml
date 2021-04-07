@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_height"
+    app:cardBackgroundColor="@color/primary_700"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="2dp"
+    android:layout_marginBottom="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/characterImage"
+                android:layout_width="@dimen/frame_diameter"
+                android:layout_height="@dimen/frame_diameter"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/userItemGuidelineVertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/CircularImage"
+                app:strokeColor="@color/secondary_orange"
+                app:strokeWidth="3dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/characterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Morty Smith"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_orange"
+                android:paddingTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="@id/characterImage"
+                app:layout_constraintStart_toEndOf="@id/characterImage"
+                />
+
+            <TextView
+                android:id="@+id/characterSpecies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Human"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"
+                android:textColor="@color/secondary_orange"
+                android:paddingTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/characterName"
+                app:layout_constraintStart_toStartOf="@id/characterName"
+                app:layout_constraintEnd_toEndOf="@id/characterName"
+                />
+
+            <TextView
+                android:id="@+id/characterStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="8dp"
+                android:textColor="@color/secondary_orange"
+                android:textDirection="locale"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Dead" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
