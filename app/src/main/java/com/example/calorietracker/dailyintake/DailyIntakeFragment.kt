@@ -1,7 +1,6 @@
 package com.example.calorietracker.dailyintake
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.toDeferred
-import com.apollographql.apollo.exception.ApolloException
-import com.example.calorietracker.GetCharactersQuery
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_daily_intake.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -62,36 +54,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             true
         }
-
-//        binding.floatingActionButton.setOnClickListener {
-//            openFoodList()
-//        }
-        binding.apiTest.setOnClickListener {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val apolloClient = ApolloClient.builder()
-//                    .serverUrl("https://your.domain/graphql/endpoint")
-//                    .build()
-//
-// // in your coroutine scope, call `ApolloClient.query(...).toDeferred().await()`
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = try {
-                    apolloClient.query(GetCharactersQuery()).toDeferred().await()
-                } catch (e: ApolloException) {
-                    // handle protocol errors
-                    return@launch
-                }
-
-                val launch = response.data?.characters
-                if (launch == null || response.hasErrors()) {
-                    // handle application errors
-                    return@launch
-                }
-
-                // launch now contains a typesafe model of your data
-                Log.d("qlTAG:", "onCreateView: ${launch.results}")
-            }
-        }
-
         return binding.root
     }
 
@@ -122,7 +84,10 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
                     fragmentProps.removeAction()
                 }
                 floatingActionButton.setOnClickListener {
-                    fragmentProps.navigationAction()
+                    fragmentProps.navigationActionFoodList()
+                }
+                apiTest.setOnClickListener {
+                    fragmentProps.navigationActionCharactersList()
                 }
             }
         }
@@ -139,15 +104,4 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         fragmentBinding = null
         super.onDestroyView()
     }
-
-    private fun openFoodList() {
-//        findNavController().navigate(
-//            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()ылн
-//        )
-//        MyApplication.modo.replace(Screens.FoodListScreen())
-    }
-
-    val apolloClient = ApolloClient.builder()
-        .serverUrl("https://rickandmortyapi.com/graphql")
-        .build()
 }

@@ -3,7 +3,7 @@ query GetCharacters {
         results {name
             image
             status
-            type
+            species
         }
     }
 }

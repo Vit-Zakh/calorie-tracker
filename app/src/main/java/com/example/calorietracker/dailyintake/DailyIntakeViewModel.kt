@@ -30,7 +30,8 @@ class DailyIntakeViewModel @Inject constructor(
             ),
             addAction = ::addMeal,
             removeAction = ::removeMeal,
-            navigationAction = ::moveToFoodList
+            navigationActionFoodList = ::moveToFoodList,
+            navigationActionCharactersList = ::moveToCharactersList
         )
     )
 
@@ -42,7 +43,8 @@ class DailyIntakeViewModel @Inject constructor(
         val list: List<DailyIntakeProps>,
         val addAction: (DailyIntakeProps.MealProps) -> Unit,
         val removeAction: () -> Unit,
-        val navigationAction: () -> Unit
+        val navigationActionFoodList: () -> Unit,
+        val navigationActionCharactersList: () -> Unit
     )
 
     val dailyFragmentProps: LiveData<DailyFragmentProps> = _dailyFragmentProps
@@ -60,6 +62,10 @@ class DailyIntakeViewModel @Inject constructor(
 
     private fun moveToFoodList() {
         store.dispatch(ChangeScreen(Screens.FoodListScreen()))
+    }
+
+    private fun moveToCharactersList() {
+        store.dispatch(ChangeScreen(Screens.CharactersListScreen()))
     }
 
     override fun onUpdate(state: AppState) {
@@ -97,7 +103,8 @@ class DailyIntakeViewModel @Inject constructor(
                 _dailyIntakeData,
                 ::addMeal,
                 ::removeMeal,
-                ::moveToFoodList
+                ::moveToFoodList,
+                ::moveToCharactersList
             )
         )
     }

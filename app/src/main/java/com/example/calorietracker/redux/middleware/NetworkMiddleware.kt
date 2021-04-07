@@ -1,5 +1,11 @@
 package com.example.calorietracker.redux.middleware
 
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.toDeferred
+import com.apollographql.apollo.exception.ApolloException
+import com.example.calorietracker.GetCharactersQuery
+import com.example.calorietracker.graphqltest.FetchCharactersData
+import com.example.calorietracker.graphqltest.SucceedFetchingCharacters
 import com.example.calorietracker.models.network.*
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponse
@@ -22,6 +28,10 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .build()
         .create(ApiService::class.java)
+
+    private val apolloClient = ApolloClient.builder()
+        .serverUrl("https://rickandmortyapi.com/graphql")
+        .build()
 
     override fun apply(action: ReduxAction) {
         when (action) {
@@ -121,6 +131,23 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                             )
                         )
                     )
+                }
+            }
+            is FetchCharactersData -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = try {
+                        apolloClient.query(GetCharactersQuery()).toDeferred().await()
+                    } catch (e: ApolloException) {
+                        // handle protocol errors
+                        return@launch
+                    }
+
+                    val launch = response.data?.characters
+                    if (launch == null || response.hasErrors()) {
+                        // handle application errors
+                        return@launch
+                    }
+                    store.dispatch(SucceedFetchingCharacters(launch))
                 }
             }
         }
