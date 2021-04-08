@@ -3,7 +3,9 @@ package com.example.calorietracker.graphqltest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.GetCharactersQuery
+import com.example.calorietracker.graphqltest.models.CharacterModel
+import com.example.calorietracker.graphqltest.models.CharactersListProps
+import com.example.calorietracker.graphqltest.models.mapToBusinessModel
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
 import com.example.calorietracker.redux.store.StateChangeListener
@@ -24,7 +26,7 @@ class CharacterListViewModel @Inject constructor(
     }
 
     class CharacterListFragmentProps(
-        val characterData: List<GetCharactersQuery.Result>,
+        val characterData: CharactersListProps,
     )
 
     val characterListFragmentProps: LiveData<CharacterListFragmentProps> =
@@ -35,14 +37,20 @@ class CharacterListViewModel @Inject constructor(
     }
 
     override fun onUpdate(state: AppState) {
-//        val _characterList = when {
-//            state.charactersState.isLoading -> state.charactersState.charactersList
-//            state.charactersState.isFailed -> state.charactersState.charactersList
-//            else -> state.charactersState.charactersList
-//        }
-        val _characterList = mutableListOf<GetCharactersQuery.Result>()
-        state.charactersState.charactersList?.results?.forEach { character ->
-            character?.let { _characterList.add(it) }
+        val _characterList = when {
+            state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
+            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
+            else -> {
+                val charactersList = mutableListOf<CharacterModel>()
+                state.charactersState.charactersList?.results.let {
+                    it?.forEach { character ->
+                        if (character != null) {
+                            charactersList.add(character.mapToBusinessModel())
+                        }
+                    }
+                }
+                CharactersListProps.LoadedCharactersList(charactersList = charactersList)
+            }
         }
 
         _characterListFragmentProps.postValue(

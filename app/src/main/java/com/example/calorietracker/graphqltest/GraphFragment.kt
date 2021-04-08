@@ -9,15 +9,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
-import com.example.calorietracker.databinding.FragmentGraphBinding
+import com.example.calorietracker.databinding.FragmentCharactersListBinding
+import com.example.calorietracker.graphqltest.models.CharactersListProps
+import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GraphFragment : Fragment(R.layout.fragment_graph) {
+class GraphFragment : Fragment(R.layout.fragment_characters_list) {
 
     private val viewModel: CharacterListViewModel by activityViewModels()
 
-    private var fragmentBinding: FragmentGraphBinding? = null
+    private var fragmentBinding: FragmentCharactersListBinding? = null
     private lateinit var charactersListAdapter: GraphListAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -31,7 +33,7 @@ class GraphFragment : Fragment(R.layout.fragment_graph) {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentGraphBinding.inflate(inflater, container, false)
+        val binding = FragmentCharactersListBinding.inflate(inflater, container, false)
         fragmentBinding = binding
 
         initRecyclerView()
@@ -52,8 +54,10 @@ class GraphFragment : Fragment(R.layout.fragment_graph) {
         viewModel.characterListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
 
-                if (fragmentProps.characterData.isNotEmpty()) {
-                    (it.responseList?.adapter as GraphListAdapter).submitList(fragmentProps.characterData)
+                it.charactersProgressBar.showIf(fragmentProps.characterData is CharactersListProps.LoadingCharactersList)
+
+                if (fragmentProps.characterData is CharactersListProps.LoadedCharactersList) {
+                    (it.responseList?.adapter as GraphListAdapter).submitList(fragmentProps.characterData.charactersList)
                 }
             }
         }
