@@ -1,9 +1,9 @@
 package com.example.calorietracker.graphqltest
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.graphqltest.models.CharacterModel
 import com.example.calorietracker.graphqltest.models.CharactersListProps
 import com.example.calorietracker.graphqltest.models.mapToBusinessModel
 import com.example.calorietracker.redux.states.AppState
@@ -27,6 +27,8 @@ class CharacterListViewModel @Inject constructor(
 
     class CharacterListFragmentProps(
         val characterData: CharactersListProps,
+
+        val loadNextPage: () -> Unit,
     )
 
     val characterListFragmentProps: LiveData<CharacterListFragmentProps> =
@@ -36,27 +38,29 @@ class CharacterListViewModel @Inject constructor(
         store.unsubscribe(this)
     }
 
+    fun loadNextPage() {
+        if (store.appState.charactersState.nextPage != null) {
+            store.dispatch(FetchMoreCharacters(store.appState.charactersState.nextPage!!))
+            Log.d("PAGINATION_TAG", "loadNextPage: ${store.appState.charactersState.nextPage}")
+        }
+    }
+
     override fun onUpdate(state: AppState) {
         val _characterList = when {
             state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
             state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
-                val charactersList = mutableListOf<CharacterModel>()
-                state.charactersState.charactersList?.results.let {
-                    it?.forEach { character ->
-                        if (character != null) {
-                            charactersList.add(character.mapToBusinessModel())
-                        }
-                    }
-                }
-                CharactersListProps.LoadedCharactersList(charactersList = charactersList)
+                CharactersListProps.LoadedCharactersList(
+                    charactersList = state.charactersState.charactersList?.map { it?.mapToBusinessModel() }
+                )
             }
         }
 
         _characterListFragmentProps.postValue(
             _characterList?.let {
                 CharacterListFragmentProps(
-                    characterData = it
+                    characterData = it,
+                    loadNextPage = ::loadNextPage
                 )
             }
         )

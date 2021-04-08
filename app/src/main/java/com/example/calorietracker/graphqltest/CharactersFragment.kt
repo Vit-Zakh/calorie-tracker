@@ -1,6 +1,7 @@
 package com.example.calorietracker.graphqltest
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GraphFragment : Fragment(R.layout.fragment_characters_list) {
+class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
 
     private val viewModel: CharacterListViewModel by activityViewModels()
 
@@ -45,7 +46,10 @@ class GraphFragment : Fragment(R.layout.fragment_characters_list) {
         fragmentBinding?.let {
             it.responseList.layoutManager =
                 LinearLayoutManager(requireContext())
-            charactersListAdapter = GraphListAdapter()
+            charactersListAdapter = GraphListAdapter() {
+                viewModel.characterListFragmentProps.value?.loadNextPage?.invoke()
+                Log.d("PAGINATION_TAG", "initRecyclerView: load next page called")
+            }
             it.responseList.adapter = charactersListAdapter
         }
     }

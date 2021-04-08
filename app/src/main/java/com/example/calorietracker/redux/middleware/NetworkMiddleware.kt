@@ -1,13 +1,11 @@
 package com.example.calorietracker.redux.middleware
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.example.calorietracker.GetCharactersQuery
-import com.example.calorietracker.graphqltest.FailFetchingCharacters
-import com.example.calorietracker.graphqltest.FetchCharactersData
-import com.example.calorietracker.graphqltest.StartFetchingCharacters
-import com.example.calorietracker.graphqltest.SucceedFetchingCharacters
+import com.example.calorietracker.graphqltest.*
 import com.example.calorietracker.models.network.*
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponse
@@ -139,7 +137,8 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingCharacters())
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = try {
-                        apolloClient.query(GetCharactersQuery()).toDeferred().await()
+                        apolloClient.query(GetCharactersQuery(Input.optional(1))).toDeferred()
+                            .await()
                     } catch (e: ApolloException) {
                         store.dispatch(FailFetchingCharacters())
                         return@launch
@@ -150,8 +149,28 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                         store.dispatch(FailFetchingCharacters())
                         return@launch
                     }
-                    store.dispatch(SucceedFetchingCharacters(launch))
+                    store.dispatch(SucceedFetchingCharacters(data = launch))
                 }
+            }
+
+            is FetchMoreCharacters -> {
+                if (store.appState.charactersState.pages != null && store.appState.charactersState.pages!! >= action.page)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val response = try {
+                            apolloClient.query(GetCharactersQuery(Input.optional(action.page)))
+                                .toDeferred().await()
+                        } catch (e: ApolloException) {
+                            store.dispatch(FailFetchingCharacters())
+                            return@launch
+                        }
+
+                        val launch = response.data?.characters
+                        if (launch == null || response.hasErrors()) {
+                            store.dispatch(FailFetchingCharacters())
+                            return@launch
+                        }
+                        store.dispatch(SucceedFetchingMoreCharacters(launch))
+                    }
             }
         }
     }

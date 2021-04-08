@@ -1,7 +1,11 @@
-query GetCharacters {
-    characters{
-        results {
-            name
+query GetCharacters ($page: Int) {
+
+    characters(page: $page){
+        info{
+            next
+            pages
+        }
+        results {name
             image
             status
             species
