@@ -54,11 +54,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             true
         }
-
-//        binding.floatingActionButton.setOnClickListener {
-//            openFoodList()
-//        }
-
         return binding.root
     }
 
@@ -89,7 +84,10 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
                     fragmentProps.removeAction()
                 }
                 floatingActionButton.setOnClickListener {
-                    fragmentProps.navigationAction()
+                    fragmentProps.navigationActionFoodList()
+                }
+                apiTest.setOnClickListener {
+                    fragmentProps.navigationActionCharactersList()
                 }
             }
         }
@@ -105,12 +103,5 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
-    }
-
-    private fun openFoodList() {
-//        findNavController().navigate(
-//            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
-//        )
-//        MyApplication.modo.replace(Screens.FoodListScreen())
     }
 }

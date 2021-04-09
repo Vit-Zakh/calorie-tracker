@@ -37,7 +37,8 @@ class AddMealDialog : DialogFragment() {
                     props.addMealDialogAction(
                         props.foodInDialog.mapToMeal(
                             weight = binding.mealWeightDialog.text.toString().toFloat()
-                        ), this
+                        ),
+                        this
                     )
                 }
             }

@@ -8,6 +8,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id("com.apollographql.apollo").version("2.5.5")
 
 }
 
@@ -128,7 +129,15 @@ dependencies {
         //for navigation based on FragmentManager
         implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
 
+        // The core runtime dependencies
+        implementation("com.apollographql.apollo:apollo-runtime:2.5.5")
+        // Coroutines extensions for easier asynchronicity handling
+        implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.5")
 
+}
+
+apollo {
+    generateKotlinModels.set(true)
 }
 
 preBuild.dependsOn ktlintFormat
