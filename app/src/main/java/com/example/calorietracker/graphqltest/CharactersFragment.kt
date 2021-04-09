@@ -1,7 +1,6 @@
 package com.example.calorietracker.graphqltest
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
     private val viewModel: CharacterListViewModel by activityViewModels()
 
     private var fragmentBinding: FragmentCharactersListBinding? = null
-    private lateinit var charactersListAdapter: GraphListAdapter
+    private lateinit var charactersListAdapter: CharactersListAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -46,9 +45,8 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
         fragmentBinding?.let {
             it.responseList.layoutManager =
                 LinearLayoutManager(requireContext())
-            charactersListAdapter = GraphListAdapter() {
+            charactersListAdapter = CharactersListAdapter {
                 viewModel.characterListFragmentProps.value?.loadNextPage?.invoke()
-                Log.d("PAGINATION_TAG", "initRecyclerView: load next page called")
             }
             it.responseList.adapter = charactersListAdapter
         }
@@ -59,9 +57,10 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
             fragmentBinding?.let {
 
                 it.charactersProgressBar.showIf(fragmentProps.characterData is CharactersListProps.LoadingCharactersList)
+                it.failedListImage.showIf(fragmentProps.characterData is CharactersListProps.FailedCharactersList)
 
                 if (fragmentProps.characterData is CharactersListProps.LoadedCharactersList) {
-                    (it.responseList?.adapter as GraphListAdapter).submitList(fragmentProps.characterData.charactersList)
+                    (it.responseList.adapter as CharactersListAdapter).submitList(fragmentProps.characterData.charactersList)
                 }
             }
         }

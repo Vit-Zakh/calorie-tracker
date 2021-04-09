@@ -1,6 +1,5 @@
 package com.example.calorietracker.graphqltest
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,8 @@ import com.example.calorietracker.databinding.LayoutCharacterItemBinding
 import com.example.calorietracker.graphqltest.models.CharacterModel
 import com.example.calorietracker.utils.loadImageByUrl
 
-class GraphListAdapter(private val loadMore: () -> Unit) :
-    ListAdapter<CharacterModel, GraphListAdapter.CharacterViewHolder>(
+class CharactersListAdapter(private val loadMore: () -> Unit) :
+    ListAdapter<CharacterModel, CharactersListAdapter.CharacterViewHolder>(
         CharacterItemDiffCallback()
     ) {
 
@@ -31,11 +30,8 @@ class GraphListAdapter(private val loadMore: () -> Unit) :
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        Log.d("PAGINATION_TAG", "onBindViewHolder: CREATED! $itemCount")
         holder.bind(getItem(position) as CharacterModel)
-
-        if (position == itemCount - 3) {
-            Log.d("PAGINATION_TAG", "onBindViewHolder: REACHED!")
+        if (position == itemCount - 5) {
             loadMore.invoke()
         }
     }

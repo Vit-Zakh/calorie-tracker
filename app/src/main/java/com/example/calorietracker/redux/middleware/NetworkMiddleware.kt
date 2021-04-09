@@ -154,7 +154,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             }
 
             is FetchMoreCharacters -> {
-                if (store.appState.charactersState.pages != null && store.appState.charactersState.pages!! >= action.page)
+                if (store.appState.charactersState.pages != null && store.appState.charactersState.nextPage != null) {
                     CoroutineScope(Dispatchers.IO).launch {
                         val response = try {
                             apolloClient.query(GetCharactersQuery(Input.optional(action.page)))
@@ -171,6 +171,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                         }
                         store.dispatch(SucceedFetchingMoreCharacters(launch))
                     }
+                }
             }
         }
     }

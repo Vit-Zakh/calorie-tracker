@@ -1,6 +1,5 @@
 package com.example.calorietracker.graphqltest
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +26,6 @@ class CharacterListViewModel @Inject constructor(
 
     class CharacterListFragmentProps(
         val characterData: CharactersListProps,
-
         val loadNextPage: () -> Unit,
     )
 
@@ -38,15 +36,12 @@ class CharacterListViewModel @Inject constructor(
         store.unsubscribe(this)
     }
 
-    fun loadNextPage() {
-        if (store.appState.charactersState.nextPage != null) {
-            store.dispatch(FetchMoreCharacters(store.appState.charactersState.nextPage!!))
-            Log.d("PAGINATION_TAG", "loadNextPage: ${store.appState.charactersState.nextPage}")
-        }
+    private fun loadNextPage() {
+        store.appState.charactersState.nextPage?.let { store.dispatch(FetchMoreCharacters(it)) }
     }
 
     override fun onUpdate(state: AppState) {
-        val _characterList = when {
+        val characterList = when {
             state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
             state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
@@ -57,12 +52,10 @@ class CharacterListViewModel @Inject constructor(
         }
 
         _characterListFragmentProps.postValue(
-            _characterList?.let {
-                CharacterListFragmentProps(
-                    characterData = it,
-                    loadNextPage = ::loadNextPage
-                )
-            }
+            CharacterListFragmentProps(
+                characterData = characterList,
+                loadNextPage = ::loadNextPage
+            )
         )
     }
 }

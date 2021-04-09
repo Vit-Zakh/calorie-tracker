@@ -22,4 +22,14 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/failedListImage"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_failed_list_orange_256"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
