@@ -45,9 +45,12 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
         fragmentBinding?.let {
             it.responseList.layoutManager =
                 LinearLayoutManager(requireContext())
-            charactersListAdapter = CharactersListAdapter {
-                viewModel.characterListFragmentProps.value?.loadNextPage?.invoke()
-            }
+            charactersListAdapter = CharactersListAdapter()
+            it.responseList.addOnScrollListener(
+                EndlessScroller() {
+                    viewModel.characterListFragmentProps.value?.loadNextPage?.invoke()
+                }
+            )
             it.responseList.adapter = charactersListAdapter
         }
     }

@@ -10,7 +10,7 @@ import com.example.calorietracker.databinding.LayoutCharacterItemBinding
 import com.example.calorietracker.graphqltest.models.CharacterModel
 import com.example.calorietracker.utils.loadImageByUrl
 
-class CharactersListAdapter(private val loadMore: () -> Unit) :
+class CharactersListAdapter() :
     ListAdapter<CharacterModel, CharactersListAdapter.CharacterViewHolder>(
         CharacterItemDiffCallback()
     ) {
@@ -31,9 +31,6 @@ class CharactersListAdapter(private val loadMore: () -> Unit) :
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         holder.bind(getItem(position) as CharacterModel)
-        if (position == itemCount - 5) {
-            loadMore.invoke()
-        }
     }
 
     class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,7 +1,7 @@
 package com.example.calorietracker.redux.middleware
 
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Input
+import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.example.calorietracker.GetCharactersQuery
@@ -137,7 +137,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingCharacters())
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = try {
-                        apolloClient.query(GetCharactersQuery(Input.optional(1))).toDeferred()
+                        apolloClient.query(GetCharactersQuery(1.toInput())).toDeferred()
                             .await()
                     } catch (e: ApolloException) {
                         store.dispatch(FailFetchingCharacters())
@@ -157,7 +157,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 if (store.appState.charactersState.pages != null && store.appState.charactersState.nextPage != null) {
                     CoroutineScope(Dispatchers.IO).launch {
                         val response = try {
-                            apolloClient.query(GetCharactersQuery(Input.optional(action.page)))
+                            apolloClient.query(GetCharactersQuery(action.page.toInput()))
                                 .toDeferred().await()
                         } catch (e: ApolloException) {
                             store.dispatch(FailFetchingCharacters())

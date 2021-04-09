@@ -11,9 +11,9 @@ data class CharacterModel(
 
 fun GetCharactersQuery.Result.mapToBusinessModel(): CharacterModel {
     return CharacterModel(
-        name = this.name ?: "unknown",
+        name = this.name ?: "",
         image = this.image,
-        status = this.status ?: "unknown",
-        species = this.species ?: "unknown"
+        status = this.status ?: "",
+        species = this.species ?: ""
     )
 }
