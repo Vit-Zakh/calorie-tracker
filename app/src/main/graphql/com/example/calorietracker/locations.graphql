@@ -1,0 +1,46 @@
+query GetLocationDataWithCreated {
+    locations {
+        results {
+            created
+            ...locationData
+        }
+    }
+}
+
+query GetLocationDataWithType {
+    locations {
+        results {
+            ...locationData
+            type
+        }
+    }
+}
+
+query GetLocationData {
+    locations {
+        results {
+            ...locationData
+        }
+    }
+}
+
+query LocationsQuery {
+    locationsWithCreated: locations {
+        results {
+            ...locationData
+            created
+        }
+    }
+    locationsWithType: locations {
+        results {
+            ...locationData
+            type
+        }
+    }
+}
+
+fragment locationData on Location {
+    id,
+    name,
+    dimension
+}

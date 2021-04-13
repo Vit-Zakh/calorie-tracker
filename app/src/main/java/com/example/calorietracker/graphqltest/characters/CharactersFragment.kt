@@ -1,4 +1,4 @@
-package com.example.calorietracker.graphqltest
+package com.example.calorietracker.graphqltest.characters
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentCharactersListBinding
-import com.example.calorietracker.graphqltest.models.CharactersListProps
+import com.example.calorietracker.graphqltest.EndlessScroller
 import com.example.calorietracker.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +61,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
 
                 it.charactersProgressBar.showIf(fragmentProps.characterData is CharactersListProps.LoadingCharactersList)
                 it.failedListImage.showIf(fragmentProps.characterData is CharactersListProps.FailedCharactersList)
-
+                it.locationsData.setOnClickListener { fragmentProps.navigationActionLocationsList() }
                 if (fragmentProps.characterData is CharactersListProps.LoadedCharactersList) {
                     (it.responseList.adapter as CharactersListAdapter).submitList(fragmentProps.characterData.charactersList)
                 }

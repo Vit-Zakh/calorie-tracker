@@ -1,10 +1,10 @@
-package com.example.calorietracker.graphqltest
+package com.example.calorietracker.graphqltest.characters
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.graphqltest.models.CharactersListProps
-import com.example.calorietracker.graphqltest.models.mapToBusinessModel
+import com.example.calorietracker.modo.Screens
+import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
 import com.example.calorietracker.redux.store.StateChangeListener
@@ -27,6 +27,7 @@ class CharacterListViewModel @Inject constructor(
     class CharacterListFragmentProps(
         val characterData: CharactersListProps,
         val loadNextPage: () -> Unit,
+        val navigationActionLocationsList: () -> Unit
     )
 
     val characterListFragmentProps: LiveData<CharacterListFragmentProps> =
@@ -38,6 +39,10 @@ class CharacterListViewModel @Inject constructor(
 
     private fun loadNextPage() {
         store.appState.charactersState.nextPage?.let { store.dispatch(FetchMoreCharacters(it)) }
+    }
+
+    private fun moveToLocationsList() {
+        store.dispatch(ChangeScreen(Screens.LocationsListScreen()))
     }
 
     override fun onUpdate(state: AppState) {
@@ -54,7 +59,8 @@ class CharacterListViewModel @Inject constructor(
         _characterListFragmentProps.postValue(
             CharacterListFragmentProps(
                 characterData = characterList,
-                loadNextPage = ::loadNextPage
+                loadNextPage = ::loadNextPage,
+                navigationActionLocationsList = ::moveToLocationsList
             )
         )
     }

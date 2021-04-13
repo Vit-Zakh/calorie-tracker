@@ -1,4 +1,4 @@
-package com.example.calorietracker.graphqltest
+package com.example.calorietracker.graphqltest.characters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutCharacterItemBinding
-import com.example.calorietracker.graphqltest.models.CharacterModel
 import com.example.calorietracker.utils.loadImageByUrl
 
 class CharactersListAdapter() :

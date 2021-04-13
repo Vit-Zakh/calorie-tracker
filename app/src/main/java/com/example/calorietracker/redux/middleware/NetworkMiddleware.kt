@@ -5,7 +5,19 @@ import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.exception.ApolloException
 import com.example.calorietracker.GetCharactersQuery
+import com.example.calorietracker.GetLocationDataQuery
+import com.example.calorietracker.GetLocationDataWithCreatedQuery
+import com.example.calorietracker.GetLocationDataWithTypeQuery
 import com.example.calorietracker.graphqltest.*
+import com.example.calorietracker.graphqltest.characters.*
+import com.example.calorietracker.graphqltest.locations.*
+import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
+import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
+import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
+import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
+import com.example.calorietracker.graphqltest.locations.with_created.SucceedFetchingLocationsWithCreated
+import com.example.calorietracker.graphqltest.locations.with_type.FetchLocationsDataWithType
+import com.example.calorietracker.graphqltest.locations.with_type.SucceedFetchingLocationsWithType
 import com.example.calorietracker.models.network.*
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponse
@@ -171,6 +183,66 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                         }
                         store.dispatch(SucceedFetchingMoreCharacters(launch))
                     }
+                }
+            }
+
+            is FetchLocationsData -> {
+                store.dispatch(StartFetchingLocations())
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = try {
+                        apolloClient.query(GetLocationDataQuery())
+                            .toDeferred().await()
+                    } catch (e: ApolloException) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+
+                    val launch = response.data?.locations
+                    if (launch == null || response.hasErrors()) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+                    store.dispatch(SucceedFetchingLocations(launch))
+                }
+            }
+
+            is FetchLocationsDataWithType -> {
+                store.dispatch(StartFetchingLocations())
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = try {
+                        apolloClient.query(GetLocationDataWithTypeQuery())
+                            .toDeferred().await()
+                    } catch (e: ApolloException) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+
+                    val launch = response.data?.locations
+                    if (launch == null || response.hasErrors()) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+                    store.dispatch(SucceedFetchingLocationsWithType(launch))
+                }
+            }
+
+            is FetchLocationsDataWithCreated -> {
+                store.dispatch(StartFetchingLocations())
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = try {
+                        apolloClient.query(GetLocationDataWithCreatedQuery())
+                            .toDeferred().await()
+                    } catch (e: ApolloException) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+
+                    val launch = response.data?.locations
+                    if (launch == null || response.hasErrors()) {
+                        store.dispatch(FailFetchingCharacters())
+                        return@launch
+                    }
+                    store.dispatch(SucceedFetchingLocationsWithCreated(launch))
                 }
             }
         }

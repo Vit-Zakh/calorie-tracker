@@ -7,7 +7,10 @@ data class AppState(
     val userState: UserState = UserState(),
     val foodsState: FoodsState = FoodsState(),
     val foodDialogState: FoodDialogState = FoodDialogState(),
-    val charactersState: CharactersState = CharactersState()
+    val charactersState: CharactersState = CharactersState(),
+    val locationsState: LocationsState = LocationsState(),
+    val locationsWithTypeState: LocationsWithTypeState = LocationsWithTypeState(),
+    val locationsWithCreatedStateState: LocationsWithCreatedState = LocationsWithCreatedState()
 ) {
 
     fun reduce(action: ReduxAction): AppState {
@@ -16,7 +19,10 @@ data class AppState(
             userState = userState.reduce(action),
             foodsState = foodsState.reduce(action),
             foodDialogState = foodDialogState.reduce(action),
-            charactersState = charactersState.reduce(action)
+            charactersState = charactersState.reduce(action),
+            locationsState = locationsState.reduce(action),
+            locationsWithTypeState = locationsWithTypeState.reduce(action),
+            locationsWithCreatedStateState = locationsWithCreatedStateState.reduce(action)
         )
     }
 }

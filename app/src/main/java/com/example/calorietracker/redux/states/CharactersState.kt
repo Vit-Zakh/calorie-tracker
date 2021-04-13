@@ -1,10 +1,10 @@
 package com.example.calorietracker.redux.states
 
 import com.example.calorietracker.GetCharactersQuery
-import com.example.calorietracker.graphqltest.FailFetchingCharacters
-import com.example.calorietracker.graphqltest.StartFetchingCharacters
-import com.example.calorietracker.graphqltest.SucceedFetchingCharacters
-import com.example.calorietracker.graphqltest.SucceedFetchingMoreCharacters
+import com.example.calorietracker.graphqltest.characters.FailFetchingCharacters
+import com.example.calorietracker.graphqltest.characters.StartFetchingCharacters
+import com.example.calorietracker.graphqltest.characters.SucceedFetchingCharacters
+import com.example.calorietracker.graphqltest.characters.SucceedFetchingMoreCharacters
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class CharactersState(

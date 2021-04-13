@@ -1,7 +1,6 @@
-package com.example.calorietracker.graphqltest
+package com.example.calorietracker.graphqltest.characters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.calorietracker.graphqltest.models.CharacterModel
 
 class CharacterItemDiffCallback : DiffUtil.ItemCallback<CharacterModel>() {
 

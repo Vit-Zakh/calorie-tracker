@@ -1,4 +1,4 @@
-package com.example.calorietracker.graphqltest.models
+package com.example.calorietracker.graphqltest.characters
 
 sealed class CharactersListProps {
 
