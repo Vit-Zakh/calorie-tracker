@@ -172,10 +172,16 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is FetchLocationsDataWithType -> {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
-                    when (val response = networkService.fetchLocationsWithTypeData()) {
+//                    when (val response = networkService.fetchLocationsWithTypeData()) {
+//                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
+//                        is QueryHandler.ApolloResult.Success -> store.dispatch(
+//                            SucceedFetchingLocationsWithType(response.data.locations)
+//                        )
+//                    }
+                    when (val response = networkService.fetchJointLocationsData()) {
                         is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithType(response.data.locations)
+                            SucceedFetchingLocationsWithType(response.data.locationsWithType)
                         )
                     }
                 }
@@ -184,10 +190,16 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is FetchLocationsDataWithCreated -> {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
-                    when (val response = networkService.fetchLocationsWithCreatedData()) {
+//                    when (val response = networkService.fetchLocationsWithCreatedData()) {
+//                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
+//                        is QueryHandler.ApolloResult.Success -> store.dispatch(
+//                            SucceedFetchingLocationsWithCreated(response.data.locations)
+//                        )
+//                    }
+                    when (val response = networkService.fetchJointLocationsData()) {
                         is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithCreated(response.data.locations)
+                            SucceedFetchingLocationsWithCreated(response.data.locationsWithCreated)
                         )
                     }
                 }

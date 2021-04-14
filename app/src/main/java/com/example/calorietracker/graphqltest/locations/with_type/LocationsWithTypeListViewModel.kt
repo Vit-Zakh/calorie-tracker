@@ -48,9 +48,10 @@ class LocationsWithTypeListViewModel @Inject constructor(
 //            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 LocationsListProps.LoadedList(
-                    locationsList = state.locationsWithTypeState.locationsList?.map {
-                        it?.mapToBusinessModel()
-                    }
+//                    locationsList = state.locationsWithTypeState.locationsList?.map {
+//                        it?.mapToBusinessModel()
+//                    }
+                    locationsList = state.locationsWithTypeState.locationsList?.mapToBusinessModel()
                 )
             }
         }

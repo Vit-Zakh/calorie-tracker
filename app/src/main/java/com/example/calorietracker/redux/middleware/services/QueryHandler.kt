@@ -1,9 +1,6 @@
 package com.example.calorietracker.redux.middleware.services
 
-import com.example.calorietracker.GetCharactersQuery
-import com.example.calorietracker.GetLocationDataQuery
-import com.example.calorietracker.GetLocationDataWithCreatedQuery
-import com.example.calorietracker.GetLocationDataWithTypeQuery
+import com.example.calorietracker.*
 
 interface QueryHandler {
 
@@ -19,4 +16,6 @@ interface QueryHandler {
     suspend fun fetchLocationsWithTypeData(): ApolloResult<GetLocationDataWithTypeQuery.Data>
 
     suspend fun fetchLocationsWithCreatedData(): ApolloResult<GetLocationDataWithCreatedQuery.Data>
+
+    suspend fun fetchJointLocationsData(): ApolloResult<JointLocationsQuery.Data>
 }

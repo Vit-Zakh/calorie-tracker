@@ -24,7 +24,7 @@ query GetLocationData {
     }
 }
 
-query LocationsQuery {
+query JointLocationsQuery {
     locationsWithCreated: locations {
         results {
             ...locationData
