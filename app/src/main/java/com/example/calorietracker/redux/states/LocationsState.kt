@@ -1,12 +1,12 @@
 package com.example.calorietracker.redux.states
 
-import com.example.calorietracker.GetLocationDataQuery
 import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
 import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
+import com.example.calorietracker.graphqltest.locations.models.LocationModel
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class LocationsState(
-    val locationsList: List<GetLocationDataQuery.Result?>? = null,
+    val locationsList: List<LocationModel> = emptyList(),
     val isLoading: Boolean = false,
     val isFailed: Boolean = false,
 ) {
@@ -15,7 +15,7 @@ data class LocationsState(
         return when (action) {
             is StartFetchingLocations -> this.copy(isLoading = true)
             is SucceedFetchingLocations -> this.copy(
-                locationsList = action.data?.results,
+                locationsList = action.data,
                 isLoading = false,
                 isFailed = false,
             )

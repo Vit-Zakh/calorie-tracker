@@ -1,30 +1,10 @@
-query GetLocationDataWithCreated {
-    locations {
-        results {
-            created
-            ...locationData
-        }
-    }
-}
-
-query GetLocationDataWithType {
-    locations {
-        results {
-            ...locationData
-            type
-        }
-    }
-}
-
-query GetLocationData {
-    locations {
-        results {
-            ...locationData
-        }
-    }
-}
-
 query JointLocationsQuery {
+    rawLocations: locations {
+        results{
+            ...locationData
+        }
+    }
+
     locationsWithCreated: locations {
         results {
             ...locationData

@@ -1,13 +1,14 @@
 package com.example.calorietracker.redux.states
 
-import com.example.calorietracker.JointLocationsQuery
 import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
+import com.example.calorietracker.graphqltest.locations.models.LocationModel
 import com.example.calorietracker.graphqltest.locations.with_type.SucceedFetchingLocationsWithType
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class LocationsWithTypeState(
 //    val locationsList: List<GetLocationDataWithTypeQuery.Result?>? = null,
-    val locationsList: JointLocationsQuery.LocationsWithType? = null,
+//    val locationsList: JointLocationsQuery.LocationsWithType? = null,
+    val locationsList: List<LocationModel> = emptyList(),
     val isLoading: Boolean = false,
     val isFailed: Boolean = false,
 ) {

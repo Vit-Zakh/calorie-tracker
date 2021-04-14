@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutLocationItemBinding
+import com.example.calorietracker.graphqltest.locations.models.LocationModel
 
 class LocationsListAdapter() :
     ListAdapter<LocationModel, LocationsListAdapter.LocationViewHolder>(

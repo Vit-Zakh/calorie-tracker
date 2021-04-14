@@ -1,6 +1,7 @@
 package com.example.calorietracker.graphqltest.locations.basic
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.calorietracker.graphqltest.locations.models.LocationModel
 
 class LocationItemDiffCallback : DiffUtil.ItemCallback<LocationModel>() {
 

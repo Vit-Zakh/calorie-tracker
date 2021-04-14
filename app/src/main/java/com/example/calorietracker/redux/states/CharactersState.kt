@@ -8,7 +8,7 @@ import com.example.calorietracker.graphqltest.characters.SucceedFetchingMoreChar
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class CharactersState(
-    val charactersList: List<GetCharactersQuery.Result?>? = null,
+    val charactersList: List<GetCharactersQuery.Result?> = listOf(),
     val isLoading: Boolean = false,
     val isFailed: Boolean = false,
     val pages: Int? = null,
@@ -21,16 +21,19 @@ data class CharactersState(
             is FailFetchingCharacters -> this.copy(isFailed = true, isLoading = false)
             is SucceedFetchingCharacters -> this.copy(
 
-                charactersList = action.data?.results,
+                charactersList = action.data?.results ?: emptyList(),
                 isLoading = false,
                 isFailed = false,
                 pages = action.data?.info?.pages,
                 nextPage = action.data?.info?.next
             )
-            is SucceedFetchingMoreCharacters -> this.copy(
-                charactersList = if (charactersList == null) action.data?.results else charactersList + action.data?.results!!,
-                nextPage = action.data?.info?.next
-            )
+            is SucceedFetchingMoreCharacters -> {
+                val list = action.data?.results ?: emptyList()
+                this.copy(
+                    charactersList = if (charactersList.isEmpty()) list else charactersList + list,
+                    nextPage = action.data?.info?.next
+                )
+            }
             else -> this
         }
     }

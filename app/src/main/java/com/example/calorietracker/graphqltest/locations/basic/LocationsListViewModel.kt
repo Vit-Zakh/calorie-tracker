@@ -46,9 +46,7 @@ class LocationsListViewModel @Inject constructor(
 //            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 LocationsListProps.LoadedList(
-                    locationsList = state.locationsState.locationsList?.map {
-                        it?.mapToBusinessModel()
-                    }
+                    locationsList = state.locationsState.locationsList
                 )
             }
         }

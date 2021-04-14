@@ -5,6 +5,7 @@ import com.example.calorietracker.graphqltest.locations.basic.FailFetchingLocati
 import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
 import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
 import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
+import com.example.calorietracker.graphqltest.locations.models.mapToBusinessModel
 import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
 import com.example.calorietracker.graphqltest.locations.with_created.SucceedFetchingLocationsWithCreated
 import com.example.calorietracker.graphqltest.locations.with_type.FetchLocationsDataWithType
@@ -160,10 +161,10 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is FetchLocationsData -> {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
-                    when (val response = networkService.fetchLocationsData()) {
+                    when (val response = networkService.fetchJointLocationsData()) {
                         is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocations(response.data.locations)
+                            SucceedFetchingLocations(response.data.rawLocations!!.mapToBusinessModel())
                         )
                     }
                 }
@@ -172,16 +173,10 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is FetchLocationsDataWithType -> {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
-//                    when (val response = networkService.fetchLocationsWithTypeData()) {
-//                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
-//                        is QueryHandler.ApolloResult.Success -> store.dispatch(
-//                            SucceedFetchingLocationsWithType(response.data.locations)
-//                        )
-//                    }
                     when (val response = networkService.fetchJointLocationsData()) {
                         is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithType(response.data.locationsWithType)
+                            SucceedFetchingLocationsWithType(response.data.locationsWithType!!.mapToBusinessModel())
                         )
                     }
                 }
@@ -190,16 +185,10 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             is FetchLocationsDataWithCreated -> {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
-//                    when (val response = networkService.fetchLocationsWithCreatedData()) {
-//                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
-//                        is QueryHandler.ApolloResult.Success -> store.dispatch(
-//                            SucceedFetchingLocationsWithCreated(response.data.locations)
-//                        )
-//                    }
                     when (val response = networkService.fetchJointLocationsData()) {
                         is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithCreated(response.data.locationsWithCreated)
+                            SucceedFetchingLocationsWithCreated(response.data.locationsWithCreated!!.mapToBusinessModel())
                         )
                     }
                 }

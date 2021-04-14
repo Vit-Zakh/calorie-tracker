@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.graphqltest.locations.basic.LocationsListProps
-import com.example.calorietracker.graphqltest.locations.basic.mapToBusinessModel
 import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
@@ -44,14 +43,9 @@ class LocationsWithCreatedListViewModel @Inject constructor(
 
     override fun onUpdate(state: AppState) {
         val locationList = when {
-//            state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
-//            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 LocationsListProps.LoadedList(
-//                    locationsList = state.locationsWithCreatedStateState.locationsList?.map {
-//                        it?.mapToBusinessModel()
-//                    }
-                    locationsList = state.locationsWithCreatedStateState.locationsList?.mapToBusinessModel()
+                    locationsList = state.locationsWithCreatedStateState.locationsList
                 )
             }
         }
