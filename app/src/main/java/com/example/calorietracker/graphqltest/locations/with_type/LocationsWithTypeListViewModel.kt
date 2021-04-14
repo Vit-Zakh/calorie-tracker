@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.calorietracker.graphqltest.locations.basic.LocationsListProps
+import com.example.calorietracker.graphqltest.locations.models.mapToUiModel
 import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
@@ -47,7 +48,7 @@ class LocationsWithTypeListViewModel @Inject constructor(
 //            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 LocationsListProps.LoadedList(
-                    locationsList = state.locationsWithTypeState.locationsList
+                    locationsList = state.locationsWithTypeState.locationsList.map { it.mapToUiModel() }
                 )
             }
         }

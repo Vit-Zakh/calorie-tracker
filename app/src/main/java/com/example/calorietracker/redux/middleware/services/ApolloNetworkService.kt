@@ -6,6 +6,7 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.coroutines.toDeferred
+import com.example.calorietracker.redux.middleware.services.QueryHandler.ApolloResult
 
 class ApolloNetworkService() {
 
@@ -13,17 +14,17 @@ class ApolloNetworkService() {
         .serverUrl("https://rickandmortyapi.com/graphql")
         .build()
 
-    suspend fun <D : Operation.Data, T, V : Operation.Variables> query(query: Query<D, T, V>): QueryHandler.ApolloResult<T> {
+    suspend fun <D : Operation.Data, T, V : Operation.Variables> query(query: Query<D, T, V>): ApolloResult<T> {
         return processResponse(apolloClient.query(query).toDeferred().await())
     }
 
-    private fun <T> processResponse(response: Response<T>): QueryHandler.ApolloResult<T> {
+    private fun <T> processResponse(response: Response<T>): ApolloResult<T> {
         val data: T? = response.data
         val errors = response.errors
         return when {
-            data != null && errors.isNullOrEmpty() -> QueryHandler.ApolloResult.Success(data)
-            !errors.isNullOrEmpty() -> QueryHandler.ApolloResult.Error(errors.first())
-            else -> QueryHandler.ApolloResult.Error(Error("Whoops! Unknown error!"))
+            data != null && errors.isNullOrEmpty() -> ApolloResult.Success(data)
+            !errors.isNullOrEmpty() -> ApolloResult.Error(errors.first())
+            else -> ApolloResult.Error(Error("Whoops! Unknown error!"))
         }
     }
 }

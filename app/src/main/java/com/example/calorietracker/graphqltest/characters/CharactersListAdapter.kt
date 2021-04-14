@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutCharacterItemBinding
+import com.example.calorietracker.graphqltest.characters.models.CharacterProps
 import com.example.calorietracker.utils.loadImageByUrl
 
 class CharactersListAdapter() :
-    ListAdapter<CharacterModel, CharactersListAdapter.CharacterViewHolder>(
+    ListAdapter<CharacterProps, CharactersListAdapter.CharacterViewHolder>(
         CharacterItemDiffCallback()
     ) {
 
@@ -29,14 +30,14 @@ class CharactersListAdapter() :
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(getItem(position) as CharacterModel)
+        holder.bind(getItem(position) as CharacterProps)
     }
 
     class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val characterBinding = LayoutCharacterItemBinding.bind(itemView)
 
-        fun bind(character: CharacterModel) {
+        fun bind(character: CharacterProps) {
             characterBinding.characterName.text = character.name
             characterBinding.characterStatus.text = character.status
             characterBinding.characterImage.loadImageByUrl(character.image)

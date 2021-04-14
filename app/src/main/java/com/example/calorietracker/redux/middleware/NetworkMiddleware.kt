@@ -1,6 +1,7 @@
 package com.example.calorietracker.redux.middleware
 
 import com.example.calorietracker.graphqltest.characters.*
+import com.example.calorietracker.graphqltest.characters.models.mapToBusinessModel
 import com.example.calorietracker.graphqltest.locations.basic.FailFetchingLocations
 import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
 import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
@@ -16,7 +17,7 @@ import com.example.calorietracker.network.NetworkResponse
 import com.example.calorietracker.network.NetworkResponseAdapterFactory
 import com.example.calorietracker.redux.actions.*
 import com.example.calorietracker.redux.middleware.services.NetworkService
-import com.example.calorietracker.redux.middleware.services.QueryHandler
+import com.example.calorietracker.redux.middleware.services.QueryHandler.ApolloResult
 import com.example.calorietracker.redux.store.AppStore
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -141,8 +142,14 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingCharacters())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchCharactersData(1)) {
-                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingCharacters())
-                        is QueryHandler.ApolloResult.Success -> store.dispatch(SucceedFetchingCharacters(response.data.characters))
+                        is ApolloResult.Error -> store.dispatch(FailFetchingCharacters())
+                        is ApolloResult.Success -> store.dispatch(
+                            SucceedFetchingCharacters(
+                                data = response.data.characters!!.mapToBusinessModel(),
+                                pages = response.data.characters.info?.pages,
+                                next = response.data.characters.info?.next
+                            )
+                        )
                     }
                 }
             }
@@ -151,8 +158,15 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 if (store.appState.charactersState.pages != null && store.appState.charactersState.nextPage != null) {
                     CoroutineScope(Dispatchers.IO).launch {
                         when (val response = networkService.fetchCharactersData(action.page)) {
-                            is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingCharacters())
-                            is QueryHandler.ApolloResult.Success -> store.dispatch(SucceedFetchingMoreCharacters(response.data.characters))
+                            is ApolloResult.Error -> store.dispatch(
+                                FailFetchingCharacters()
+                            )
+                            is ApolloResult.Success -> store.dispatch(
+                                SucceedFetchingMoreCharacters(
+                                    data = response.data.characters!!.mapToBusinessModel(),
+                                    next = response.data.characters.info?.next
+                                )
+                            )
                         }
                     }
                 }
@@ -162,9 +176,11 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
-                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
-                        is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocations(response.data.rawLocations!!.mapToBusinessModel())
+                        is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
+                        is ApolloResult.Success -> store.dispatch(
+                            if (response.data.rawLocations != null) SucceedFetchingLocations(
+                                response.data.rawLocations.mapToBusinessModel()
+                            ) else FailFetchingLocations()
                         )
                     }
                 }
@@ -174,9 +190,11 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
-                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
-                        is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithType(response.data.locationsWithType!!.mapToBusinessModel())
+                        is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
+                        is ApolloResult.Success -> store.dispatch(
+                            if (response.data.locationsWithType != null) SucceedFetchingLocationsWithType(
+                                response.data.locationsWithType.mapToBusinessModel()
+                            ) else FailFetchingLocations()
                         )
                     }
                 }
@@ -186,9 +204,11 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                 store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
-                        is QueryHandler.ApolloResult.Error -> store.dispatch(FailFetchingLocations())
-                        is QueryHandler.ApolloResult.Success -> store.dispatch(
-                            SucceedFetchingLocationsWithCreated(response.data.locationsWithCreated!!.mapToBusinessModel())
+                        is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
+                        is ApolloResult.Success -> store.dispatch(
+                            if (response.data.locationsWithCreated != null) SucceedFetchingLocationsWithCreated(
+                                response.data.locationsWithCreated.mapToBusinessModel()
+                            ) else FailFetchingLocations()
                         )
                     }
                 }

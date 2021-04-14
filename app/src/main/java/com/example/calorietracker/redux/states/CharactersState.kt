@@ -1,14 +1,14 @@
 package com.example.calorietracker.redux.states
 
-import com.example.calorietracker.GetCharactersQuery
 import com.example.calorietracker.graphqltest.characters.FailFetchingCharacters
 import com.example.calorietracker.graphqltest.characters.StartFetchingCharacters
 import com.example.calorietracker.graphqltest.characters.SucceedFetchingCharacters
 import com.example.calorietracker.graphqltest.characters.SucceedFetchingMoreCharacters
+import com.example.calorietracker.graphqltest.characters.models.CharacterModel
 import com.example.calorietracker.redux.actions.ReduxAction
 
 data class CharactersState(
-    val charactersList: List<GetCharactersQuery.Result?> = listOf(),
+    val charactersList: List<CharacterModel> = emptyList(),
     val isLoading: Boolean = false,
     val isFailed: Boolean = false,
     val pages: Int? = null,
@@ -21,17 +21,17 @@ data class CharactersState(
             is FailFetchingCharacters -> this.copy(isFailed = true, isLoading = false)
             is SucceedFetchingCharacters -> this.copy(
 
-                charactersList = action.data?.results ?: emptyList(),
+                charactersList = action.data,
                 isLoading = false,
                 isFailed = false,
-                pages = action.data?.info?.pages,
-                nextPage = action.data?.info?.next
+                pages = action.pages,
+                nextPage = action.next
             )
             is SucceedFetchingMoreCharacters -> {
-                val list = action.data?.results ?: emptyList()
+                val fetchedList = action.data
                 this.copy(
-                    charactersList = if (charactersList.isEmpty()) list else charactersList + list,
-                    nextPage = action.data?.info?.next
+                    charactersList = if (charactersList.isEmpty()) fetchedList else charactersList + fetchedList,
+                    nextPage = action.next
                 )
             }
             else -> this

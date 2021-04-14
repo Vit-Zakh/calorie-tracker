@@ -3,6 +3,7 @@ package com.example.calorietracker.graphqltest.characters
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.calorietracker.graphqltest.characters.models.mapToUiModel
 import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
@@ -51,7 +52,7 @@ class CharacterListViewModel @Inject constructor(
             state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 CharactersListProps.LoadedCharactersList(
-                    charactersList = state.charactersState.charactersList?.map { it?.mapToBusinessModel() }
+                    charactersList = state.charactersState.charactersList.map { it.mapToUiModel() }
                 )
             }
         }

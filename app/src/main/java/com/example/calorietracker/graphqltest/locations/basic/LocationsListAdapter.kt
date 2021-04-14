@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.LayoutLocationItemBinding
-import com.example.calorietracker.graphqltest.locations.models.LocationModel
+import com.example.calorietracker.graphqltest.locations.models.LocationProps
 
 class LocationsListAdapter() :
-    ListAdapter<LocationModel, LocationsListAdapter.LocationViewHolder>(
+    ListAdapter<LocationProps, LocationsListAdapter.LocationViewHolder>(
         LocationItemDiffCallback()
     ) {
 
@@ -30,14 +30,14 @@ class LocationsListAdapter() :
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
-        holder.bind(getItem(position) as LocationModel)
+        holder.bind(getItem(position) as LocationProps)
     }
 
     class LocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val locationBinding = LayoutLocationItemBinding.bind(itemView)
 
-        fun bind(location: LocationModel) {
+        fun bind(location: LocationProps) {
             location.let {
                 locationBinding.textId.text = it.id
                 locationBinding.textName.text = it.name
