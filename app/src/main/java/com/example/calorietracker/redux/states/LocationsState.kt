@@ -15,7 +15,7 @@ data class LocationsState(
         return when (action) {
             is StartFetchingLocations -> this.copy(isLoading = true)
             is SucceedFetchingLocations -> this.copy(
-                locationsList = action.data.results,
+                locationsList = action.data?.results,
                 isLoading = false,
                 isFailed = false,
             )

@@ -15,7 +15,7 @@ data class LocationsWithTypeState(
         return when (action) {
             is StartFetchingLocations -> this.copy(isLoading = true)
             is SucceedFetchingLocationsWithType -> this.copy(
-                locationsList = action.data.results,
+                locationsList = action.data?.results,
                 isLoading = false,
                 isFailed = false,
             )

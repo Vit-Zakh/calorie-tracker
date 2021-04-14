@@ -21,15 +21,15 @@ data class CharactersState(
             is FailFetchingCharacters -> this.copy(isFailed = true, isLoading = false)
             is SucceedFetchingCharacters -> this.copy(
 
-                charactersList = action.data.results,
+                charactersList = action.data?.results,
                 isLoading = false,
                 isFailed = false,
-                pages = action.data.info?.pages,
-                nextPage = action.data.info?.next
+                pages = action.data?.info?.pages,
+                nextPage = action.data?.info?.next
             )
             is SucceedFetchingMoreCharacters -> this.copy(
-                charactersList = if (charactersList == null) action.data.results else charactersList + action.data.results!!,
-                nextPage = action.data.info?.next
+                charactersList = if (charactersList == null) action.data?.results else charactersList + action.data?.results!!,
+                nextPage = action.data?.info?.next
             )
             else -> this
         }
