@@ -63,6 +63,12 @@
                 android:layout_height="wrap_content"
                 android:text="-" />
 
+            <Button
+                android:id="@+id/apiTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="api" />
+
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dailyIntakeFragment">
+    app:startDestination="@id/foodListFragment">
     <fragment
         android:id="@+id/dailyIntakeFragment"
         android:name="com.example.calorietracker.dailyintake.DailyIntakeFragment"

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
@@ -14,6 +13,7 @@ import com.example.calorietracker.databinding.FragmentDailyIntakeBinding
 import com.example.calorietracker.models.ui.DailyIntakeProps
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_daily_intake.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -37,27 +37,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
         fragmentBinding = binding
         initRecyclerView()
 
-        /** Test buttons block */
-
-        binding.addMeal.setOnClickListener {
-            viewModel.addMeal(
-
-                DailyIntakeProps.MealProps(
-                    Random.nextInt(20, 1998).toString(),
-                    "Popcorn",
-                    "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-                    490f,
-                    213f
-                )
-            )
-        }
-
-        binding.removeMeal.setOnClickListener {
-            viewModel.removeMeal(3)
-        }
-
-        /** End of test buttons block */
-
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.intakeNavigationView)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
@@ -75,11 +54,6 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             true
         }
-
-        binding.floatingActionButton.setOnClickListener {
-            openFoodList()
-        }
-
         return binding.root
     }
 
@@ -91,8 +65,31 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     }
 
     private fun subscribeObservers() {
-        viewModel.dailyLiveData.observe(viewLifecycleOwner) {
-            refreshIntakeList(it.toList())
+        viewModel.dailyFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
+            refreshIntakeList(fragmentProps.list)
+
+            fragmentBinding?.let {
+                addMeal.setOnClickListener {
+                    fragmentProps.addAction(
+                        DailyIntakeProps.MealProps(
+                            Random.nextInt(20, 1998).toString(),
+                            "Popcorn",
+                            "https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+                            490f,
+                            213f
+                        )
+                    )
+                }
+                removeMeal.setOnClickListener {
+                    fragmentProps.removeAction()
+                }
+                floatingActionButton.setOnClickListener {
+                    fragmentProps.navigationActionFoodList()
+                }
+                apiTest.setOnClickListener {
+                    fragmentProps.navigationActionCharactersList()
+                }
+            }
         }
     }
 
@@ -106,11 +103,5 @@ class DailyIntakeFragment : Fragment(R.layout.fragment_daily_intake) {
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
-    }
-
-    private fun openFoodList() {
-        findNavController().navigate(
-            DailyIntakeFragmentDirections.actionDailyIntakeFragmentToFoodListFragment()
-        )
     }
 }

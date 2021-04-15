@@ -10,18 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.example.calorietracker.databinding.DialogAddMealBinding
-import com.example.calorietracker.models.ui.FoodProps
 import com.example.calorietracker.models.ui.mapToMeal
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_add_meal.*
 
 @AndroidEntryPoint
 class AddMealDialog : DialogFragment() {
 
     private var addMealBinding: DialogAddMealBinding? = null
-    private val args: AddMealDialogArgs by navArgs()
     private val viewModel: FoodListViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -29,10 +25,25 @@ class AddMealDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val binding = DialogAddMealBinding.inflate(inflater, container, false)
         addMealBinding = binding
-        binding.food = args.Food
-        binding.dialog = this
+        viewModel.foodListFragmentProps.observe(viewLifecycleOwner) { props ->
+            binding.food = props.foodInDialog
+            binding.addMealDialogAction.setOnClickListener {
+                if (TextUtils.isEmpty(binding.mealWeightDialog.text)) {
+                    Toast.makeText(context, "Dish size cannot be empty", Toast.LENGTH_SHORT).show()
+                } else {
+                    props.addMealDialogAction(
+                        props.foodInDialog.mapToMeal(
+                            weight = binding.mealWeightDialog.text.toString().toFloat()
+                        ),
+                        this
+                    )
+                }
+            }
+            binding.cancelDialogAction.setOnClickListener { props.dismissDialogAction(this) }
+        }
         return binding.root
     }
 
@@ -42,17 +53,6 @@ class AddMealDialog : DialogFragment() {
             val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
             it.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             it.setBackgroundDrawable(ColorDrawable(TRANSPARENT))
-        }
-    }
-
-    fun addMealToList(food: FoodProps) {
-        if (TextUtils.isEmpty(this.mealWeightDialog.text)) {
-            Toast.makeText(context, "Dish size cannot be empty", Toast.LENGTH_SHORT).show()
-        } else {
-            viewModel.addMealToList(
-                food.mapToMeal(weight = this.mealWeightDialog.text.toString().toFloat())
-            )
-            dismiss()
         }
     }
 }

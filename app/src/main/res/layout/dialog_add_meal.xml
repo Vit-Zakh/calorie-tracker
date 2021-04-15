@@ -10,9 +10,6 @@
             name="food"
             type="com.example.calorietracker.models.ui.FoodProps" />
 
-        <variable
-            name="dialog"
-            type="com.example.calorietracker.foodlist.AddMealDialog" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -97,7 +94,6 @@
                 android:id="@+id/cancelDialogAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> dialog.dismiss()}"
                 android:paddingBottom="8dp"
                 android:text="@string/cancel_button"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +107,6 @@
                 android:id="@+id/addMealDialogAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->dialog.addMealToList(food)}"
                 android:text="@string/add_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
