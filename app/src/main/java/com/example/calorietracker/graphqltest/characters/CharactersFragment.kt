@@ -58,7 +58,6 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
     private fun subscribeObservers() {
         viewModel.characterListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
-
                 it.charactersProgressBar.showIf(fragmentProps.characterData is CharactersListProps.LoadingCharactersList)
                 it.failedListImage.showIf(fragmentProps.characterData is CharactersListProps.FailedCharactersList)
                 it.locationsData.setOnClickListener { fragmentProps.navigationActionLocationsList() }

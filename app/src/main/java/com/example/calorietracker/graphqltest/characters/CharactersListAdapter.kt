@@ -14,7 +14,6 @@ class CharactersListAdapter() :
     ListAdapter<CharacterProps, CharactersListAdapter.CharacterViewHolder>(
         CharacterItemDiffCallback()
     ) {
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

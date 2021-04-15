@@ -145,9 +145,9 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                         is ApolloResult.Error -> store.dispatch(FailFetchingCharacters())
                         is ApolloResult.Success -> store.dispatch(
                             SucceedFetchingCharacters(
-                                data = response.data.characters!!.mapToBusinessModel(),
-                                pages = response.data.characters.info?.pages,
-                                next = response.data.characters.info?.next
+                                data = response.data.characters.mapToBusinessModel(),
+                                pages = response.data.characters?.info?.pages,
+                                next = response.data.characters?.info?.next
                             )
                         )
                     }
@@ -163,8 +163,8 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                             )
                             is ApolloResult.Success -> store.dispatch(
                                 SucceedFetchingMoreCharacters(
-                                    data = response.data.characters!!.mapToBusinessModel(),
-                                    next = response.data.characters.info?.next
+                                    data = response.data.characters.mapToBusinessModel(),
+                                    next = response.data.characters?.info?.next
                                 )
                             )
                         }
@@ -178,9 +178,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is ApolloResult.Success -> store.dispatch(
-                            if (response.data.rawLocations != null) SucceedFetchingLocations(
-                                response.data.rawLocations.mapToBusinessModel()
-                            ) else FailFetchingLocations()
+                            SucceedFetchingLocations(response.data.rawLocations.mapToBusinessModel())
                         )
                     }
                 }
@@ -192,9 +190,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is ApolloResult.Success -> store.dispatch(
-                            if (response.data.locationsWithType != null) SucceedFetchingLocationsWithType(
-                                response.data.locationsWithType.mapToBusinessModel()
-                            ) else FailFetchingLocations()
+                            SucceedFetchingLocationsWithType(response.data.locationsWithType.mapToBusinessModel())
                         )
                     }
                 }
@@ -206,9 +202,7 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
                         is ApolloResult.Success -> store.dispatch(
-                            if (response.data.locationsWithCreated != null) SucceedFetchingLocationsWithCreated(
-                                response.data.locationsWithCreated.mapToBusinessModel()
-                            ) else FailFetchingLocations()
+                            SucceedFetchingLocationsWithCreated(response.data.locationsWithCreated.mapToBusinessModel())
                         )
                     }
                 }

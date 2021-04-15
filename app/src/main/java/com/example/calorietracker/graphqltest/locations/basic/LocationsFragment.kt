@@ -52,13 +52,10 @@ class LocationsFragment : Fragment(R.layout.fragment_locations_list) {
     private fun subscribeObservers() {
         viewModel.locationListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
-
                 it.locationsProgressBar.showIf(fragmentProps.locationData is LocationsListProps.LoadingList)
                 it.failedListImage.showIf(fragmentProps.locationData is LocationsListProps.FailedList)
-
                 it.locationsData.text = "Basic Locations"
                 it.locationsData.setOnClickListener { fragmentProps.navigationActionLocationsList() }
-
                 if (fragmentProps.locationData is LocationsListProps.LoadedList) {
                     (it.responseList.adapter as LocationsListAdapter).submitList(fragmentProps.locationData.locationsList)
                 }

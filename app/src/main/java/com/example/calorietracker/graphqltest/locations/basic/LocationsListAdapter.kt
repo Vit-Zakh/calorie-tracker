@@ -14,7 +14,6 @@ class LocationsListAdapter() :
     ListAdapter<LocationProps, LocationsListAdapter.LocationViewHolder>(
         LocationItemDiffCallback()
     ) {
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -42,8 +41,10 @@ class LocationsListAdapter() :
                 locationBinding.textId.text = it.id
                 locationBinding.textName.text = it.name
                 locationBinding.textDimension.text = it.dimension
-                if (it.created != null) locationBinding.textCreated.text = it.created else locationBinding.textCreated.visibility = GONE
-                if (it.type != null) locationBinding.textType.text = it.type else locationBinding.textType.visibility = GONE
+                if (it.created != null) locationBinding.textCreated.text =
+                    it.created else locationBinding.textCreated.visibility = GONE
+                if (it.type != null) locationBinding.textType.text =
+                    it.type else locationBinding.textType.visibility = GONE
             }
         }
     }
