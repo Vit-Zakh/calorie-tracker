@@ -8,12 +8,10 @@ data class LocationProps(
     val type: String? = null
 )
 
-fun LocationModel.mapToUiModel(): LocationProps {
-    return LocationProps(
-        id = this.id,
-        name = this.name,
-        dimension = this.dimension,
-        created = this.created,
-        type = this.type
-    )
-}
+fun LocationModel.mapToUiModel() = LocationProps(
+    id = this.id,
+    name = this.name,
+    dimension = this.dimension,
+    created = this.created,
+    type = this.type
+)

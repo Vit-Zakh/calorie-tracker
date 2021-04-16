@@ -37,7 +37,7 @@ class LocationsListViewModel @Inject constructor(
         store.unsubscribe(this)
     }
 
-    private fun moveToLocationsList() {
+    private fun openLocationsList() {
         store.dispatch(ChangeScreen(Screens.LocationsWithTypeListScreen()))
     }
 
@@ -55,7 +55,7 @@ class LocationsListViewModel @Inject constructor(
         _locationListFragmentProps.postValue(
             LocationListFragmentProps(
                 locationData = locationList,
-                navigationActionLocationsList = ::moveToLocationsList
+                navigationActionLocationsList = ::openLocationsList
             )
         )
     }

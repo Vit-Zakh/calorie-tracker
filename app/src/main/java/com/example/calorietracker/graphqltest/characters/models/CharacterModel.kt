@@ -9,18 +9,11 @@ data class CharacterModel(
     val species: String,
 )
 
-fun GetCharactersQuery.Characters?.mapToBusinessModel(): List<CharacterModel> {
-
-    val list = mutableListOf<CharacterModel>()
-    this?.results?.forEach {
-        list.add(
-            CharacterModel(
-                name = it?.name.toString(),
-                image = it?.image.toString(),
-                status = it?.status.toString(),
-                species = it?.species.toString(),
-            )
-        )
-    }
-    return list
-}
+fun GetCharactersQuery.Characters?.mapToBusinessModel() = this?.results?.map {
+    CharacterModel(
+        name = it?.name.toString(),
+        image = it?.image.toString(),
+        status = it?.status.toString(),
+        species = it?.species.toString(),
+    )
+} ?: listOf()

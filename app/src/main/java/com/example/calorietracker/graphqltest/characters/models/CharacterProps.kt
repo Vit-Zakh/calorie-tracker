@@ -7,11 +7,9 @@ data class CharacterProps(
     val species: String
 )
 
-fun CharacterModel.mapToUiModel(): CharacterProps {
-    return CharacterProps(
-        name = this.name,
-        image = this.image,
-        status = this.status,
-        species = this.species
-    )
-}
+fun CharacterModel.mapToUiModel() = CharacterProps(
+    name = this.name,
+    image = this.image,
+    status = this.status,
+    species = this.species
+)
