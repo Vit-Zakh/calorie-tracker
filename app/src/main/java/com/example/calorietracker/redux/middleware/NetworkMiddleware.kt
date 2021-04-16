@@ -4,7 +4,6 @@ import com.example.calorietracker.graphqltest.characters.*
 import com.example.calorietracker.graphqltest.characters.models.mapToBusinessModel
 import com.example.calorietracker.graphqltest.locations.basic.FailFetchingLocations
 import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
-import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
 import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
 import com.example.calorietracker.graphqltest.locations.models.mapToBusinessModel
 import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
@@ -173,7 +172,6 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             }
 
             is FetchLocationsData -> {
-                store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
@@ -185,7 +183,6 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             }
 
             is FetchLocationsDataWithType -> {
-                store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())
@@ -197,7 +194,6 @@ class NetworkMiddleware(val store: AppStore) : ReduxMiddleware {
             }
 
             is FetchLocationsDataWithCreated -> {
-                store.dispatch(StartFetchingLocations())
                 CoroutineScope(Dispatchers.IO).launch {
                     when (val response = networkService.fetchJointLocationsData()) {
                         is ApolloResult.Error -> store.dispatch(FailFetchingLocations())

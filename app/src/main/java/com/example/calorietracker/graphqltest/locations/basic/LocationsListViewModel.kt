@@ -43,8 +43,8 @@ class LocationsListViewModel @Inject constructor(
 
     override fun onUpdate(state: AppState) {
         val locationList = when {
-//            state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
-//            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
+            state.locationsState.isLoading -> LocationsListProps.LoadingList
+            state.locationsState.isFailed -> LocationsListProps.FailedList
             else -> {
                 LocationsListProps.LoadedList(
                     locationsList = state.locationsState.locationsList.map { it.mapToUiModel() }

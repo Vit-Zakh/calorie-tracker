@@ -60,7 +60,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters_list) {
             fragmentBinding?.let {
                 it.charactersProgressBar.showIf(fragmentProps.characterData is CharactersListProps.LoadingCharactersList)
                 it.failedListImage.showIf(fragmentProps.characterData is CharactersListProps.FailedCharactersList)
-                it.locationsData.setOnClickListener { fragmentProps.navigationActionLocationsList() }
+                it.locationsData.setOnClickListener { fragmentProps.openLocationsList() }
                 if (fragmentProps.characterData is CharactersListProps.LoadedCharactersList) {
                     (it.responseList.adapter as CharactersListAdapter).submitList(fragmentProps.characterData.charactersList)
                 }

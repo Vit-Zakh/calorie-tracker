@@ -10,6 +10,7 @@ data class CharacterModel(
 )
 
 fun GetCharactersQuery.Characters?.mapToBusinessModel(): List<CharacterModel> {
+
     val list = mutableListOf<CharacterModel>()
     this?.results?.forEach {
         list.add(

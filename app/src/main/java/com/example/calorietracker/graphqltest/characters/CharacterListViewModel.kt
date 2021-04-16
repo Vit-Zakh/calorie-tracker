@@ -28,7 +28,7 @@ class CharacterListViewModel @Inject constructor(
     class CharacterListFragmentProps(
         val characterData: CharactersListProps,
         val loadNextPage: () -> Unit,
-        val navigationActionLocationsList: () -> Unit
+        val openLocationsList: () -> Unit
     )
 
     val characterListFragmentProps: LiveData<CharacterListFragmentProps> =
@@ -61,7 +61,7 @@ class CharacterListViewModel @Inject constructor(
             CharacterListFragmentProps(
                 characterData = characterList,
                 loadNextPage = ::loadNextPage,
-                navigationActionLocationsList = ::moveToLocationsList
+                openLocationsList = ::moveToLocationsList
             )
         )
     }

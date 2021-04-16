@@ -1,7 +1,7 @@
 package com.example.calorietracker.redux.states
 
-import com.example.calorietracker.graphqltest.locations.basic.StartFetchingLocations
 import com.example.calorietracker.graphqltest.locations.models.LocationModel
+import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
 import com.example.calorietracker.graphqltest.locations.with_created.SucceedFetchingLocationsWithCreated
 import com.example.calorietracker.redux.actions.ReduxAction
 
@@ -13,7 +13,7 @@ data class LocationsWithCreatedState(
 
     fun reduce(action: ReduxAction): LocationsWithCreatedState {
         return when (action) {
-            is StartFetchingLocations -> this.copy(isLoading = true)
+            is FetchLocationsDataWithCreated -> this.copy(isLoading = true)
             is SucceedFetchingLocationsWithCreated -> this.copy(
                 locationsList = action.data,
                 isLoading = false,

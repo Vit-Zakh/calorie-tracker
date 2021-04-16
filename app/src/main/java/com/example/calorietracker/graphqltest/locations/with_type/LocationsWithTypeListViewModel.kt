@@ -44,8 +44,8 @@ class LocationsWithTypeListViewModel @Inject constructor(
 
     override fun onUpdate(state: AppState) {
         val locationList = when {
-//            state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
-//            state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
+            state.locationsWithTypeState.isLoading -> LocationsListProps.LoadingList
+            state.locationsWithTypeState.isFailed -> LocationsListProps.FailedList
             else -> {
                 LocationsListProps.LoadedList(
                     locationsList = state.locationsWithTypeState.locationsList.map { it.mapToUiModel() }
