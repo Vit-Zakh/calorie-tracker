@@ -1,16 +1,21 @@
 package com.example.calorietracker.modo
 
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import com.example.calorietracker.dailyintake.DailyIntakeFragment
 import com.example.calorietracker.foodlist.AddMealDialog
 import com.example.calorietracker.foodlist.FoodListFragment
 import com.example.calorietracker.graphqltest.characters.CharactersFragment
-import com.example.calorietracker.graphqltest.locations.basic.LocationsFragment
-import com.example.calorietracker.graphqltest.locations.with_created.LocationsWithCreatedFragment
-import com.example.calorietracker.graphqltest.locations.with_type.LocationsWithTypeFragment
+import com.example.calorietracker.graphqltest.locations.JointFragment
 import com.github.terrakok.modo.android.AppScreen
 import kotlinx.android.parcel.Parcelize
 
 object Screens {
+
+    inline fun <reified T : Fragment> newFragmentInstance(vararg params: Pair<String, String>) =
+        T::class.java.newInstance().apply {
+            arguments = bundleOf(*params)
+        }
 
     @Parcelize
     class DailyIntakeScreen : AppScreen("Start") {
@@ -33,17 +38,17 @@ object Screens {
     }
 
     @Parcelize
-    class LocationsListScreen : AppScreen("LocationsList") {
-        override fun create() = LocationsFragment()
+    class LocationsListScreen : AppScreen("Raw Locations") {
+        override fun create(): JointFragment = newFragmentInstance("id" to "Raw Locations")
     }
 
     @Parcelize
-    class LocationsWithTypeListScreen : AppScreen("LocationsListWithType") {
-        override fun create() = LocationsWithTypeFragment()
+    class LocationsWithTypeListScreen : AppScreen("Locations With Type") {
+        override fun create(): JointFragment = newFragmentInstance("id" to "Locations With Type")
     }
 
     @Parcelize
-    class LocationsWithCreatedListScreen : AppScreen("LocationsListWithCreated") {
-        override fun create() = LocationsWithCreatedFragment()
+    class LocationsWithCreatedListScreen : AppScreen("Locations With Created") {
+        override fun create(): JointFragment = newFragmentInstance("id" to "Locations With Created")
     }
 }
