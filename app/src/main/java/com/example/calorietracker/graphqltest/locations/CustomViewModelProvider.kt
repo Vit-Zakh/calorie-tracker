@@ -10,6 +10,6 @@ class CustomViewModelProvider(
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return JointLocationsViewModel(store = store, id = id) as T
+        return null as T
     }
 }

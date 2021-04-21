@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calorietracker.R
 import com.example.calorietracker.databinding.FragmentLocationsListBinding
@@ -24,10 +23,19 @@ class JointFragment() : Fragment(R.layout.fragment_locations_list) {
     @Inject
     lateinit var store: AppStore
 
-    private val viewModel by viewModels<ViewModel>() {
-        CustomViewModelProvider(
-            id = arguments?.getString("id").toString(),
-            store = store
+    @Inject
+    lateinit var viewModelAssistedFactory: JointLocationsViewModel.AssistedFactory
+
+//    private val viewModel by viewModels<ViewModel>() {
+//        CustomViewModelProvider(
+//            id = arguments?.getString("id").toString(),
+//            store = store
+//        )
+//    }
+    private val viewModel: JointLocationsViewModel by viewModels() {
+        JointLocationsViewModel.provideFactory(
+            viewModelAssistedFactory,
+            ViewModelParams(arguments?.getString("id").toString())
         )
     }
 

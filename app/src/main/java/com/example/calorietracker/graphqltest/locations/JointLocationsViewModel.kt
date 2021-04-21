@@ -1,8 +1,10 @@
 package com.example.calorietracker.graphqltest.locations
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
 import com.example.calorietracker.graphqltest.locations.basic.LocationsListProps
 import com.example.calorietracker.graphqltest.locations.models.mapToUiModel
@@ -13,8 +15,13 @@ import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
 import com.example.calorietracker.redux.store.StateChangeListener
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-class JointLocationsViewModel(private val store: AppStore, val id: String) :
+class JointLocationsViewModel @AssistedInject constructor(
+    private val store: AppStore,
+    @Assisted private val params: ViewModelParams
+) :
     ViewModel(), StateChangeListener {
 
     private val _locationListFragmentProps: MutableLiveData<LocationListFragmentProps> =
@@ -22,7 +29,7 @@ class JointLocationsViewModel(private val store: AppStore, val id: String) :
 
     init {
         store.subscribe(this)
-        when (id) {
+        when (params.id) {
             "Raw Locations" -> {
                 store.dispatch(FetchLocationsData())
             }
@@ -48,7 +55,7 @@ class JointLocationsViewModel(private val store: AppStore, val id: String) :
         store.unsubscribe(this)
     }
 
-    private fun navigationAction() = when (id) {
+    private fun navigationAction() = when (params.id) {
         "Raw Locations" -> {
             store.dispatch(ChangeScreen(Screens.LocationsWithTypeListScreen()))
         }
@@ -63,7 +70,7 @@ class JointLocationsViewModel(private val store: AppStore, val id: String) :
 
     override fun onUpdate(state: AppState) {
 
-        val locationList = when (id) {
+        val locationList = when (params.id) {
             "Raw Locations" -> {
                 if (state.locationsState.isLoading) LocationsListProps.LoadingList
                 if (state.locationsState.isFailed) LocationsListProps.FailedList
@@ -94,5 +101,22 @@ class JointLocationsViewModel(private val store: AppStore, val id: String) :
                 navigationActionLocationsList = ::navigationAction
             )
         )
+    }
+
+    @dagger.assisted.AssistedFactory
+    interface AssistedFactory {
+        fun create(initParams: ViewModelParams): JointLocationsViewModel
+    }
+
+    companion object {
+        fun provideFactory(
+            assistedFactory: AssistedFactory,
+            initParams: ViewModelParams
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                Log.d("WOW_TAG", "create: $initParams")
+                return assistedFactory.create(initParams) as T
+            }
+        }
     }
 }
