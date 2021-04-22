@@ -2,14 +2,8 @@ package com.example.calorietracker.redux.middleware
 
 import com.example.calorietracker.graphqltest.characters.*
 import com.example.calorietracker.graphqltest.characters.models.mapToBusinessModel
-import com.example.calorietracker.graphqltest.locations.basic.FailFetchingLocations
-import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
-import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
+import com.example.calorietracker.graphqltest.locations.actions.*
 import com.example.calorietracker.graphqltest.locations.models.mapToBusinessModel
-import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
-import com.example.calorietracker.graphqltest.locations.with_created.SucceedFetchingLocationsWithCreated
-import com.example.calorietracker.graphqltest.locations.with_type.FetchLocationsDataWithType
-import com.example.calorietracker.graphqltest.locations.with_type.SucceedFetchingLocationsWithType
 import com.example.calorietracker.models.network.*
 import com.example.calorietracker.network.ApiService
 import com.example.calorietracker.network.NetworkResponse

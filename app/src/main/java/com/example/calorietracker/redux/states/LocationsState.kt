@@ -1,7 +1,7 @@
 package com.example.calorietracker.redux.states
 
-import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
-import com.example.calorietracker.graphqltest.locations.basic.SucceedFetchingLocations
+import com.example.calorietracker.graphqltest.locations.actions.FetchLocationsData
+import com.example.calorietracker.graphqltest.locations.actions.SucceedFetchingLocations
 import com.example.calorietracker.graphqltest.locations.models.LocationModel
 import com.example.calorietracker.redux.actions.ReduxAction
 

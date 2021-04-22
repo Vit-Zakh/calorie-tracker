@@ -6,7 +6,7 @@ import dagger.assisted.AssistedFactory
 
 @AssistedFactory
 interface CustomViewModelProvider {
-    fun create(initParams: ViewModelParams): JointLocationsViewModel
+    fun create(initParams: ViewModelParams): LocationsViewModel
 }
 
 object CustomViewModelFactory {

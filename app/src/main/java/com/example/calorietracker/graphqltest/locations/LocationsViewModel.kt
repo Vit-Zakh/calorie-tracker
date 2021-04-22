@@ -3,11 +3,10 @@ package com.example.calorietracker.graphqltest.locations
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
-import com.example.calorietracker.graphqltest.locations.basic.LocationsListProps
+import com.example.calorietracker.graphqltest.locations.actions.FetchLocationsData
+import com.example.calorietracker.graphqltest.locations.actions.FetchLocationsDataWithCreated
+import com.example.calorietracker.graphqltest.locations.actions.FetchLocationsDataWithType
 import com.example.calorietracker.graphqltest.locations.models.mapToUiModel
-import com.example.calorietracker.graphqltest.locations.with_created.FetchLocationsDataWithCreated
-import com.example.calorietracker.graphqltest.locations.with_type.FetchLocationsDataWithType
 import com.example.calorietracker.modo.Screens
 import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
@@ -16,7 +15,7 @@ import com.example.calorietracker.redux.store.StateChangeListener
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-class JointLocationsViewModel @AssistedInject constructor(
+class LocationsViewModel @AssistedInject constructor(
     private val store: AppStore,
     @Assisted private val params: ViewModelParams
 ) :

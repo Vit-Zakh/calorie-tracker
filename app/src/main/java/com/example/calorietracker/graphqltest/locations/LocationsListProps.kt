@@ -1,4 +1,4 @@
-package com.example.calorietracker.graphqltest.locations.basic
+package com.example.calorietracker.graphqltest.locations
 
 import com.example.calorietracker.graphqltest.locations.models.LocationProps
 

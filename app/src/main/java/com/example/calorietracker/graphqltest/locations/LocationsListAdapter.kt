@@ -1,4 +1,4 @@
-package com.example.calorietracker.graphqltest.locations.basic
+package com.example.calorietracker.graphqltest.locations
 
 import android.view.LayoutInflater
 import android.view.View
