@@ -24,16 +24,10 @@ class JointFragment() : Fragment(R.layout.fragment_locations_list) {
     lateinit var store: AppStore
 
     @Inject
-    lateinit var viewModelAssistedFactory: JointLocationsViewModel.AssistedFactory
+    lateinit var viewModelAssistedFactory: CustomViewModelProvider
 
-//    private val viewModel by viewModels<ViewModel>() {
-//        CustomViewModelProvider(
-//            id = arguments?.getString("id").toString(),
-//            store = store
-//        )
-//    }
     private val viewModel: JointLocationsViewModel by viewModels() {
-        JointLocationsViewModel.provideFactory(
+        CustomViewModelFactory.provideFactory(
             viewModelAssistedFactory,
             ViewModelParams(arguments?.getString("id").toString())
         )
@@ -71,7 +65,7 @@ class JointFragment() : Fragment(R.layout.fragment_locations_list) {
     }
 
     private fun subscribeObservers() {
-        (viewModel as JointLocationsViewModel).locationListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
+        viewModel.locationListFragmentProps.observe(viewLifecycleOwner) { fragmentProps ->
             fragmentBinding?.let {
                 it.locationsProgressBar.showIf(fragmentProps.locationData is LocationsListProps.LoadingList)
                 it.failedListImage.showIf(fragmentProps.locationData is LocationsListProps.FailedList)

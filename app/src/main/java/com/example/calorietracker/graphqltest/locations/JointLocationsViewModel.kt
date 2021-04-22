@@ -1,10 +1,8 @@
 package com.example.calorietracker.graphqltest.locations
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.calorietracker.graphqltest.locations.basic.FetchLocationsData
 import com.example.calorietracker.graphqltest.locations.basic.LocationsListProps
 import com.example.calorietracker.graphqltest.locations.models.mapToUiModel
@@ -101,22 +99,5 @@ class JointLocationsViewModel @AssistedInject constructor(
                 navigationActionLocationsList = ::navigationAction
             )
         )
-    }
-
-    @dagger.assisted.AssistedFactory
-    interface AssistedFactory {
-        fun create(initParams: ViewModelParams): JointLocationsViewModel
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: AssistedFactory,
-            initParams: ViewModelParams
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                Log.d("WOW_TAG", "create: $initParams")
-                return assistedFactory.create(initParams) as T
-            }
-        }
     }
 }

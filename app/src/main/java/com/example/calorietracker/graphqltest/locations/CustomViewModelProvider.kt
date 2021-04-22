@@ -2,14 +2,20 @@ package com.example.calorietracker.graphqltest.locations
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.calorietracker.redux.store.AppStore
+import dagger.assisted.AssistedFactory
 
-class CustomViewModelProvider(
-    private val id: String,
-    private val store: AppStore
-) : ViewModelProvider.NewInstanceFactory() {
+@AssistedFactory
+interface CustomViewModelProvider {
+    fun create(initParams: ViewModelParams): JointLocationsViewModel
+}
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return null as T
+object CustomViewModelFactory {
+    fun provideFactory(
+        assistedFactory: CustomViewModelProvider,
+        initParams: ViewModelParams
+    ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return assistedFactory.create(initParams) as T
+        }
     }
 }
