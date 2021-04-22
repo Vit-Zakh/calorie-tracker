@@ -1,10 +1,11 @@
-package com.example.calorietracker.graphqltest
+package com.example.calorietracker.graphqltest.characters
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.calorietracker.graphqltest.models.CharactersListProps
-import com.example.calorietracker.graphqltest.models.mapToBusinessModel
+import com.example.calorietracker.graphqltest.characters.models.mapToUiModel
+import com.example.calorietracker.modo.Screens
+import com.example.calorietracker.redux.actions.ChangeScreen
 import com.example.calorietracker.redux.states.AppState
 import com.example.calorietracker.redux.store.AppStore
 import com.example.calorietracker.redux.store.StateChangeListener
@@ -27,6 +28,7 @@ class CharacterListViewModel @Inject constructor(
     class CharacterListFragmentProps(
         val characterData: CharactersListProps,
         val loadNextPage: () -> Unit,
+        val openLocationsList: () -> Unit
     )
 
     val characterListFragmentProps: LiveData<CharacterListFragmentProps> =
@@ -40,13 +42,17 @@ class CharacterListViewModel @Inject constructor(
         store.appState.charactersState.nextPage?.let { store.dispatch(FetchMoreCharacters(it)) }
     }
 
+    private fun moveToLocationsList() {
+        store.dispatch(ChangeScreen(Screens.LocationsListScreen()))
+    }
+
     override fun onUpdate(state: AppState) {
         val characterList = when {
             state.charactersState.isLoading -> CharactersListProps.LoadingCharactersList
             state.charactersState.isFailed -> CharactersListProps.FailedCharactersList
             else -> {
                 CharactersListProps.LoadedCharactersList(
-                    charactersList = state.charactersState.charactersList?.map { it?.mapToBusinessModel() }
+                    charactersList = state.charactersState.charactersList.map { it.mapToUiModel() }
                 )
             }
         }
@@ -54,7 +60,8 @@ class CharacterListViewModel @Inject constructor(
         _characterListFragmentProps.postValue(
             CharacterListFragmentProps(
                 characterData = characterList,
-                loadNextPage = ::loadNextPage
+                loadNextPage = ::loadNextPage,
+                openLocationsList = ::moveToLocationsList
             )
         )
     }

@@ -1,0 +1,26 @@
+query JointLocationsQuery {
+    rawLocations: locations {
+        results{
+            ...locationData
+        }
+    }
+
+    locationsWithCreated: locations {
+        results {
+            ...locationData
+            created
+        }
+    }
+    locationsWithType: locations {
+        results {
+            ...locationData
+            type
+        }
+    }
+}
+
+fragment locationData on Location {
+    id,
+    name,
+    dimension
+}

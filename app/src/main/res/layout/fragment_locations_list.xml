@@ -11,12 +11,12 @@
         android:id="@+id/responseList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/layout_character_item">
+        tools:listitem="@layout/layout_location_item">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <ProgressBar
-        android:id="@+id/charactersProgressBar"
+        android:id="@+id/locationsProgressBar"
         android:layout_width="256dp"
         android:layout_height="256dp"
         android:layout_gravity="center"
@@ -40,7 +40,6 @@
         android:layout_marginBottom="16dp"
         android:background="@color/secondary_orange"
         android:layout_gravity="bottom"
-        android:text="to locations"/>
-
+        android:text="locations-2"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

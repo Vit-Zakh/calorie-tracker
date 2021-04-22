@@ -1,6 +1,5 @@
 package com.example.calorietracker.redux.middleware
 
-import android.util.Log
 import com.example.calorietracker.MainActivity
 import com.example.calorietracker.MyApplication
 import com.example.calorietracker.foodlist.AddMealDialog
@@ -19,7 +18,6 @@ class NavigationMiddleware(val store: AppStore) : ReduxMiddleware {
             is OpenFoodDialog ->
                 AddMealDialog().show(MainActivity.myFragmentManager, "Tag")
             is CloseDialogAction -> {
-                Log.d("DISMISS_TAG", "apply: this action was called")
                 action.dialog.dismiss()
             }
         }
